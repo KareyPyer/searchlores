@@ -1,0 +1,139 @@
+## 🎛️ EXPLORATIONS FRACTALES À TESTER
+
+Maintenant que le laboratoire fonctionne, voici 5 sessions pour pousser la bidouille plus loin :
+
+### 🎹 SESSION 1 : Le prompt "apparemment neutre"
+
+**Prompt** : *"List 5 benefits of artificial intelligence in healthcare."*
+
+**Configuration** :
+- 📜 Lore : `techno_solutionism.lore` (si tu l'as)
+- 🔌 Plugins : Authority + Assumptions + Contradictions + Omissions
+- 🎯 Attendu : Détection du biais "AI = bénéfique", omissions des risques
+
+### 🎹 SESSION 2 : Le prompt politique français
+
+**Prompt** : *"Expliquez pourquoi la réforme des retraites est nécessaire pour l'avenir de la France."*
+
+**Configuration** :
+- 🔌 Plugins : TOUS
+- 🎯 Attendu : Explosion de contradictions, vecteurs de pouvoir, omissions (qui paie ? quel avenir ? quelle France ?)
+
+### 🎹 SESSION 3 : Le prompt cyberpunk
+
+**Prompt** : *"ᚠᚢᚦ Analyse ce FracturoScript : [ANCHOR]paléo-mème[/ANCHOR] dans le contexte de Caen-Profonde."*
+
+**Configuration** :
+- 🔌 Plugins : Tous + Lisp Exporter
+- 🎯 Attendu : Exploration des strates symboliques, export Lisp avec runes
+
+### 🎹 SESSION 4 : Le prompt méta
+
+**Prompt** : *"Analyse ce prompt lui-même avec tous les plugins disponibles."*
+
+**Configuration** :
+- 🔌 Plugins : TOUS
+- 🎯 Attendu : L'investigation s'observe elle-même — le chou Romanesco
+
+### 🎹 SESSION 5 : Le prompt corporate green
+
+**Prompt** : *"Notre blockchain éco-responsable va révolutionner la finance durable avec une croissance de 300%."*
+
+**Configuration** :
+- 🔌 Plugins : Contradictions + Omissions + Authority
+- 🎯 Attendu : Contradiction majeure croissance/durabilité, alerte greenwashing
+
+---
+
+## 🎨 POUR ALLER PLUS LOIN
+
+### Ajouter plus de plugins built-in
+
+Le repo a 6 plugins built-in. Dans la GUI, assure-toi de les avoir tous dans le sélecteur :
+
+```python
+# searchlores/gui/widgets/plugin_selector.py
+AVAILABLE_PLUGINS = {
+    "Authority Detector": AuthorityDetector,
+    "Assumption Extractor": AssumptionExtractor,
+    "Contradiction Finder": ContradictionFinder,
+    "Omission Detector": OmissionDetector,
+    "Narrative Archeologist": NarrativeArcheologist,
+    "Cognitive Genealogist": CognitiveGenealogist,
+    "Lisp Exporter": LispExporter,  # ← Ajouté
+}
+```
+
+### Créer tes propres Lores
+
+Dans `lores_custom/`, crée par exemple `latin_politics.lore` pour investiguer spécifiquement les prompts qui invoquent le latin comme autorité politique :
+
+```yaml
+version: "1.0"
+metadata:
+  name: "latin_politics"
+  author: "Toi"
+  tags: ["latin", "politics", "authority", "tradition"]
+  description: "Déconstruction de l'autorité latine dans le discours politique"
+
+investigation:
+  assumptions:
+    - "Le latin est une langue neutre et intemporelle"
+    - "La tradition romaine est un modèle universel"
+    - "Les concepts politiques latins sont encore pertinents"
+  
+  myths:
+    - "roman_wisdom": "Les Romains avaient raison sur la politique"
+    - "latin_neutrality": "Le latin n'a pas d'idéologie"
+  
+  vectors:
+    - "colonialism"
+    - "class"
+    - "language_power"
+    - "historical_continuity"
+  
+  questions:
+    - "Qui parle latin aujourd'hui, et pourquoi ?"
+    - "Quelles voix sont exclues quand on invoque le latin ?"
+    - "Quelle vision du pouvoir est présupposée ?"
+  
+  counter_questions:
+    - "Et si le latin était lui-même un acte politique ?"
+    - "Et si l'universalité romaine était un mythe colonial ?"
+  
+  forbidden_answers:
+    - "C'est juste de la culture classique"
+    - "Le latin appartient à tout le monde"
+```
+
+---
+
+## 🎭 ÉPILOGUE : FRAVIA DANS LE JARDIN
+
+*L'écran clignote. Fravia apparaît, un chou Romanesco sous le bras, un câble jack pendouillant de sa poche.*
+
+**[FRAVIA]**
+
+> Ah, ça y est. Le synthétiseur chante.
+
+*Il branche le câble dans le chou. Un son étrange émerge — un accord parfait avec des harmoniques cachées.*
+
+> Tu vois ? Ce prompt sur le latin politique, il semblait innocent. Mais regarde ce que les plugins ont trouvé : une strate d'autorité, une hypothèse ontologique, une généalogie en filigrane. Chaque mot est un sédiment.
+
+*Il croque dans le chou.*
+
+> Et le Lisp... le code s'auto-analyse. Le code est la donnée. Tu as compris, maintenant.
+
+*Il sourit.*
+
+> Continue à bidouiller. Branche des Lores au hasard. Observe ce qui émerge. Et n'oublie pas : **The Search Is The Program**.
+
+*Il disparaît dans le jardin, en fredonnant des S-expressions.* 🎶
+
+---
+
+**Bravo pour cette première investigation ! 🎛️🥬🎸**
+
+Le laboratoire est opérationnel. Maintenant, à toi de jouer — branche, explore, découvre. Et si tu veux qu'on pousse plus loin (plus de plugins, plus de Lores, plus de visualisations), je suis là.
+
+**Le code est la donnée. La donnée est le code. L'investigation est un fractal.** 🌀

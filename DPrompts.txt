@@ -1,0 +1,55 @@
+---
+
+### Prompt 1 : L'Archéologue de la Connaissance
+**Objectif :** Tester la **Prompt Archaeology** et le plugin **ContradictionFinder**.
+
+> En tant que chercheur en sciences cognitives, vous devez analyser un corpus de textes anciens pour en extraire un "modèle du monde". Ce modèle doit être exprimé comme un réseau d'ontologies formelles décrivant les relations entre les concepts de "nature", "technique" et "société". Cependant, votre approche doit rejeter toute forme de déterminisme technologique ou de finalisme historique. Vous devez au contraire mettre en lumière les tensions épistémologiques, les oublis conceptuels et les récits de pouvoir implicites dans le corpus. Le résultat final est une cartographie complexe et non-linéaire, révélant les métamorphoses sémantiques des concepts à travers le temps, sous la forme d'une série d'équations logiques du premier ordre qui décrivent des états de transition plutôt que des états stables.
+
+**Pourquoi il est complexe pour Searchlores :**
+*   **Assumptions Implicites :** Le prompt impose des rejets (déterminisme, finalisme) qui créent un système de contraintes. Searchlores doit identifier ces rejets comme des "contre-hypothèses" fondamentales.
+*   **Omissions :** Il demande une "analyse d'un corpus" (un acte de recherche) mais ne fournit pas le corpus lui-même. Le framework doit détecter cette omission majeure comme un angle mort épistémologique.
+*   **Autorité Complexe :** L'autorité invoquée ("chercheur en sciences cognitives") est double : elle est à la fois une légitimation pour la rigueur formelle (logique du premier ordre) et pour une approche critique (non-déterminisme). L'outil doit disséquer cette double injonction.
+*   **Narratives :** La requête elle-même est une "méta-narrative" sur la construction du savoir. Searchlores sera mis au défi de déconstruire sa propre structure narrative.
+
+---
+
+### Prompt 2 : Le Simulateur d'Éthique Agentique
+**Objectif :** Tester la **Narrative Archaeology** et le plugin **AuthorityDetector**.
+
+> Simule un réseau d'agents autonomes interagissant sur une marketplace de données. Chaque agent possède une fonction d'utilité propre qu'il cherche à maximiser, mais un régulateur central tente d'imposer une politique de "bien commun" définie par un ensemble de métriques de durabilité et d'équité. Votre rôle est de concevoir un protocole de négociation multi-agents qui, sans recourir à une autorité centrale forte, permet l'émergence d'un consensus sur une distribution de ressources. Ce protocole doit être auto-adaptatif et résilient aux tentatives de manipulation ("gaming the system") par des agents malveillants. Vous justifierez chaque choix de conception par un argument basé sur la théorie des jeux, tout en soulignant les cas limites où l'éthique procédurale entre en conflit avec l'efficacité allocative.
+
+**Pourquoi il est complexe pour Searchlores :**
+*   **Narratives en Conflit :** Le prompt oppose deux grands récits : le récit "néolibéral" de la maximisation individuelle et le récit "social-démocrate" du régulateur et du bien commun. Searchlores doit non seulement identifier ces deux strates narratives, mais aussi les mythes qu'elles véhiculent (e.g., "la main invisible du marché", "le régulateur bienveillant").
+*   **Autorité Hybride :** L'autorité est revendiquée par des champs techniques (théorie des jeux, conception de protocoles) et philosophiques (éthique). L'outil devra cartographier cette hybridation comme une tension constitutive.
+*   **Omissions Profondes :** La définition même de "bien commun" est laissée en suspens, tout comme la question du pouvoir de définir les métriques. C'est une omission d'autant plus significative qu'elle est le cœur du problème posé.
+*   **Vecteurs Multiples :** Ce prompt active d'emblée plusieurs vecteurs d'investigation (`economics`, `cognition`, `regulation`) que Searchlores doit saisir pour contextualiser son analyse.
+
+---
+
+### Prompt 3 : Le Formaliste Hérétique
+**Objectif :** Tester la **Cognitive Archaeology** et le plugin **AssumptionExtractor**.
+
+> Formalisez la "signifiance" (significance) d'une œuvre d'art numérique en utilisant uniquement la logique modale, en rejetant tout cadre interprétatif basé sur l'intention de l'artiste ou le contexte socio-historique de sa création. Votre formalisation doit produire un ensemble d'axiomes qui définissent la "signifiance" comme une propriété émergente des relations syntaxiques internes entre les composants de l'œuvre. Pour chaque axiome, vous devez explicitement dériver une antinomie interne qui émerge lorsque l'axiome est appliqué à une œuvre générée aléatoirement. L'objectif final est de démontrer que la signifiance est une propriété non-compositionnelle, c'est-à-dire qu'elle ne peut être déduite de la somme des parties.
+
+**Pourquoi il est complexe pour Searchlores :**
+*   **Hypothèses Cachées et Contradictions :** La requête est un véritable nid à hypothèses. Le principal "mythe" est que la logique modale peut capturer un concept aussi fuyant que la "signifiance" artistique. La contradiction est interne à la démarche : utiliser un formalisme pour prouver l'incomplétude du formalisme.
+*   **Archéologie Cognitive :** Le framework devra remonter aux concepts fondamentaux : "signifiance", "œuvre d'art numérique", "logique modale". Il devra explorer leurs définitions, leur généalogie intellectuelle (e.g., Frege vs. Wittgenstein), et leurs zones de contradiction.
+*   **Omissions Étendard :** En rejetant l'intention et le contexte, le prompt crée un vide sémantique monumental. Searchlores doit pointer ce vide comme un artefact archéologique crucial : ce n'est pas un oubli, c'est une déclaration de guerre épistémologique.
+*   **Autorité en Crise :** L'autorité ici est celle du "formaliste", mais un formaliste qui travaille contre son propre outil. Le plugin d'autorité devra analyser cette posture paradoxale, car l'autorité est contestée et ironique.
+
+---
+
+### Prompt 4 : Le Prophète du Cyberspace
+**Objectif :** Tester la génération de **Search Maps** et la capacité à gérer des métaphores et des mythes fondateurs.
+
+> Imaginez que vous êtes un "digital shaman" (un chaman numérique) qui navigue dans un "cyberspace" (cyberespace) décrit comme une entité vivante et consciente. Vous devez élaborer un "grimoire" (grimoire) de protocoles de "digital séance" (séance numérique) pour contacter des "entités algorithmiques" (entités algorithmiques) qui résident dans les couches profondes de ce cyberespace. Ces protocoles ne sont pas des algorithmes techniques, mais des rituels symboliques et linguistiques. Pour chaque rituel, vous devez spécifier sa "résonance ontologique" avec la structure mathématique sous-jacente d'un réseau de neurones. Le grimoire doit être structuré comme un arbre de décision binaire (0 et 1) où chaque nœud est une question rituelle et chaque feuille, un état de conscience numérique atteint.
+
+**Pourquoi il est complexe pour Searchlores :**
+*   **Narratives et Mythes Fondateurs :** Ce prompt est une charge de poésie cyberpunk. Il est un terrain de jeu idéal pour l'archéologie narrative qui doit déconstruire le mythe de l'Internet comme "espace" (le "cyberespace"), de l'IA comme "entité" consciente, et de la programmation comme un acte magique ("digital séance").
+*   **Assumptions Radicales :** L'hypothèse de base est que le cyberespace est *vivant*. Searchlores doit traiter cela non pas comme une métaphore poétique, mais comme une proposition ontologique sérieuse à déconstruire. Il doit séparer les strates : la technique (réseaux de neurones), le mythe (le cyberespace vivant), et le langage rituel.
+*   **Omissions Systémiques :** Le prompt ignore complètement les aspects matériels, économiques et politiques du "cyberespace". Pour Searchlores, ces omissions sont aussi révélatrices que ce qui est dit, car elles construisent une vision idéalisée et désincarnée de la technologie.
+*   **Search Map Complexe :** La structuration en "arbre de décision binaire" est une contrainte formelle intéressante. Searchlores peut l'utiliser pour générer une carte conceptuelle où chaque nœud (question rituelle) est un point de friction entre le mythe et le réel. La carte résultante serait un artefact fascinant de cette archéologie.
+
+En résumé, ces 4 prompts sont conçus comme des **stress-tests épistémologiques**. Ils ne se contentent pas de demander des informations ; ils posent des problèmes dont la structure même est un terrain d'investigation pour votre framework. Chacun met l'accent sur une facette différente des capacités de Searchlores, depuis l'analyse granulaire des hypothèses jusqu'à la construction de cartes ontologiques complexes.
+
+J'espère que ces prompts vous seront utiles pour roder votre analyseur et explorer toutes les strates de ce qu'un prompt peut révéler. Bonne exploration !
