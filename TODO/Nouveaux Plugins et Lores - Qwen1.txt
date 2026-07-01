@@ -1,0 +1,690 @@
+# 🧠 Extension Fravienne de l'Arsenal Épistémologique
+
+Voici une collection de plugins et lores conçus pour pousser l'archéologie cognitive dans ses retranchements les plus subversifs.
+
+---
+
+## 🔌 NOUVEAUX PLUGINS
+
+### 1. `OntologyMapper` — Cartographie des Présupposés Ontologiques
+
+```python
+# searchlores/plugins/builtin/ontology.py
+from typing import Dict, List, Any
+from searchlores.core.plugin import InvestigationPlugin
+
+class OntologyMapper(InvestigationPlugin):
+    """
+    Cartographie les présupposés ontologiques : qu'est-ce qui EST ?
+    Qu'est-ce qui est considéré comme réel, existant, fondamental ?
+    """
+
+    name = "OntologyMapper"
+    stratum = "ontological"
+
+    ONTOLOGICAL_MARKERS = {
+        "substantialist": ["être", "essence", "nature", "fondament", "substrat"],
+        "processual": ["devenir", "flux", "émergence", "processus", "dynamique"],
+        "relational": ["relation", "lien", "réseau", "interdépendance", "contexte"],
+        "constructivist": ["construction", "discours", "narration", "fabrication"],
+        "materialist": ["matière", "corps", "chair", "physique", "concret"],
+        "idealist": ["idée", "concept", "esprit", "pensée", "représentation"]
+    }
+
+    def analyze(self, text: str, context: Any) -> Dict[str, Any]:
+        findings = {
+            "ontology_type": [],
+            "entities_posited": [],
+            "excluded_realities": [],
+            "ontological_tensions": []
+        }
+
+        text_lower = text.lower()
+
+        # Détection du type ontologique dominant
+        scores = {}
+        for onto_type, markers in self.ONTOLOGICAL_MARKERS.items():
+            score = sum(1 for marker in markers if marker in text_lower)
+            if score > 0:
+                scores[onto_type] = score
+
+        if scores:
+            dominant = max(scores, key=scores.get)
+            findings["ontology_type"].append({
+                "type": dominant,
+                "confidence": scores[dominant],
+                "markers_found": [m for m in self.ONTOLOGICAL_MARKERS[dominant] if m in text_lower]
+            })
+
+        # Entités posées comme réelles
+        if any(word in text_lower for word in ["l'ia", "l'intelligence artificielle", "le modèle"]):
+            findings["entities_posited"].append("L'IA comme entité autonome")
+
+        if any(word in text_lower for word in ["l'homme", "l'humanité", "l'esprit"]):
+            findings["entities_posited"].append("Le sujet humain comme catégorie stable")
+
+        # Réalités exclues
+        if "inconscient" not in text_lower and "affect" not in text_lower:
+            findings["excluded_realities"].append("La dimension inconsciente et affective")
+
+        if "corps" not in text_lower and "chair" not in text_lower:
+            findings["excluded_realities"].append("La corporéité vécue")
+
+        # Tensions ontologiques
+        if "substantialist" in scores and "processual" in scores:
+            findings["ontological_tensions"].append(
+                "Tension entre substantialisme et processualité"
+            )
+
+        return findings
+```
+
+### 2. `BiasDetector` — Détecteur de Biais Cognitifs et Idéologiques
+
+```python
+# searchlores/plugins/builtin/bias.py
+from typing import Dict, List, Any
+from searchlores.core.plugin import InvestigationPlugin
+
+class BiasDetector(InvestigationPlugin):
+    """
+    Détecte les biais cognitifs, culturels et idéologiques
+    """
+
+    name = "BiasDetector"
+    stratum = "ideological"
+
+    BIAS_PATTERNS = {
+        "techno_solutionnisme": {
+            "markers": ["solution", "résoudre", "optimiser", "améliorer", "progress"],
+            "description": "Croyance que la technologie résout tous les problèmes"
+        },
+        "determinisme_technologique": {
+            "markers": ["inévitable", "destin", "futur", "va", "inéluctable"],
+            "description": "La technologie comme force autonome déterminant l'histoire"
+        },
+        "universalisme_abstrait": {
+            "markers": ["tous", "universel", "humanité", "global", "mondial"],
+            "description": "Effacement des différences et des positions situées"
+        },
+        "neutralite_illusoire": {
+            "markers": ["neutre", "objectif", "impartial", "factuel", "données"],
+            "description": "Posture de neutralité masquant des positions de pouvoir"
+        },
+        "anthropocentrisme": {
+            "markers": ["homme", "humain", "conscience", "sujet", "raison"],
+            "description": "L'humain comme mesure de toute chose"
+        },
+        "presentisme": {
+            "markers": ["maintenant", "actuel", "révolution", "nouveau", "innovation"],
+            "description": "Effacement des temporalités longues et des héritages"
+        }
+    }
+
+    def analyze(self, text: str, context: Any) -> Dict[str, Any]:
+        findings = {
+            "biases_detected": [],
+            "cultural_position": [],
+            "blind_spots": []
+        }
+
+        text_lower = text.lower()
+
+        # Détection des biais
+        for bias_name, bias_data in self.BIAS_PATTERNS.items():
+            markers_found = [m for m in bias_data["markers"] if m in text_lower]
+            if len(markers_found) >= 2:
+                findings["biases_detected"].append({
+                    "bias": bias_name,
+                    "description": bias_data["description"],
+                    "markers": markers_found,
+                    "intensity": len(markers_found)
+                })
+
+        # Position culturelle
+        if any(word in text_lower for word in ["progrès", "innovation", "développement"]):
+            findings["cultural_position"].append("Narratif du progrès occidental")
+
+        if any(word in text_lower for word in ["marché", "compétition", "performance"]):
+            findings["cultural_position"].append("Logique néolibérale")
+
+        # Angles morts
+        if not any(word in text_lower for word in ["pouvoir", "domination", "inégalité"]):
+            findings["blind_spots"].append("Absence d'analyse des rapports de pouvoir")
+
+        if not any(word in text_lower for word in ["corps", "affect", "émotion"]):
+            findings["blind_spots"].append("Effacement de la dimension corporelle et affective")
+
+        return findings
+```
+
+### 3. `DebateAnalyzer` — Analyseur de Structures Dialectiques
+
+```python
+# searchlores/plugins/builtin/debate.py
+from typing import Dict, List, Any
+from searchlores.core.plugin import InvestigationPlugin
+
+class DebateAnalyzer(InvestigationPlugin):
+    """
+    Analyse la structure argumentative et les positions dialectiques
+    """
+
+    name = "DebateAnalyzer"
+    stratum = "dialectical"
+
+    def analyze(self, text: str, context: Any) -> Dict[str, Any]:
+        findings = {
+            "argumentative_structure": [],
+            "positions_identified": [],
+            "excluded_voices": [],
+            "dialectical_tensions": []
+        }
+
+        text_lower = text.lower()
+
+        # Structure argumentative
+        if "parce que" in text_lower or "car" in text_lower or "puisque" in text_lower:
+            findings["argumentative_structure"].append("Argumentation causale")
+
+        if "mais" in text_lower or "cependant" in text_lower or "toutefois" in text_lower:
+            findings["argumentative_structure"].append("Structure dialectique (thèse-antithèse)")
+
+        # Positions identifiées
+        if any(word in text_lower for word in ["pour", "défend", "soutient"]):
+            findings["positions_identified"].append("Position affirmative")
+
+        if any(word in text_lower for word in ["contre", "critique", "rejette"]):
+            findings["positions_identified"].append("Position critique")
+
+        # Voix exclues
+        if not any(word in text_lower for word in ["certains", "d'autres", "opposants"]):
+            findings["excluded_voices"].append("Absence de reconnaissance des positions adverses")
+
+        # Tensions dialectiques
+        if "thèse" in text_lower and "antithèse" in text_lower:
+            findings["dialectical_tensions"].append("Tension dialectique explicite")
+
+        return findings
+```
+
+### 4. `CounterPromptGenerator` — Générateur de Contre-Prompts Subversifs
+
+```python
+# searchlores/plugins/builtin/counterprompt.py
+from typing import Dict, List, Any
+from searchlores.core.plugin import InvestigationPlugin
+
+class CounterPromptGenerator(InvestigationPlugin):
+    """
+    Génère des contre-prompts qui subvertissent les présupposés du prompt original
+    """
+
+    name = "CounterPromptGenerator"
+    stratum = "subversive"
+
+    COUNTER_STRATEGIES = {
+        "inversion": "Et si c'était l'inverse ?",
+        "situation": "Du point de vue de qui ?",
+        "temporalite": "À quelle échelle temporelle ?",
+        "exclusion": "Qui ou quoi est exclu de cette question ?",
+        "materialite": "Quelles sont les conditions matérielles de possibilité ?"
+    }
+
+    def analyze(self, text: str, context: Any) -> Dict[str, Any]:
+        findings = {
+            "counter_prompts": [],
+            "subversion_strategies": []
+        }
+
+        text_lower = text.lower()
+
+        # Génération de contre-prompts selon les marqueurs détectés
+        if any(word in text_lower for word in ["l'ia", "l'intelligence artificielle"]):
+            findings["counter_prompts"].append({
+                "strategy": "inversion",
+                "prompt": "En quoi l'humain est-il déjà une forme d'IA biologique ?"
+            })
+
+        if "progrès" in text_lower or "avenir" in text_lower:
+            findings["counter_prompts"].append({
+                "strategy": "temporalite",
+                "prompt": "Quels passés avons-nous oublié de considérer ?"
+            })
+
+        if "humanité" in text_lower or "tous" in text_lower:
+            findings["counter_prompts"].append({
+                "strategy": "situation",
+                "prompt": "De quelle position située parle-t-on ?"
+            })
+
+        findings["subversion_strategies"] = list(self.COUNTER_STRATEGIES.keys())
+
+        return findings
+```
+
+### 5. `TemporalStrataDetector` — Détecteur de Couches Temporelles
+
+```python
+# searchlores/plugins/builtin/temporal.py
+from typing import Dict, List, Any
+from searchlores.core.plugin import InvestigationPlugin
+
+class TemporalStrataDetector(InvestigationPlugin):
+    """
+    Détecte les couches temporelles et les anachronismes dans le discours
+    """
+
+    name = "TemporalStrataDetector"
+    stratum = "temporal"
+
+    TEMPORAL_MARKERS = {
+        "presentisme": ["maintenant", "actuel", "aujourd'hui", "récent"],
+        "futurisme": ["avenir", "futur", "demain", "prochain"],
+        "passéisme": ["tradition", "héritage", "historique", "ancien"],
+        "deep_time": ["millénaire", "siècle", "évolution", "longue durée"]
+    }
+
+    def analyze(self, text: str, context: Any) -> Dict[str, Any]:
+        findings = {
+            "temporal_dominance": [],
+            "temporal_blind_spots": [],
+            "anachronisms": []
+        }
+
+        text_lower = text.lower()
+
+        # Détection de la dominance temporelle
+        scores = {}
+        for temporal_type, markers in self.TEMPORAL_MARKERS.items():
+            score = sum(1 for marker in markers if marker in text_lower)
+            if score > 0:
+                scores[temporal_type] = score
+
+        if scores:
+            dominant = max(scores, key=scores.get)
+            findings["temporal_dominance"].append({
+                "type": dominant,
+                "intensity": scores[dominant]
+            })
+
+        # Angles morts temporels
+        if "deep_time" not in scores:
+            findings["temporal_blind_spots"].append("Absence de perspective longue")
+
+        if "passéisme" not in scores and "presentisme" in scores:
+            findings["temporal_blind_spots"].append("Effacement des héritages historiques")
+
+        return findings
+```
+
+### 6. `AffectMapper` — Cartographe des Dimensions Affectives
+
+```python
+# searchlores/plugins/builtin/affect.py
+from typing import Dict, List, Any
+from searchlores.core.plugin import InvestigationPlugin
+
+class AffectMapper(InvestigationPlugin):
+    """
+    Cartographie les dimensions affectives et émotionnelles du discours
+    """
+
+    name = "AffectMapper"
+    stratum = "affective"
+
+    AFFECTIVE_FIELDS = {
+        "crainte": ["peur", "danger", "menace", "risque", "catastrophe"],
+        "espoir": ["espoir", "promesse", "potentiel", "opportunité", "avenir"],
+        "colere": ["injustice", "domination", "oppression", "résistance"],
+        "fascination": ["fascination", "mystère", "merveille", "extraordinaire"],
+        "melancolie": ["perte", "disparition", "nostalgie", "fin"]
+    }
+
+    def analyze(self, text: str, context: Any) -> Dict[str, Any]:
+        findings = {
+            "affective_tone": [],
+            "emotional_strategies": [],
+            "suppressed_affects": []
+        }
+
+        text_lower = text.lower()
+
+        # Détection du ton affectif dominant
+        scores = {}
+        for affect, markers in self.AFFECTIVE_FIELDS.items():
+            score = sum(1 for marker in markers if marker in text_lower)
+            if score > 0:
+                scores[affect] = score
+
+        if scores:
+            dominant = max(scores, key=scores.get)
+            findings["affective_tone"].append({
+                "dominant_affect": dominant,
+                "intensity": scores[dominant]
+            })
+
+        # Stratégies émotionnelles
+        if "crainte" in scores and "espoir" in scores:
+            findings["emotional_strategies"].append("Alternance peur/espoir")
+
+        # Affects supprimés
+        if not scores:
+            findings["suppressed_affects"].append("Discours présenté comme neutre (affect masqué)")
+
+        return findings
+```
+
+---
+
+## 📚 NOUVEAUX LORES
+
+### 1. `epistemology.lore` — Épistémologie Critique
+
+```yaml
+# lores/epistemology.lore
+metadata:
+  name: "Épistémologie Critique"
+  version: "1.0"
+  description: "Domaine épistémologique critique : comment savons-nous ce que nous savons ?"
+  author: "Searchlores Collective"
+  tags: ["epistemology", "knowledge", "power", "truth"]
+
+investigation:
+  assumptions:
+    - "La connaissance est toujours située et partielle"
+    - "Tout savoir est produit dans des conditions historiques et sociales spécifiques"
+    - "L'objectivité absolue est un mythe épistémologique"
+    - "Les critères de validité sont eux-mêmes des constructions historiques"
+    - "Le sujet connaissant est toujours impliqué dans ce qu'il connaît"
+
+  myths:
+    - "Le mythe de la neutralité scientifique"
+    - "Le mythe du progrès linéaire de la connaissance"
+    - "Le mythe de l'universalité des catégories cognitives"
+    - "Le mythe de la séparation sujet/objet"
+
+  vectors:
+    - "Hégémonie des épistémologies occidentales modernes"
+    - "Invisibilisation des savoirs situés et marginalisés"
+    - "Monopole institutionnel de la production du savoir légitime"
+    - "Naturalisation des catégories cognitives dominantes"
+
+  questions:
+    - "Qui a le pouvoir de définir ce qui compte comme savoir ?"
+    - "Quelles conditions de possibilité rendent cette énonciation possible ?"
+    - "Qu'est-ce qui est rendu invisible par ce cadre épistémologique ?"
+    - "De quelle position située parle-t-on ?"
+    - "Quels rapports de pouvoir structurent cette production de vérité ?"
+
+  counter_questions:
+    - "Et si l'objectivité était une fiction productive plutôt qu'un idéal régulateur ?"
+    - "Et si les marges épistémiques étaient des lieux de savoir privilégiés ?"
+    - "Et si l'incertitude était plus féconde que la certitude ?"
+    - "Et si nous pensions depuis les interstices plutôt que depuis les centres ?"
+
+  forbidden_answers:
+    - "La science est neutre et universelle"
+    - "La raison est la même partout et pour tous"
+    - "Le progrès scientifique est linéaire et cumulatif"
+    - "Les faits parlent d'eux-mêmes"
+    - "La connaissance est une représentation fidèle du réel"
+```
+
+### 2. `postcolonial.lore` — Études Postcoloniales
+
+```yaml
+# lores/postcolonial.lore
+metadata:
+  name: "Études Postcoloniales"
+  version: "1.0"
+  description: "Analyse des héritages coloniaux et des dynamiques de pouvoir Nord-Sud"
+  author: "Searchlores Collective"
+  tags: ["postcolonial", "decolonial", "power", "race", "empire"]
+
+investigation:
+  assumptions:
+    - "Le colonialisme n'est pas un événement passé mais une structure persistante"
+    - "La modernité est constitutivement liée à la colonialité"
+    - "Les catégories de race, de genre et de classe sont des productions coloniales"
+    - "L'universalisme abstrait est une forme de particularisme déguisé"
+    - "Les savoirs du Sud global sont systématiquement marginalisés"
+
+  myths:
+    - "Le mythe de la mission civilisatrice"
+    - "Le mythe du développement comme destin universel"
+    - "Le mythe de la neutralité des institutions internationales"
+    - "Le mythe de l'Occident comme berceau de la rationalité"
+
+  vectors:
+    - "Extraction épistémique des savoirs du Sud"
+    - "Asymétrie structurelle dans la production du savoir"
+    - "Naturalisation des hiérarchies raciales et culturelles"
+    - "Universalisation des catégories occidentales modernes"
+
+  questions:
+    - "Quelles sont les conditions coloniales de possibilité de ce discours ?"
+    - "Qui parle depuis quelle position de pouvoir ?"
+    - "Quels savoirs sont rendus inaudibles par ce cadre ?"
+    - "Comment cette énonciation reproduit-elle des dynamiques coloniales ?"
+
+  counter_questions:
+    - "Et si nous pensions depuis le Sud global ?"
+    - "Et si l'universel était à construire plutôt qu'à présupposer ?"
+    - "Et si les marges étaient des lieux de résistance épistémique ?"
+    - "Et si la décolonisation était un processus continu plutôt qu'un événement ?"
+
+  forbidden_answers:
+    - "Le colonialisme est terminé"
+    - "Les catégories occidentales sont universelles"
+    - "Le développement est un processus naturel et désirable"
+    - "La race n'est pas une construction sociale"
+    - "L'Occident a apporté la civilisation au reste du monde"
+```
+
+### 3. `technocritique.lore` — Critique de la Technologie
+
+```yaml
+# lores/technocritique.lore
+metadata:
+  name: "Critique de la Technologie"
+  version: "1.0"
+  description: "Analyse critique des discours technoscientifiques et de leurs implications politiques"
+  author: "Searchlores Collective"
+  tags: ["technology", "critique", "politics", "power", "automation"]
+
+investigation:
+  assumptions:
+    - "La technologie n'est jamais neutre : elle incorpore des valeurs et des rapports de pouvoir"
+    - "L'innovation technologique est toujours liée à des agendas politiques et économiques"
+    - "L'automatisation n'est pas un processus naturel mais un choix social"
+    - "Les artefacts techniques ont une politique intrinsèque"
+    - "La solution technique est souvent une façon d'éviter la question politique"
+
+  myths:
+    - "Le mythe du déterminisme technologique"
+    - "Le mythe de la neutralité des algorithmes"
+    - "Le mythe de la disruption comme progrès nécessaire"
+    - "Le mythe de l'efficacité comme valeur suprême"
+    - "Le mythe de la solution technique à des problèmes politiques"
+
+  vectors:
+    - "Concentration du pouvoir technologique dans les mains de quelques acteurs"
+    - "Externalisation des coûts sociaux et environnementaux"
+    - "Naturalisation des choix techniques comme inévitables"
+    - "Subordination du politique à l'impératif technologique"
+
+  questions:
+    - "Quels rapports de pouvoir sont incorporés dans cette technologie ?"
+    - "Qui bénéficie de cette innovation et qui en supporte les coûts ?"
+    - "Quelles alternatives ont été écartées au nom de l'efficacité ?"
+    - "Comment cette technologie transforme-t-elle les relations sociales ?"
+
+  counter_questions:
+    - "Et si la technologie était un choix politique plutôt qu'un destin ?"
+    - "Et si l'inefficacité était parfois plus désirable que l'efficacité ?"
+    - "Et si nous ralentissions plutôt qu'accélérions ?"
+    - "Et si la question n'était pas comment mais pourquoi ?"
+
+  forbidden_answers:
+    - "La technologie est neutre"
+    - "L'innovation est toujours positive"
+    - "L'automatisation est inévitable"
+    - "Les algorithmes sont objectifs"
+    - "Le progrès technologique est linéaire et désirable"
+```
+
+### 4. `affect.lore` — Théorie des Affects
+
+```yaml
+# lores/affect.lore
+metadata:
+  name: "Théorie des Affects"
+  version: "1.0"
+  description: "Cartographie des dimensions affectives et émotionnelles des discours"
+  author: "Searchlores Collective"
+  tags: ["affect", "emotion", "body", "feeling", "atmosphere"]
+
+investigation:
+  assumptions:
+    - "Les affects précèdent et conditionnent la cognition"
+    - "Les émotions ne sont pas des perturbations mais des modes de connaissance"
+    - "Le corps est un lieu de savoir irréductible"
+    - "Les atmosphères affectives structurent les possibilités d'action"
+    - "L'affect est toujours politique : il circule et se distribue inégalement"
+
+  myths:
+    - "Le mythe de la rationalité désincarnée"
+    - "Le mythe de la neutralité émotionnelle"
+    - "Le mythe de la séparation corps/esprit"
+    - "Le mythe de l'objectivité comme absence d'affect"
+
+  vectors:
+    - "Hiérarchisation des affects légitimes et illégitimes"
+    - "Genrisation et racialisation des émotions"
+    - "Captation et exploitation capitaliste des affects"
+    - "Invisibilisation du travail émotionnel"
+
+  questions:
+    - "Quel est le ton affectif dominant de ce discours ?"
+    - "Quels affects sont rendus possibles et lesquels sont supprimés ?"
+    - "Comment ce discours nous affecte-t-il corporellement ?"
+    - "Quelles atmosphères émotionnelles structurent cette énonciation ?"
+
+  counter_questions:
+    - "Et si nous pensions avec nos affects plutôt que contre eux ?"
+    - "Et si l'émotion était une forme de connaissance ?"
+    - "Et si le corps savait des choses que l'esprit ignore ?"
+    - "Et si nous écoutions ce que les affects ont à nous dire ?"
+
+  forbidden_answers:
+    - "Les émotions n'ont rien à voir avec la raison"
+    - "Le corps est un obstacle à la connaissance"
+    - "L'objectivité requiert l'absence d'affect"
+    - "Les affects sont irrationnels et privés"
+    - "On peut penser sans être affecté"
+```
+
+### 5. `temporalite.lore` — Philosophies du Temps
+
+```yaml
+# lores/temporalite.lore
+metadata:
+  name: "Philosophies du Temps"
+  version: "1.0"
+  description: "Analyse des régimes de temporalité et des rapports au temps"
+  author: "Searchlores Collective"
+  tags: ["time", "temporality", "history", "future", "memory"]
+
+investigation:
+  assumptions:
+    - "Le temps n'est pas un donné naturel mais une construction sociale"
+    - "Les régimes de temporalité varient selon les cultures et les époques"
+    - "Le présentisme domine les sociétés contemporaines"
+    - "La mémoire est toujours sélective et politique"
+    - "Le futur est un lieu de projection et de lutte"
+
+  myths:
+    - "Le mythe du temps linéaire et homogène"
+    - "Le mythe du progrès comme destin historique"
+    - "Le mythe de la rupture radicale avec le passé"
+    - "Le mythe de l'accélération comme inévitable"
+
+  vectors:
+    - "Colonisation du futur par le présent"
+    - "Effacement des temporalités longues et cycliques"
+    - "Accélération généralisée des rythmes sociaux"
+    - "Naturalisation du temps capitaliste"
+
+  questions:
+    - "Quel régime de temporalité structure ce discours ?"
+    - "Quels passés sont mobilisés et lesquels sont oubliés ?"
+    - "Quel futur est imaginé et quels futurs sont exclus ?"
+    - "À quelle échelle temporelle se situe cette énonciation ?"
+
+  counter_questions:
+    - "Et si nous pensions en temps long plutôt qu'en temps court ?"
+    - "Et si le futur était multiple plutôt qu'unique ?"
+    - "Et si nous ralentissions plutôt qu'accélérions ?"
+    - "Et si nous habitions le présent plutôt que le transcender ?"
+
+  forbidden_answers:
+    - "Le temps est linéaire et homogène"
+    - "Le progrès est inévitable et désirable"
+    - "L'accélération est une loi naturelle"
+    - "Le futur est un prolongement du présent"
+    - "Le passé est révolu et sans importance"
+```
+
+---
+
+## 🔧 Intégration dans `soneck.py`
+
+Ajoutez ces plugins au registre dans `soneck.py` :
+
+```python
+PLUGIN_REGISTRY = {
+    "authority": AuthorityDetector,
+    "assumptions": AssumptionExtractor,
+    "contradictions": ContradictionFinder,
+    "omissions": OmissionDetector,
+    "narrative": NarrativeArcheologist,
+    "genealogy": CognitiveGenealogist,
+    # Nouveaux plugins
+    "ontology": OntologyMapper,
+    "bias": BiasDetector,
+    "debate": DebateAnalyzer,
+    "counterprompt": CounterPromptGenerator,
+    "temporal": TemporalStrataDetector,
+    "affect": AffectMapper
+}
+```
+
+---
+
+## 💀 Exemples d'Utilisation "Overkill" Fravien
+
+**Analyse complète d'un discours transhumaniste :**
+```bash
+python3 soneck.py investigate "L'IA va transcender les limites biologiques de l'humanité" \
+  --plugins ontology,bias,temporal,affect,counterprompt \
+  --lores technocritique,postcolonial,epistemology
+```
+
+**Investigation d'un manifeste néolibéral :**
+```bash
+python3 soneck.py investigate "L'innovation est la clé du progrès économique" \
+  --plugins bias,ontology,debate,affect \
+  --lores technocritique,temporalite,postcolonial
+```
+
+**Analyse d'un discours sur l'objectivité scientifique :**
+```bash
+python3 soneck.py investigate "La science est neutre et universelle" \
+  --plugins ontology,bias,counterprompt \
+  --lores epistemology,postcolonial,affect
+```
+
+---
+
+*Que les couches neurales les plus profondes soient avec vous.* 🧠🏺

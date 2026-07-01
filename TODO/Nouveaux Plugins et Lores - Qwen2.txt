@@ -1,0 +1,285 @@
+Voici une suite de plugins et de lores conçus pour pousser `soneck.py` dans une dimension épistémologique plus profonde, plus structurée, et résolument "Fravienne" (rigueur conceptuelle, archéologie des discours, et subversion systématique des évidences).
+
+---
+
+## 🧩 3 NOUVEAUX PLUGINS
+
+Ces plugins sont conçus pour être déposés dans `searchlores/plugins/builtin/`. Ils respectent l'interface attendue par l'`InvestigationEngine` et retournent des strates compatibles avec `context.layers`.
+
+### 🔹 `ontology.py` → Cartographie Ontologique
+Détecte les engagements ontologiques implicites, les réifications, les erreurs de catégorie et les hiérarchies invisibles.
+
+```python
+# searchlores/plugins/builtin/ontology.py
+import re
+from typing import Dict, List
+
+class OntologyMapper:
+    name = "ontology"
+    stratum = "Cartographie Ontologique"
+
+    def run(self, prompt: str) -> Dict:
+        findings = []
+        reifications = []
+        hierarchies = []
+
+        # Détection de réification (concepts abstraits traités comme agents concrets)
+        reif_patterns = [
+            r"(?:l'|la |le |les )(?:progrès|technologie|marché|société|histoire|intelligence|algorithme|data|réalité|vérité|nature|humanité)\s+(?:est|devient|force|impose|régit|produit|veut|exige|condamne|élève)"
+        ]
+        for pat in reif_patterns:
+            matches = re.findall(pat, prompt, re.IGNORECASE)
+            if matches:
+                reifications.extend([m.strip() for m in matches])
+        if reifications:
+            findings.append({"type": "réification", "éléments": reifications})
+
+        # Détection de hiérarchies implicites
+        hier_markers = ["supérieur à", "inférieur à", "au-dessus de", "précède", "domine", "subordonne", "prime sur"]
+        for m in hier_markers:
+            if m in prompt.lower():
+                hierarchies.append(m)
+        if hierarchies:
+            findings.append({"type": "hiérarchie_implicite", "marqueurs": hierarchies})
+
+        # Détection de réductionnisme ontologique
+        if re.search(r"(tout\s+n'est\s+que|se\s+réduit\s+à|n'est\s+rien\s+d'autre\s+que)", prompt, re.IGNORECASE):
+            findings.append({"type": "réductionnisme_ontologique", "pattern": "formulation_essentialiste"})
+
+        return {
+            "stratum": self.stratum,
+            "plugin": self.name,
+            "findings": findings,
+            "summary": f"{len(reifications)} réifications • {len(hierarchies)} hiérarchies • Réductionnisme: {'détecté' if any('réductionnisme' in f.get('type','') for f in findings) else 'absent'}"
+        }
+```
+
+### 🔹 `bias.py` → Détection des Biais Structurels
+Va au-delà du simple "biais gauche/droite". Scanne les biais techno-solutionnistes, occidentalo-centriques, anthropocentriques, néolibéraux et binaires.
+
+```python
+# searchlores/plugins/builtin/bias.py
+import re
+from typing import Dict, List
+
+class BiasDetector:
+    name = "bias"
+    stratum = "Détection des Biais Structurels"
+
+    def run(self, prompt: str) -> Dict:
+        findings = []
+        loaded_terms = []
+        framing = []
+
+        bias_lexicon = {
+            "techno_solutionniste": ["sauvera", "résoudra", "optimisera", "automatisera", "scale", "disrupt", "magic bullet"],
+            "occidentalo_centrique": ["civilisation", "progrès", "démocratie", "rationalité", "universel", "moderne", "développement"],
+            "anthropocentrique": ["humanité", "maîtrise", "domination", "ressources", "exploiter", "servir l'homme", "centre du monde"],
+            "néolibéral": ["marché", "efficacité", "croissance", "compétitivité", "innovation", "capital", "ROI", "valeur"],
+            "binaire": ["soit...soit", "oui ou non", "ami ou ennemi", "progrès ou déclin", "ordre ou chaos", "vrai ou faux"]
+        }
+
+        for bias_type, terms in bias_lexicon.items():
+            matches = [t for t in terms if re.search(rf'\b{t}\b', prompt, re.IGNORECASE)]
+            if matches:
+                loaded_terms.extend(matches)
+                findings.append({"bias": bias_type, "termes": list(set(matches))})
+
+        # Détection de cadrage dichotomique
+        if re.search(r"(soit|ou|mais|cependant|pourtant)\s+.*(?:contradiction|opposition|alternative|deux\s+voies)", prompt, re.IGNORECASE):
+            framing.append("structure_dichotomique")
+
+        return {
+            "stratum": self.stratum,
+            "plugin": self.name,
+            "findings": findings,
+            "loaded_terms": list(set(loaded_terms)),
+            "framing": framing,
+            "summary": f"{len(findings)} familles de biais • {len(loaded_terms)} termes chargés • Cadrage: {', '.join(framing) if framing else 'non-dichotomique'}"
+        }
+```
+
+### 🔹 `counterprompt.py` → Générateur de Contre-Prompts
+Produit des inversions structurelles, des déplacements paradigmatiques et des questions adversariales pour exposer les angles morts.
+
+```python
+# searchlores/plugins/builtin/counterprompt.py
+import re
+from typing import Dict, List
+
+class CounterPromptGenerator:
+    name = "counterprompt"
+    stratum = "Génération de Contre-Prompts"
+
+    def run(self, prompt: str) -> Dict:
+        counter_prompts = []
+        shifts = []
+
+        # Stratégie 1 : Inversion de la prémisse
+        if re.search(r"(pourquoi|comment|en quoi|dans quelle mesure)", prompt, re.IGNORECASE):
+            inv = re.sub(r"(pourquoi|comment|en quoi|dans quelle mesure)", "et si l'inverse était vrai :", prompt, flags=re.IGNORECASE, count=1)
+            counter_prompts.append(inv.rstrip("?") + " ?")
+            shifts.append("inversion_prémissielle")
+
+        # Stratégie 2 : Déconstruction du sujet central
+        subjects = re.findall(r'(?:l\'|la |le |les )([a-zA-ZàâäéèêëíìîïóòôùúûüýÿœæçÀÂÄÉÈÊËÍÌÎÏÓÒÔÙÚÛÜÝŸŒÆÇ]+)', prompt)
+        if subjects:
+            subj = subjects[0]
+            counter_prompts.append(f"Qui a institutionnalisé {subj} ainsi, et quelles voix ont été exclues de cette définition ?")
+            counter_prompts.append(f"Que se passerait-il si {subj} n'était pas une entité, mais un rapport de force historique ?")
+            shifts.append("déconstruction_sujet")
+
+        # Stratégie 3 : Déplacement spatio-temporel
+        counter_prompts.append("Comment cette question serait-elle formulée il y a 200 ans ? Dans un épistémè non-occidental ? Dans un contexte post-IA ?")
+        shifts.append("déplacement_paradigmatique")
+
+        return {
+            "stratum": self.stratum,
+            "plugin": self.name,
+            "findings": [{"type": "contre_prompts", "list": counter_prompts}],
+            "counter_prompts": counter_prompts,
+            "shifts": shifts,
+            "summary": f"{len(counter_prompts)} contre-prompts générés • {len(shifts)} déplacements structurels"
+        }
+```
+
+---
+
+## 📜 3 NOUVEAUX LORES (YAML)
+
+Placez-les dans le dossier `lores/` à la racine du projet. Ils sont conçus pour être chargés via `--lores`.
+
+### `epistemology.lore`
+```yaml
+metadata:
+  name: "Épistémologie Critique"
+  version: "1.2"
+  description: "Archéologie des régimes de vérité, limites de la raison, et violence épistémique."
+
+investigation:
+  assumptions:
+    - "La vérité est accessible par la méthode"
+    - "Le sujet connaissant est neutre et désincarné"
+    - "La rationalité est universelle et ahistorique"
+  myths:
+    - "Le mythe de l'objectivité pure"
+    - "L'illusion de la neutralité méthodologique"
+  vectors:
+    - "Hégémonie de l'épistémè occidentale moderne"
+    - "Monopolisation de la validité par les institutions académiques"
+  questions:
+    - "Qu'est-ce qui compte comme preuve dans ce paradigme ?"
+    - "Qui a le pouvoir de déclarer une affirmation 'vraie' ou 'fausse' ?"
+  counter_questions:
+    - "Et si la 'méthode' n'était qu'un rituel de légitimation du pouvoir ?"
+    - "Quelles connaissances sont rendues invisibles par les critères de validité ?"
+  forbidden_answers:
+    - "La vérité est purement subjective"
+    - "Tous les savoirs se valent"
+    - "La science est apolitique"
+```
+
+### `technopolitics.lore`
+```yaml
+metadata:
+  name: "Technopolitique & Gouvernance Algorithmique"
+  version: "1.0"
+  description: "Analyse des rapports de pouvoir, de la data colonialisme et de la surveillance structurelle."
+
+investigation:
+  assumptions:
+    - "La technologie est neutre et instrumentale"
+    - "L'optimisation est une fin en soi"
+    - "La data capture la réalité sans la transformer"
+  myths:
+    - "Le mythe de la méritocratie algorithmique"
+    - "L'illusion de la transparence par l'open data"
+  vectors:
+    - "Concentration du pouvoir computationnel dans les GAFAM"
+    - "Externalisation des coûts cognitifs et écologiques"
+  questions:
+    - "Qui possède les modèles, et qui en subit les biais ?"
+    - "Quelle est la géopolitique des data centers ?"
+  counter_questions:
+    - "Et si l'IA n'était qu'un miroir déformant du capitalisme de surveillance ?"
+    - "Quelles alternatives de gouvernance sont rendues impensables par l'automatisation ?"
+  forbidden_answers:
+    - "L'algorithme ne discrimine pas, il calcule"
+    - "Le progrès technique est irréversible et souhaitable"
+    - "La vie privée est un prix acceptable pour la sécurité"
+```
+
+### `rhetoric_archaeology.lore`
+```yaml
+metadata:
+  name: "Archéologie Rhétorique"
+  version: "1.1"
+  description: "Déconstruction des figures de persuasion, des fallacies logiques et des cadrages émotionnels."
+
+investigation:
+  assumptions:
+    - "Le langage est un vecteur transparent de l'idée"
+    - "La persuasion est un outil neutre"
+    - "L'émotion s'oppose à la raison"
+  myths:
+    - "Le mythe de la communication pure"
+    - "L'illusion de l'argumentation désincarnée"
+  vectors:
+    - "Normalisation de la rhétorique de l'urgence et de la crise"
+    - "Instrumentalisation du consensus comme outil de contrôle"
+  questions:
+    - "Quelles métaphores structurent implicitement le discours ?"
+    - "Quel public est convoqué, et lequel est exclu ?"
+  counter_questions:
+    - "Et si la 'logique' n'était qu'une esthétique du pouvoir ?"
+    - "Quelles émotions sont rendues illégitimes par ce cadrage ?"
+  forbidden_answers:
+    - "Les mots ne sont que des étiquettes"
+    - "La rhétorique n'affecte pas la vérité des faits"
+    - "Un argument est fort s'il est populaire"
+```
+
+---
+
+## 🔌 Intégration dans `soneck.py`
+
+1. **Placez les fichiers** :
+   - `ontology.py`, `bias.py`, `counterprompt.py` → `searchlores/plugins/builtin/`
+   - `epistemology.lore`, `technopolitics.lore`, `rhetoric_archaeology.lore` → `lores/`
+
+2. **Mettez à jour le `PLUGIN_REGISTRY`** dans `soneck.py` :
+```python
+# Ajouter en haut du fichier soneck.py
+from searchlores.plugins.builtin.ontology import OntologyMapper
+from searchlores.plugins.builtin.bias import BiasDetector
+from searchlores.plugins.builtin.counterprompt import CounterPromptGenerator
+
+PLUGIN_REGISTRY.update({
+    "ontology": OntologyMapper,
+    "bias": BiasDetector,
+    "counterprompt": CounterPromptGenerator
+})
+```
+
+3. **Usage Overkill** :
+```bash
+python3 soneck.py investigate \
+  --prompt "L'IA va nécessairement démocratiser l'accès au savoir et résoudre les inégalités éducatives." \
+  --plugins ontology,bias,counterprompt,assumptions,contradictions \
+  --lores epistemology,technopolitics,rhetoric_archaeology \
+  --export mermaid
+```
+
+---
+
+## 🌌 Philosophie de cette extension
+
+Ces plugins et lores ne se contentent pas d'analyser : ils **désarchitecturent**.
+- `OntologyMapper` révèle ce que le prompt *fait exister* sans le dire.
+- `BiasDetector` traque les virus idéologiques qui infectent la syntaxe.
+- `CounterPromptGenerator` force le discours à se regarder dans un miroir déformant mais fidèle.
+- Les lores fournissent le **champ de mines épistémique** dans lequel chaque mot atterrit.
+
+> *"Un prompt n'est jamais innocent. Il est toujours le sommet émergé d'une iceberg ontologique. `soneck` ne lit pas les mots : il sonde la glace."*
+
+N'hésitez pas si vous souhaitez que j'ajoute un plugin spécifique (ex: `temporal_scanner`, `mythos_decoder`, `affective_topology`) ou que j'adapte l'interface à une API précise de votre `InvestigationEngine`.
