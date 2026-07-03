@@ -1,12 +1,10 @@
 from typing import Dict, List, Any
-#from searchlores.core.plugin import InvestigationPlugin
 from searchlores.plugins.base import Plugin as InvestigationPlugin
 
 class TemporalStrataDetector(InvestigationPlugin):
     """
     Détecte les couches temporelles et les anachronismes dans le discours
     """
-
     name = "TemporalStrataDetector"
     stratum = "temporal"
 
@@ -17,13 +15,20 @@ class TemporalStrataDetector(InvestigationPlugin):
         "deep_time": ["millénaire", "siècle", "évolution", "longue durée"]
     }
 
+    def run(self, context: Any) -> None:
+        """Méthode requise par le moteur pour exécuter le plugin."""
+        text = context.prompt.lower()
+        findings = self.analyze(text, context)
+
+        # Stocke les résultats dans le contexte pour que le moteur les récupère
+        context.findings[self.name] = findings
+
     def analyze(self, text: str, context: Any) -> Dict[str, Any]:
         findings = {
             "temporal_dominance": [],
             "temporal_blind_spots": [],
             "anachronisms": []
         }
-
         text_lower = text.lower()
 
         # Détection de la dominance temporelle
@@ -43,7 +48,6 @@ class TemporalStrataDetector(InvestigationPlugin):
         # Angles morts temporels
         if "deep_time" not in scores:
             findings["temporal_blind_spots"].append("Absence de perspective longue")
-
         if "passéisme" not in scores and "presentisme" in scores:
             findings["temporal_blind_spots"].append("Effacement des héritages historiques")
 

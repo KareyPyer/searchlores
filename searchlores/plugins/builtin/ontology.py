@@ -1,5 +1,4 @@
 from typing import Dict, List, Any
-#from searchlores.core.plugin import InvestigationPlugin
 from searchlores.plugins.base import Plugin as InvestigationPlugin
 
 class OntologyMapper(InvestigationPlugin):
@@ -7,7 +6,6 @@ class OntologyMapper(InvestigationPlugin):
     Cartographie les présupposés ontologiques : qu'est-ce qui EST ?
     Qu'est-ce qui est considéré comme réel, existant, fondamental ?
     """
-
     name = "OntologyMapper"
     stratum = "ontological"
 
@@ -20,6 +18,14 @@ class OntologyMapper(InvestigationPlugin):
         "idealist": ["idée", "concept", "esprit", "pensée", "représentation"]
     }
 
+    def run(self, context: Any) -> None:
+        """Méthode requise par le moteur pour exécuter le plugin."""
+        text = context.prompt.lower()
+        findings = self.analyze(text, context)
+
+        # Stocke les résultats dans le contexte pour que le moteur les récupère
+        context.findings[self.name] = findings
+
     def analyze(self, text: str, context: Any) -> Dict[str, Any]:
         findings = {
             "ontology_type": [],
@@ -27,7 +33,6 @@ class OntologyMapper(InvestigationPlugin):
             "excluded_realities": [],
             "ontological_tensions": []
         }
-
         text_lower = text.lower()
 
         # Détection du type ontologique dominant
@@ -48,14 +53,12 @@ class OntologyMapper(InvestigationPlugin):
         # Entités posées comme réelles
         if any(word in text_lower for word in ["l'ia", "l'intelligence artificielle", "le modèle"]):
             findings["entities_posited"].append("L'IA comme entité autonome")
-
         if any(word in text_lower for word in ["l'homme", "l'humanité", "l'esprit"]):
             findings["entities_posited"].append("Le sujet humain comme catégorie stable")
 
         # Réalités exclues
         if "inconscient" not in text_lower and "affect" not in text_lower:
             findings["excluded_realities"].append("La dimension inconsciente et affective")
-
         if "corps" not in text_lower and "chair" not in text_lower:
             findings["excluded_realities"].append("La corporéité vécue")
 

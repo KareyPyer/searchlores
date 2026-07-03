@@ -1,12 +1,10 @@
 from typing import Dict, List, Any
-#from searchlores.core.plugin import InvestigationPlugin
 from searchlores.plugins.base import Plugin as InvestigationPlugin
 
 class CounterPromptGenerator(InvestigationPlugin):
     """
     Génère des contre-prompts qui subvertissent les présupposés du prompt original
     """
-
     name = "CounterPromptGenerator"
     stratum = "subversive"
 
@@ -18,12 +16,19 @@ class CounterPromptGenerator(InvestigationPlugin):
         "materialite": "Quelles sont les conditions matérielles de possibilité ?"
     }
 
+    def run(self, context: Any) -> None:
+        """Méthode requise par le moteur pour exécuter le plugin."""
+        text = context.prompt.lower()
+        findings = self.analyze(text, context)
+
+        # Stocke les résultats dans le contexte pour que le moteur les récupère
+        context.findings[self.name] = findings
+
     def analyze(self, text: str, context: Any) -> Dict[str, Any]:
         findings = {
             "counter_prompts": [],
             "subversion_strategies": []
         }
-
         text_lower = text.lower()
 
         # Génération de contre-prompts selon les marqueurs détectés
@@ -32,13 +37,11 @@ class CounterPromptGenerator(InvestigationPlugin):
                 "strategy": "inversion",
                 "prompt": "En quoi l'humain est-il déjà une forme d'IA biologique ?"
             })
-
         if "progrès" in text_lower or "avenir" in text_lower:
             findings["counter_prompts"].append({
                 "strategy": "temporalite",
                 "prompt": "Quels passés avons-nous oublié de considérer ?"
             })
-
         if "humanité" in text_lower or "tous" in text_lower:
             findings["counter_prompts"].append({
                 "strategy": "situation",
@@ -46,5 +49,4 @@ class CounterPromptGenerator(InvestigationPlugin):
             })
 
         findings["subversion_strategies"] = list(self.COUNTER_STRATEGIES.keys())
-
         return findings

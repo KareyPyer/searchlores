@@ -1,12 +1,10 @@
 from typing import Dict, List, Any
-#from searchlores.core.plugin import InvestigationPlugin
 from searchlores.plugins.base import Plugin as InvestigationPlugin
 
 class BiasDetector(InvestigationPlugin):
     """
     Détecte les biais cognitifs, culturels et idéologiques
     """
-
     name = "BiasDetector"
     stratum = "ideological"
 
@@ -37,13 +35,20 @@ class BiasDetector(InvestigationPlugin):
         }
     }
 
+    def run(self, context: Any) -> None:
+        """Méthode requise par le moteur pour exécuter le plugin."""
+        text = context.prompt.lower()
+        findings = self.analyze(text, context)
+
+        # Stocke les résultats dans le contexte pour que le moteur les récupère
+        context.findings[self.name] = findings
+
     def analyze(self, text: str, context: Any) -> Dict[str, Any]:
         findings = {
             "biases_detected": [],
             "cultural_position": [],
             "blind_spots": []
         }
-
         text_lower = text.lower()
 
         # Détection des biais
@@ -60,14 +65,12 @@ class BiasDetector(InvestigationPlugin):
         # Position culturelle
         if any(word in text_lower for word in ["progrès", "innovation", "développement"]):
             findings["cultural_position"].append("Narratif du progrès occidental")
-
         if any(word in text_lower for word in ["marché", "compétition", "performance"]):
             findings["cultural_position"].append("Logique néolibérale")
 
         # Angles morts
         if not any(word in text_lower for word in ["pouvoir", "domination", "inégalité"]):
             findings["blind_spots"].append("Absence d'analyse des rapports de pouvoir")
-
         if not any(word in text_lower for word in ["corps", "affect", "émotion"]):
             findings["blind_spots"].append("Effacement de la dimension corporelle et affective")
 
