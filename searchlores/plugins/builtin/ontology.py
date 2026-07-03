@@ -1,5 +1,6 @@
 from typing import Dict, List, Any
-from searchlores.core.plugin import InvestigationPlugin
+#from searchlores.core.plugin import InvestigationPlugin
+from searchlores.plugins.base import Plugin as InvestigationPlugin
 
 class OntologyMapper(InvestigationPlugin):
     """
