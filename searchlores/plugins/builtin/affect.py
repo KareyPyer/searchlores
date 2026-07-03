@@ -1,12 +1,11 @@
 from typing import Dict, List, Any
-from searchlores.core.engine import Plugin, InvestigationContext
+from searchlores.plugins.base import Plugin as InvestigationPlugin
 
-class AffectMapper(Plugin):
+class AffectMapper(InvestigationPlugin):
     """
     Cartographie les dimensions affectives et émotionnelles du discours
     """
-
-    name = "affect"
+    name = "AffectMapper"
     stratum = "affective"
 
     AFFECTIVE_FIELDS = {
@@ -17,15 +16,30 @@ class AffectMapper(Plugin):
         "melancolie": ["perte", "disparition", "nostalgie", "fin"]
     }
 
-    def run(self, context: InvestigationContext) -> None:
+    def run(self, context: Any) -> None:
+        """Méthode requise par le moteur pour exécuter le plugin."""
+        text = context.prompt.lower()
+        findings = self.analyze(text, context)
+
+        # Stocke les résultats dans le contexte pour que le moteur les récupère
+        context.findings[self.name] = findings
+
+        # Ajout optionnel d'un vecteur de pouvoir si des affects sont détectés
+        scores = findings.get("affective_tone", [])
+        if scores:
+            affects_detected = [score["dominant_affect"] for score in scores]
+            if hasattr(context, 'power_vectors'):
+                context.power_vectors.append(
+                    f"Charge affective détectée: {affects_detected} mobilisée pour orienter la réception du discours"
+                )
+
+    def analyze(self, text: str, context: Any) -> Dict[str, Any]:
         findings = {
             "affective_tone": [],
             "emotional_strategies": [],
             "suppressed_affects": []
         }
-
-        # Utilisation du prompt depuis le contexte au lieu d'un paramètre texte
-        text_lower = context.prompt.lower()
+        text_lower = text.lower()
 
         # Détection du ton affectif dominant
         scores = {}
@@ -49,11 +63,4 @@ class AffectMapper(Plugin):
         if not scores:
             findings["suppressed_affects"].append("Discours présenté comme neutre (affect masqué)")
 
-        # Stockage des résultats dans le contexte (au lieu de return)
-        context.findings["affect"] = findings
-
-        # Ajout optionnel d'un vecteur de pouvoir si des affects sont détectés
-        if scores:
-            context.power_vectors.append(
-                f"Charge affective détectée: {list(scores.keys())} mobilisée pour orienter la réception du discours"
-            )
+        return findings
