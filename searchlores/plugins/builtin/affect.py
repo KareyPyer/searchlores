@@ -1,12 +1,12 @@
 from typing import Dict, List, Any
-from searchlores.core.plugin import InvestigationPlugin
+from searchlores.core.engine import Plugin, InvestigationContext
 
-class AffectMapper(InvestigationPlugin):
+class AffectMapper(Plugin):
     """
     Cartographie les dimensions affectives et émotionnelles du discours
     """
 
-    name = "AffectMapper"
+    name = "affect"
     stratum = "affective"
 
     AFFECTIVE_FIELDS = {
@@ -17,14 +17,15 @@ class AffectMapper(InvestigationPlugin):
         "melancolie": ["perte", "disparition", "nostalgie", "fin"]
     }
 
-    def analyze(self, text: str, context: Any) -> Dict[str, Any]:
+    def run(self, context: InvestigationContext) -> None:
         findings = {
             "affective_tone": [],
             "emotional_strategies": [],
             "suppressed_affects": []
         }
 
-        text_lower = text.lower()
+        # Utilisation du prompt depuis le contexte au lieu d'un paramètre texte
+        text_lower = context.prompt.lower()
 
         # Détection du ton affectif dominant
         scores = {}
@@ -48,4 +49,11 @@ class AffectMapper(InvestigationPlugin):
         if not scores:
             findings["suppressed_affects"].append("Discours présenté comme neutre (affect masqué)")
 
-        return findings
+        # Stockage des résultats dans le contexte (au lieu de return)
+        context.findings["affect"] = findings
+
+        # Ajout optionnel d'un vecteur de pouvoir si des affects sont détectés
+        if scores:
+            context.power_vectors.append(
+                f"Charge affective détectée: {list(scores.keys())} mobilisée pour orienter la réception du discours"
+            )
