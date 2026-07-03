@@ -23,6 +23,9 @@ from searchlores.plugins.builtin.affect import AffectMapper
 from searchlores.plugins.builtin.ontology import OntologyMapper
 from searchlores.plugins.builtin.bias import BiasDetector
 # etc.
+from searchlores.plugins.builtin.debate import DebateAnalyzer
+from searchlores.plugins.builtin.counterprompt import CounterPromptGenerator
+from searchlores.plugins.builtin.temporal import TemporalStrataDetector
 
 app = typer.Typer(help="Searchlores Ultimate — Archéologie Cognitive", add_completion=False)
 console = Console()
