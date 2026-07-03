@@ -31,11 +31,13 @@ PLUGIN_REGISTRY = {
     "omissions": OmissionDetector,
     "narrative": NarrativeArcheologist,
     "genealogy": CognitiveGenealogist,
-    # Tu peux ajouter d'autres plugins ici :
-    # "bias": BiasDetector,
-    # "ontology": OntologyMapper,
-    # "debate": DebateAnalyzer,
-    # "counterprompt": CounterPromptGenerator
+    # Nouveaux plugins
+    "ontology": OntologyMapper,
+    "bias": BiasDetector,
+    "debate": DebateAnalyzer,
+    "counterprompt": CounterPromptGenerator,
+    "temporal": TemporalStrataDetector,
+    "affect": AffectMapper
 }
 
 def load_prompt_from_source(prompt_source: str) -> str:
