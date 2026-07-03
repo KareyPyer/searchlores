@@ -19,6 +19,11 @@ from searchlores.plugins.builtin.authority import (
 from searchlores.graph.searchmap import SearchMap
 from searchlores.lore.models import Lore
 
+from searchlores.plugins.builtin.affect import AffectMapper
+from searchlores.plugins.builtin.ontology import OntologyMapper
+from searchlores.plugins.builtin.bias import BiasDetector
+# etc.
+
 app = typer.Typer(help="Searchlores Ultimate — Archéologie Cognitive", add_completion=False)
 console = Console()
 
