@@ -1,0 +1,46 @@
+metadata:
+  name: "Épistémologie Critique"
+  version: "1.0"
+  description: "Domaine épistémologique critique : comment savons-nous ce que nous savons ?"
+  author: "Searchlores Collective"
+  tags: ["epistemology", "knowledge", "power", "truth"]
+
+investigation:
+  assumptions:
+    - "La connaissance est toujours située et partielle"
+    - "Tout savoir est produit dans des conditions historiques et sociales spécifiques"
+    - "L'objectivité absolue est un mythe épistémologique"
+    - "Les critères de validité sont eux-mêmes des constructions historiques"
+    - "Le sujet connaissant est toujours impliqué dans ce qu'il connaît"
+
+  myths:
+    - "Le mythe de la neutralité scientifique"
+    - "Le mythe du progrès linéaire de la connaissance"
+    - "Le mythe de l'universalité des catégories cognitives"
+    - "Le mythe de la séparation sujet/objet"
+
+  vectors:
+    - "Hégémonie des épistémologies occidentales modernes"
+    - "Invisibilisation des savoirs situés et marginalisés"
+    - "Monopole institutionnel de la production du savoir légitime"
+    - "Naturalisation des catégories cognitives dominantes"
+
+  questions:
+    - "Qui a le pouvoir de définir ce qui compte comme savoir ?"
+    - "Quelles conditions de possibilité rendent cette énonciation possible ?"
+    - "Qu'est-ce qui est rendu invisible par ce cadre épistémologique ?"
+    - "De quelle position située parle-t-on ?"
+    - "Quels rapports de pouvoir structurent cette production de vérité ?"
+
+  counter_questions:
+    - "Et si l'objectivité était une fiction productive plutôt qu'un idéal régulateur ?"
+    - "Et si les marges épistémiques étaient des lieux de savoir privilégiés ?"
+    - "Et si l'incertitude était plus féconde que la certitude ?"
+    - "Et si nous pensions depuis les interstices plutôt que depuis les centres ?"
+
+  forbidden_answers:
+    - "La science est neutre et universelle"
+    - "La raison est la même partout et pour tous"
+    - "Le progrès scientifique est linéaire et cumulatif"
+    - "Les faits parlent d'eux-mêmes"
+    - "La connaissance est une représentation fidèle du réel"

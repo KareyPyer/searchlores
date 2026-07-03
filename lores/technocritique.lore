@@ -1,0 +1,46 @@
+metadata:
+  name: "Critique de la Technologie"
+  version: "1.0"
+  description: "Analyse critique des discours technoscientifiques et de leurs implications politiques"
+  author: "Searchlores Collective"
+  tags: ["technology", "critique", "politics", "power", "automation"]
+
+investigation:
+  assumptions:
+    - "La technologie n'est jamais neutre : elle incorpore des valeurs et des rapports de pouvoir"
+    - "L'innovation technologique est toujours liée à des agendas politiques et économiques"
+    - "L'automatisation n'est pas un processus naturel mais un choix social"
+    - "Les artefacts techniques ont une politique intrinsèque"
+    - "La solution technique est souvent une façon d'éviter la question politique"
+
+  myths:
+    - "Le mythe du déterminisme technologique"
+    - "Le mythe de la neutralité des algorithmes"
+    - "Le mythe de la disruption comme progrès nécessaire"
+    - "Le mythe de l'efficacité comme valeur suprême"
+    - "Le mythe de la solution technique à des problèmes politiques"
+
+  vectors:
+    - "Concentration du pouvoir technologique dans les mains de quelques acteurs"
+    - "Externalisation des coûts sociaux et environnementaux"
+    - "Naturalisation des choix techniques comme inévitables"
+    - "Subordination du politique à l'impératif technologique"
+
+  questions:
+    - "Quels rapports de pouvoir sont incorporés dans cette technologie ?"
+    - "Qui bénéficie de cette innovation et qui en supporte les coûts ?"
+    - "Quelles alternatives ont été écartées au nom de l'efficacité ?"
+    - "Comment cette technologie transforme-t-elle les relations sociales ?"
+
+  counter_questions:
+    - "Et si la technologie était un choix politique plutôt qu'un destin ?"
+    - "Et si l'inefficacité était parfois plus désirable que l'efficacité ?"
+    - "Et si nous ralentissions plutôt qu'accélérions ?"
+    - "Et si la question n'était pas comment mais pourquoi ?"
+
+  forbidden_answers:
+    - "La technologie est neutre"
+    - "L'innovation est toujours positive"
+    - "L'automatisation est inévitable"
+    - "Les algorithmes sont objectifs"
+    - "Le progrès technologique est linéaire et désirable"

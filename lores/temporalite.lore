@@ -1,0 +1,45 @@
+metadata:
+  name: "Philosophies du Temps"
+  version: "1.0"
+  description: "Analyse des régimes de temporalité et des rapports au temps"
+  author: "Searchlores Collective"
+  tags: ["time", "temporality", "history", "future", "memory"]
+
+investigation:
+  assumptions:
+    - "Le temps n'est pas un donné naturel mais une construction sociale"
+    - "Les régimes de temporalité varient selon les cultures et les époques"
+    - "Le présentisme domine les sociétés contemporaines"
+    - "La mémoire est toujours sélective et politique"
+    - "Le futur est un lieu de projection et de lutte"
+
+  myths:
+    - "Le mythe du temps linéaire et homogène"
+    - "Le mythe du progrès comme destin historique"
+    - "Le mythe de la rupture radicale avec le passé"
+    - "Le mythe de l'accélération comme inévitable"
+
+  vectors:
+    - "Colonisation du futur par le présent"
+    - "Effacement des temporalités longues et cycliques"
+    - "Accélération généralisée des rythmes sociaux"
+    - "Naturalisation du temps capitaliste"
+
+  questions:
+    - "Quel régime de temporalité structure ce discours ?"
+    - "Quels passés sont mobilisés et lesquels sont oubliés ?"
+    - "Quel futur est imaginé et quels futurs sont exclus ?"
+    - "À quelle échelle temporelle se situe cette énonciation ?"
+
+  counter_questions:
+    - "Et si nous pensions en temps long plutôt qu'en temps court ?"
+    - "Et si le futur était multiple plutôt qu'unique ?"
+    - "Et si nous ralentissions plutôt qu'accélérions ?"
+    - "Et si nous habitions le présent plutôt que le transcender ?"
+
+  forbidden_answers:
+    - "Le temps est linéaire et homogène"
+    - "Le progrès est inévitable et désirable"
+    - "L'accélération est une loi naturelle"
+    - "Le futur est un prolongement du présent"
+    - "Le passé est révolu et sans importance"

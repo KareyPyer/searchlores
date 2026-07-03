@@ -1,0 +1,45 @@
+metadata:
+  name: "Théorie des Affects"
+  version: "1.0"
+  description: "Cartographie des dimensions affectives et émotionnelles des discours"
+  author: "Searchlores Collective"
+  tags: ["affect", "emotion", "body", "feeling", "atmosphere"]
+
+investigation:
+  assumptions:
+    - "Les affects précèdent et conditionnent la cognition"
+    - "Les émotions ne sont pas des perturbations mais des modes de connaissance"
+    - "Le corps est un lieu de savoir irréductible"
+    - "Les atmosphères affectives structurent les possibilités d'action"
+    - "L'affect est toujours politique : il circule et se distribue inégalement"
+
+  myths:
+    - "Le mythe de la rationalité désincarnée"
+    - "Le mythe de la neutralité émotionnelle"
+    - "Le mythe de la séparation corps/esprit"
+    - "Le mythe de l'objectivité comme absence d'affect"
+
+  vectors:
+    - "Hiérarchisation des affects légitimes et illégitimes"
+    - "Genrisation et racialisation des émotions"
+    - "Captation et exploitation capitaliste des affects"
+    - "Invisibilisation du travail émotionnel"
+
+  questions:
+    - "Quel est le ton affectif dominant de ce discours ?"
+    - "Quels affects sont rendus possibles et lesquels sont supprimés ?"
+    - "Comment ce discours nous affecte-t-il corporellement ?"
+    - "Quelles atmosphères émotionnelles structurent cette énonciation ?"
+
+  counter_questions:
+    - "Et si nous pensions avec nos affects plutôt que contre eux ?"
+    - "Et si l'émotion était une forme de connaissance ?"
+    - "Et si le corps savait des choses que l'esprit ignore ?"
+    - "Et si nous écoutions ce que les affects ont à nous dire ?"
+
+  forbidden_answers:
+    - "Les émotions n'ont rien à voir avec la raison"
+    - "Le corps est un obstacle à la connaissance"
+    - "L'objectivité requiert l'absence d'affect"
+    - "Les affects sont irrationnels et privés"
+    - "On peut penser sans être affecté"

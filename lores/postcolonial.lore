@@ -1,0 +1,45 @@
+metadata:
+  name: "Études Postcoloniales"
+  version: "1.0"
+  description: "Analyse des héritages coloniaux et des dynamiques de pouvoir Nord-Sud"
+  author: "Searchlores Collective"
+  tags: ["postcolonial", "decolonial", "power", "race", "empire"]
+
+investigation:
+  assumptions:
+    - "Le colonialisme n'est pas un événement passé mais une structure persistante"
+    - "La modernité est constitutivement liée à la colonialité"
+    - "Les catégories de race, de genre et de classe sont des productions coloniales"
+    - "L'universalisme abstrait est une forme de particularisme déguisé"
+    - "Les savoirs du Sud global sont systématiquement marginalisés"
+
+  myths:
+    - "Le mythe de la mission civilisatrice"
+    - "Le mythe du développement comme destin universel"
+    - "Le mythe de la neutralité des institutions internationales"
+    - "Le mythe de l'Occident comme berceau de la rationalité"
+
+  vectors:
+    - "Extraction épistémique des savoirs du Sud"
+    - "Asymétrie structurelle dans la production du savoir"
+    - "Naturalisation des hiérarchies raciales et culturelles"
+    - "Universalisation des catégories occidentales modernes"
+
+  questions:
+    - "Quelles sont les conditions coloniales de possibilité de ce discours ?"
+    - "Qui parle depuis quelle position de pouvoir ?"
+    - "Quels savoirs sont rendus inaudibles par ce cadre ?"
+    - "Comment cette énonciation reproduit-elle des dynamiques coloniales ?"
+
+  counter_questions:
+    - "Et si nous pensions depuis le Sud global ?"
+    - "Et si l'universel était à construire plutôt qu'à présupposer ?"
+    - "Et si les marges étaient des lieux de résistance épistémique ?"
+    - "Et si la décolonisation était un processus continu plutôt qu'un événement ?"
+
+  forbidden_answers:
+    - "Le colonialisme est terminé"
+    - "Les catégories occidentales sont universelles"
+    - "Le développement est un processus naturel et désirable"
+    - "La race n'est pas une construction sociale"
+    - "L'Occident a apporté la civilisation au reste du monde"
