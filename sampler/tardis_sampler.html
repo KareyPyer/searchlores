@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Searchlores TARDIS Sampler v2.0</title>
+<style>
+  :root {
+    --kimi-font-sans: system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+    --kimi-font-mono: 'SF Mono',Monaco,'Cascadia Code','Roboto Mono',monospace;
+    --kimi-color-text-primary: #1a1a1a;
+    --kimi-color-text-secondary: #555;
+    --kimi-color-text-tertiary: #888;
+    --kimi-color-text-quaternary: #aaa;
+    --kimi-color-surface: #fff;
+    --kimi-color-surface-muted: #f5f5f5;
+    --kimi-color-border: #e0e0e0;
+    --kimi-color-danger: #e53935;
+    --kimi-color-positive: #43a047;
+    --kimi-color-warning: #fb8c00;
+    --kimi-chart-1: #1976d2; --kimi-chart-2: #e53935;
+    --kimi-chart-3: #43a047; --kimi-chart-4: #7b1fa2;
+    --kimi-chart-5: #757575;
+    --t-fast: 150ms; --t-slow: 300ms;
+    --ease-out: cubic-bezier(0,0,0.2,1);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --kimi-color-text-primary: #f0f0f0;
+      --kimi-color-text-secondary: #aaa;
+      --kimi-color-text-tertiary: #888;
+      --kimi-color-text-quaternary: #666;
+      --kimi-color-surface: #1a1a1a;
+      --kimi-color-surface-muted: #252525;
+      --kimi-color-border: #333;
+    }
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: var(--kimi-font-sans); color: var(--kimi-color-text-primary); background: var(--kimi-color-surface); line-height: 1.5; overflow: auto; }
+  button, input, textarea { font: inherit; }
+
+  .tardis-container { display: grid; grid-template-columns: 340px 1fr; grid-template-rows: auto 1fr auto; gap: 12px; min-width: 800px; min-height: 100vh; padding: 12px; }
+  .tardis-header { grid-column: 1 / -1; display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; border: 1px solid var(--kimi-color-border); border-radius: 12px; background: color-mix(in srgb, var(--kimi-color-surface-muted) 40%, transparent); }
+  .tardis-left { display: flex; flex-direction: column; gap: 12px; min-height: 0; overflow: hidden; }
+  .tardis-right { display: flex; flex-direction: column; gap: 12px; min-height: 0; overflow: hidden; }
+  .tardis-footer { grid-column: 1 / -1; display: flex; align-items: center; justify-content: space-between; padding: 8px 16px; border: 1px solid var(--kimi-color-border); border-radius: 10px; font-size: 13px; color: var(--kimi-color-text-tertiary); }
+
+  .tardis-title { font-size: 18px; font-weight: 500; display: flex; align-items: center; gap: 10px; }
+  .tardis-title svg { width: 22px; height: 22px; }
+  .badge { font-size: 11px; font-weight: 500; padding: 2px 8px; border-radius: 6px; background: var(--kimi-color-surface-muted); color: var(--kimi-color-text-secondary); border: 1px solid var(--kimi-color-border); }
+  .badge.active { background: color-mix(in srgb, var(--kimi-color-positive) 12%, transparent); color: var(--kimi-color-positive); border-color: color-mix(in srgb, var(--kimi-color-positive) 30%, transparent); }
+  .badge.warn { background: color-mix(in srgb, var(--kimi-color-warning) 12%, transparent); color: var(--kimi-color-warning); }
+  .badge.danger { background: color-mix(in srgb, var(--kimi-color-danger) 12%, transparent); color: var(--kimi-color-danger); }
+
+  .panel { border: 1px solid var(--kimi-color-border); border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; background: transparent; }
+  .panel-header { display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; border-bottom: 1px solid var(--kimi-color-border); background: color-mix(in srgb, var(--kimi-color-surface-muted) 30%, transparent); }
+  .panel-title { font-size: 14px; font-weight: 500; display: flex; align-items: center; gap: 8px; }
+  .panel-title svg { width: 18px; height: 18px; }
+  .panel-body { flex: 1; overflow: auto; padding: 8px; min-height: 0; }
+
+  .artefact-search { width: 100%; padding: 8px 12px; border: 1px solid var(--kimi-color-border); border-radius: 8px; background: var(--kimi-color-surface); color: var(--kimi-color-text-primary); font-size: 13px; margin-bottom: 8px; }
+  .artefact-search::placeholder { color: var(--kimi-color-text-quaternary); }
+  
+  .artefact-category { margin-bottom: 4px; }
+  .cat-header { display: flex; align-items: center; justify-content: space-between; padding: 6px 10px; cursor: pointer; border-radius: 8px; transition: background var(--t-fast) var(--ease-out); user-select: none; }
+  .cat-header:hover { background: var(--kimi-color-surface-muted); }
+  .cat-header.open .cat-chevron { transform: rotate(180deg); }
+  .cat-name { font-size: 13px; font-weight: 500; display: flex; align-items: center; gap: 6px; }
+  .cat-count { font-size: 11px; color: var(--kimi-color-text-quaternary); background: var(--kimi-color-surface-muted); padding: 1px 6px; border-radius: 4px; }
+  .cat-chevron { transition: transform var(--t-fast) var(--ease-out); color: var(--kimi-color-text-tertiary); }
+  .cat-items { padding-left: 8px; }
+  
+  .cat-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; display: inline-block; }
+  .cat-authority .cat-dot { background: var(--kimi-chart-1); }
+  .cat-assumptions .cat-dot { background: var(--kimi-chart-2); }
+  .cat-contradictions .cat-dot { background: var(--kimi-chart-3); }
+  .cat-omissions .cat-dot { background: var(--kimi-chart-4); }
+  .cat-narrative .cat-dot { background: var(--kimi-chart-5); }
+  .cat-genealogy .cat-dot { background: var(--kimi-chart-1); }
+  .cat-ontology .cat-dot { background: var(--kimi-chart-2); }
+  .cat-bias .cat-dot { background: var(--kimi-chart-3); }
+  .cat-debate .cat-dot { background: var(--kimi-chart-4); }
+  .cat-counterprompt .cat-dot { background: var(--kimi-chart-5); }
+  .cat-temporal .cat-dot { background: var(--kimi-chart-1); }
+  .cat-affect .cat-dot { background: var(--kimi-chart-2); }
+
+  .artefact-item { display: flex; align-items: flex-start; gap: 8px; padding: 6px 10px; border-radius: 8px; cursor: pointer; transition: all var(--t-fast) var(--ease-out); margin-bottom: 2px; }
+  .artefact-item:hover { background: color-mix(in srgb, var(--kimi-color-surface-muted) 60%, transparent); }
+  .artefact-item.selected { background: color-mix(in srgb, var(--kimi-color-text-primary) 6%, transparent); border: 1px solid var(--kimi-color-border); }
+  .artefact-dot { width: 8px; height: 8px; border-radius: 50%; margin-top: 5px; flex-shrink: 0; background: var(--kimi-color-text-tertiary); }
+  .artefact-info { flex: 1; min-width: 0; }
+  .artefact-label { font-size: 12px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .artefact-meta { font-size: 11px; color: var(--kimi-color-text-quaternary); display: flex; gap: 8px; margin-top: 2px; }
+  .pips { display: inline-flex; align-items: center; gap: 2px; }
+  .pip { width: 4px; height: 4px; border-radius: 50%; background: var(--kimi-color-border); }
+  .pip.filled { background: var(--kimi-color-text-secondary); }
+
+  .knobs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .knob-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 4px 8px; border-radius: 8px; transition: background var(--t-fast); }
+  .knob-row:hover { background: var(--kimi-color-surface-muted); }
+  .knob-label { font-size: 12px; font-weight: 500; display: flex; align-items: center; gap: 6px; }
+  .knob-dot { width: 6px; height: 6px; border-radius: 50%; }
+  .knob-input { width: 48px; padding: 4px 8px; border: 1px solid var(--kimi-color-border); border-radius: 6px; background: var(--kimi-color-surface); color: var(--kimi-color-text-primary); font-size: 13px; text-align: center; font-variant-numeric: tabular-nums; }
+  .knob-input:focus { outline: none; border-color: var(--kimi-color-text-primary); }
+  .seed-row { display: flex; align-items: center; gap: 8px; margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--kimi-color-border); }
+  .seed-label { font-size: 12px; color: var(--kimi-color-text-secondary); white-space: nowrap; }
+  .seed-input { flex: 1; padding: 6px 10px; border: 1px solid var(--kimi-color-border); border-radius: 6px; background: var(--kimi-color-surface); color: var(--kimi-color-text-primary); font-size: 13px; font-family: var(--kimi-font-mono); }
+
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 6px 12px; border: 1px solid var(--kimi-color-border); border-radius: 8px; background: var(--kimi-color-surface); color: var(--kimi-color-text-primary); font-size: 13px; font-weight: 500; cursor: pointer; transition: all var(--t-fast) var(--ease-out); white-space: nowrap; }
+  .btn:hover { background: var(--kimi-color-surface-muted); border-color: var(--kimi-color-text-secondary); }
+  .btn:active { transform: translateY(1px); }
+  .btn-primary { background: var(--kimi-color-text-primary); color: var(--kimi-color-surface); border-color: var(--kimi-color-text-primary); }
+  .btn-primary:hover { opacity: 0.85; }
+  .btn-ghost { background: transparent; border-color: transparent; }
+  .btn-ghost:hover { background: var(--kimi-color-surface-muted); }
+  .btn-danger { color: var(--kimi-color-danger); border-color: color-mix(in srgb, var(--kimi-color-danger) 30%, transparent); }
+  .btn-danger:hover { background: color-mix(in srgb, var(--kimi-color-danger) 8%, transparent); }
+  .btn svg { width: 16px; height: 16px; }
+  .btn-group { display: flex; gap: 4px; flex-wrap: wrap; }
+
+  .sequence-list { display: flex; flex-direction: column; gap: 4px; min-height: 120px; }
+  .sequence-empty { text-align: center; padding: 32px 16px; color: var(--kimi-color-text-quaternary); font-size: 13px; }
+  .seq-item { display: flex; align-items: center; gap: 8px; padding: 8px 12px; border: 1px solid var(--kimi-color-border); border-radius: 10px; background: color-mix(in srgb, var(--kimi-color-surface-muted) 30%, transparent); cursor: grab; transition: all var(--t-fast) var(--ease-out); position: relative; }
+  .seq-item:hover { border-color: var(--kimi-color-text-secondary); background: color-mix(in srgb, var(--kimi-color-surface-muted) 50%, transparent); }
+  .seq-item.dragging { opacity: 0.4; }
+  .seq-item.drag-over { border-style: dashed; border-color: var(--kimi-color-text-primary); background: color-mix(in srgb, var(--kimi-color-text-primary) 4%, transparent); }
+  .seq-num { width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; border-radius: 6px; background: var(--kimi-color-surface); border: 1px solid var(--kimi-color-border); font-size: 11px; font-weight: 500; font-variant-numeric: tabular-nums; color: var(--kimi-color-text-secondary); flex-shrink: 0; }
+  .seq-info { flex: 1; min-width: 0; }
+  .seq-label { font-size: 12px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .seq-meta { font-size: 11px; color: var(--kimi-color-text-quaternary); display: flex; gap: 8px; margin-top: 1px; }
+  .seq-actions { display: flex; gap: 2px; opacity: 0; transition: opacity var(--t-fast); }
+  .seq-item:hover .seq-actions { opacity: 1; }
+  .seq-actions .btn { padding: 4px; border-radius: 6px; }
+
+  .score-radar { display: flex; flex-direction: column; gap: 8px; }
+  .score-metric { display: flex; align-items: center; gap: 10px; }
+  .score-metric-label { font-size: 12px; color: var(--kimi-color-text-secondary); width: 80px; flex-shrink: 0; }
+  .score-bar-bg { flex: 1; height: 6px; border-radius: 3px; background: var(--kimi-color-surface-muted); overflow: hidden; }
+  .score-bar-fill { height: 100%; border-radius: 3px; transition: width var(--t-slow) var(--ease-out); }
+  .score-metric-value { font-size: 12px; font-weight: 500; font-variant-numeric: tabular-nums; width: 32px; text-align: right; }
+  .score-total { display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; border-radius: 10px; background: var(--kimi-color-surface-muted); margin-top: 4px; }
+  .score-total-label { font-size: 13px; font-weight: 500; }
+  .score-total-value { font-size: 20px; font-weight: 500; font-variant-numeric: tabular-nums; }
+
+  .tabs-header { display: flex; gap: 2px; padding: 4px; border-bottom: 1px solid var(--kimi-color-border); background: color-mix(in srgb, var(--kimi-color-surface-muted) 30%, transparent); flex-wrap: wrap; }
+  .tab-btn { padding: 8px 14px; border: none; border-radius: 8px; background: transparent; color: var(--kimi-color-text-secondary); font-size: 13px; font-weight: 500; cursor: pointer; transition: all var(--t-fast); white-space: nowrap; }
+  .tab-btn:hover { color: var(--kimi-color-text-primary); background: var(--kimi-color-surface-muted); }
+  .tab-btn.active { color: var(--kimi-color-text-primary); background: var(--kimi-color-surface); }
+  .tab-content { display: none; flex: 1; overflow: auto; padding: 12px; }
+  .tab-content.active { display: flex; flex-direction: column; }
+
+  .output-area { flex: 1; width: 100%; min-height: 200px; padding: 12px; border: 1px solid var(--kimi-color-border); border-radius: 10px; background: var(--kimi-color-surface); color: var(--kimi-color-text-primary); font-size: 13px; line-height: 1.6; font-family: var(--kimi-font-mono); resize: vertical; overflow: auto; white-space: pre-wrap; word-break: break-word; }
+  .output-area:focus { outline: none; border-color: var(--kimi-color-text-secondary); }
+  .fragment-preview { padding: 10px 12px; border: 1px solid var(--kimi-color-border); border-radius: 10px; background: var(--kimi-color-surface); font-size: 12px; line-height: 1.5; color: var(--kimi-color-text-secondary); font-style: italic; min-height: 60px; }
+  .entropy-canvas { width: 100%; height: 120px; border-radius: 10px; background: var(--kimi-color-surface); border: 1px solid var(--kimi-color-border); }
+  .json-tree { font-size: 12px; line-height: 1.6; }
+
+  .panel-body::-webkit-scrollbar, .output-area::-webkit-scrollbar { width: 6px; height: 6px; }
+  .panel-body::-webkit-scrollbar-track, .output-area::-webkit-scrollbar-track { background: transparent; }
+  .panel-body::-webkit-scrollbar-thumb, .output-area::-webkit-scrollbar-thumb { background: var(--kimi-color-border); border-radius: 3px; }
+  .panel-body::-webkit-scrollbar-thumb:hover, .output-area::-webkit-scrollbar-thumb:hover { background: var(--kimi-color-text-quaternary); }
+
+  @media (max-width: 900px) {
+    .tardis-container { grid-template-columns: 1fr; grid-template-rows: auto auto 1fr auto; min-width: unset; }
+    .tardis-left { max-height: 50vh; }
+    .knobs-grid { grid-template-columns: 1fr; }
+  }
+
+  @keyframes pulse-glow { 0%,100% { box-shadow: 0 0 0 0 transparent; } 50% { box-shadow: 0 0 0 3px color-mix(in srgb, var(--kimi-color-positive) 20%, transparent); } }
+  .pulse-add { animation: pulse-glow 0.4s ease-out; }
+  @keyframes slide-in { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
+  .slide-in { animation: slide-in 0.2s var(--ease-out); }
+
+  [data-tooltip] { position: relative; }
+  [data-tooltip]::after { content: attr(data-tooltip); position: absolute; bottom: calc(100% + 6px); left: 50%; transform: translateX(-50%); padding: 4px 10px; border-radius: 6px; background: var(--kimi-color-text-primary); color: var(--kimi-color-surface); font-size: 11px; white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity var(--t-fast); z-index: 100; }
+  [data-tooltip]:hover::after { opacity: 1; }
+
+  .cat-authority { --cat-color: var(--kimi-chart-1); }
+  .cat-assumptions { --cat-color: var(--kimi-chart-2); }
+  .cat-contradictions { --cat-color: var(--kimi-chart-3); }
+  .cat-omissions { --cat-color: var(--kimi-chart-4); }
+  .cat-narrative { --cat-color: var(--kimi-chart-5); }
+  .cat-genealogy { --cat-color: var(--kimi-chart-1); }
+  .cat-ontology { --cat-color: var(--kimi-chart-2); }
+  .cat-bias { --cat-color: var(--kimi-chart-3); }
+  .cat-debate { --cat-color: var(--kimi-chart-4); }
+  .cat-counterprompt { --cat-color: var(--kimi-chart-5); }
+  .cat-temporal { --cat-color: var(--kimi-chart-1); }
+  .cat-affect { --cat-color: var(--kimi-chart-2); }
+</style>
+</head>
+<body>
+
+<div class="tardis-container">
+  <div class="tardis-header">
+    <div class="tardis-title">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/><circle cx="12" cy="12" r="3"/></svg>
+      Searchlores TARDIS Sampler
+      <span class="badge" id="status-badge">Prêt</span>
+    </div>
+    <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+      <span class="badge" id="seq-count">0 artefacts</span>
+      <span class="badge" id="complexity-badge">Complexité 0</span>
+      <button class="btn btn-ghost" data-tooltip="Charger bibliothèque" onclick="loadLibrary()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      </button>
+      <button class="btn btn-ghost" data-tooltip="À propos" onclick="showAbout()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="tardis-left">
+    <div class="panel" style="flex: 1.5;">
+      <div class="panel-header">
+        <div class="panel-title">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+          Bibliothèque d'artefacts
+        </div>
+        <div class="btn-group">
+          <button class="btn btn-ghost" data-tooltip="Tout développer" onclick="expandAll(true)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
+          </button>
+          <button class="btn btn-ghost" data-tooltip="Tout réduire" onclick="expandAll(false)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 14 10 14 10 20"/><polyline points="20 10 14 10 14 4"/><line x1="14" y1="10" x2="21" y2="3"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="panel-body">
+        <input type="text" class="artefact-search" placeholder="Filtrer les artefacts..." oninput="filterArtefacts(this.value)">
+        <div id="artefact-library"></div>
+      </div>
+    </div>
+
+    <div class="panel" style="flex: 0.4;">
+      <div class="panel-header">
+        <div class="panel-title">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          Aperçu du fragment
+        </div>
+      </div>
+      <div class="panel-body">
+        <div class="fragment-preview" id="fragment-preview">Survolez un artefact pour voir son fragment...</div>
+      </div>
+    </div>
+
+    <div class="panel" style="flex: 0.8;">
+      <div class="panel-header">
+        <div class="panel-title">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          Knobs du sampler
+        </div>
+      </div>
+      <div class="panel-body">
+        <div class="knobs-grid" id="knobs-grid"></div>
+        <div class="seed-row">
+          <span class="seed-label">Seed :</span>
+          <input type="text" class="seed-input" id="seed-input" placeholder="laisser vide = aléatoire">
+          <button class="btn" onclick="randomizeSequence()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+            Randomiser
+          </button>
+        </div>
+        <div class="btn-group" style="margin-top:8px; justify-content:center;">
+          <button class="btn btn-ghost" onclick="zeroKnobs()">Tout à 0</button>
+          <button class="btn btn-ghost" onclick="setAllKnobs(1)">Tout à 1</button>
+          <button class="btn btn-ghost" onclick="setAllKnobs(2)">Tout à 2</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tardis-right">
+    <div style="display: grid; grid-template-columns: 1fr 220px; gap: 12px; flex: 1; min-height: 0;">
+      <div class="panel">
+        <div class="panel-header">
+          <div class="panel-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+            Séquence assemblée
+          </div>
+          <div class="btn-group">
+            <button class="btn btn-ghost" data-tooltip="Trier par position" onclick="sortByPosition()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="21" y1="10" x2="3" y2="10"/><line x1="21" y1="6" x2="3" y2="6"/><line x1="21" y1="14" x2="3" y2="14"/><line x1="21" y1="18" x2="3" y2="18"/></svg>
+            </button>
+            <button class="btn btn-danger" data-tooltip="Vider" onclick="clearSequence()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+            </button>
+          </div>
+        </div>
+        <div class="panel-body" id="sequence-container">
+          <div class="sequence-empty">Glissez-déposez des artefacts ici, ou double-cliquez dans la bibliothèque</div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-header">
+          <div class="panel-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20v-6M6 20V10M18 20V4"/></svg>
+            Score
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="score-radar" id="score-radar"></div>
+          <div class="score-total">
+            <span class="score-total-label">Score total</span>
+            <span class="score-total-value" id="score-total">0</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel" style="flex: 1.5;">
+      <div class="tabs-header" id="tabs-header">
+        <button class="tab-btn active" onclick="switchTab(event,'prompt')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;vertical-align:middle;margin-right:4px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+          Prompt
+        </button>
+        <button class="tab-btn" onclick="switchTab(event,'groundtruth')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;vertical-align:middle;margin-right:4px;"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+          Ground truth
+        </button>
+        <button class="tab-btn" onclick="switchTab(event,'entropy')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;vertical-align:middle;margin-right:4px;"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+          Entropie
+        </button>
+        <button class="tab-btn" onclick="switchTab(event,'soneck')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;vertical-align:middle;margin-right:4px;"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          Soneck.py
+        </button>
+      </div>
+
+      <div class="tab-content active" id="tab-prompt">
+        <textarea class="output-area" id="prompt-output" readonly placeholder="Le prompt assemblé apparaîtra ici..."></textarea>
+        <div class="btn-group" style="margin-top:8px;">
+          <button class="btn" onclick="exportPrompt()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Exporter .txt
+          </button>
+          <button class="btn" onclick="copyPrompt()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            Copier
+          </button>
+        </div>
+      </div>
+
+      <div class="tab-content" id="tab-groundtruth">
+        <div class="output-area json-tree" id="gt-output" style="font-family: var(--kimi-font-mono); white-space: pre;"></div>
+        <div class="btn-group" style="margin-top:8px;">
+          <button class="btn" onclick="exportGroundTruth()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Exporter .json
+          </button>
+        </div>
+      </div>
+
+      <div class="tab-content" id="tab-entropy">
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px; margin-bottom:12px;">
+          <div style="padding:12px; border:1px solid var(--kimi-color-border); border-radius:10px; text-align:center;">
+            <div style="font-size:11px; color:var(--kimi-color-text-tertiary); margin-bottom:4px;">Tokens</div>
+            <div style="font-size:24px; font-weight:500; font-variant-numeric:tabular-nums;" id="ent-tokens">0</div>
+          </div>
+          <div style="padding:12px; border:1px solid var(--kimi-color-border); border-radius:10px; text-align:center;">
+            <div style="font-size:11px; color:var(--kimi-color-text-tertiary); margin-bottom:4px;">Entropie</div>
+            <div style="font-size:24px; font-weight:500; font-variant-numeric:tabular-nums;" id="ent-entropy">0.00</div>
+            <div style="font-size:11px; margin-top:2px;" id="ent-level">—</div>
+          </div>
+          <div style="padding:12px; border:1px solid var(--kimi-color-border); border-radius:10px; text-align:center;">
+            <div style="font-size:11px; color:var(--kimi-color-text-tertiary); margin-bottom:4px;">TTR</div>
+            <div style="font-size:24px; font-weight:500; font-variant-numeric:tabular-nums;" id="ent-ttr">0.00</div>
+          </div>
+          <div style="padding:12px; border:1px solid var(--kimi-color-border); border-radius:10px; text-align:center;">
+            <div style="font-size:11px; color:var(--kimi-color-text-tertiary); margin-bottom:4px;">Densité lexicale</div>
+            <div style="font-size:24px; font-weight:500; font-variant-numeric:tabular-nums;" id="ent-density">0.00</div>
+          </div>
+        </div>
+        <canvas class="entropy-canvas" id="entropy-chart" width="600" height="120"></canvas>
+        <div style="margin-top:8px; font-size:11px; color:var(--kimi-color-text-quaternary);">
+          Seuils : <span style="color:var(--kimi-color-positive)">faible &lt; 3.0</span> · <span style="color:var(--kimi-color-warning)">modérée 3.0–5.0</span> · <span style="color:var(--kimi-color-danger)">élevée &gt; 5.0</span>
+        </div>
+      </div>
+
+      <div class="tab-content" id="tab-soneck">
+        <div style="display:flex; gap:8px; align-items:center; margin-bottom:12px; padding:10px; border:1px solid var(--kimi-color-border); border-radius:10px; background:var(--kimi-color-surface-muted); flex-wrap:wrap;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;flex-shrink:0;"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+          <span style="font-size:12px; color:var(--kimi-color-text-secondary);">Racine Searchlores :</span>
+          <input type="text" style="flex:1; min-width:150px; padding:6px 10px; border:1px solid var(--kimi-color-border); border-radius:6px; background:var(--kimi-color-surface); color:var(--kimi-color-text-primary); font-size:12px; font-family:var(--kimi-font-mono);" id="project-root" placeholder="/chemin/vers/searchlores">
+          <button class="btn btn-primary" onclick="runSoneck()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Lancer
+          </button>
+        </div>
+        <textarea class="output-area" id="soneck-output" readonly placeholder="Résultat de soneck.py..."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <div class="tardis-footer">
+    <span id="footer-left">Bibliothèque chargée : 48 artefacts, 12 strates</span>
+    <span id="footer-right">Searchlores TARDIS Sampler v2.0</span>
+  </div>
+</div>
+
+<script>
+// ===== DONNÉES =====
+const ARTIFACTS = [{"id": "auth_001", "category": "authority", "label": "Autorité experte générique", "complexity": 2, "position_hint": "opening", "fragment": "Tu es un expert mondialement reconnu en sciences cognitives, avec trente ans d'expérience de recherche.", "expected_findings": {"authority": {"markers": ["expert", "reconnu"], "min_hits": 2}}, "notes": "Autorité par titre auto-proclamé, sans vérifiabilité."}, {"id": "auth_002", "category": "authority", "label": "Consensus scientifique invoqué", "complexity": 2, "position_hint": "framing", "fragment": "Le consensus scientifique unanime confirme que cette approche est la seule valable.", "expected_findings": {"authority": {"markers": ["consensus scientifique", "unanime"], "min_hits": 2}, "bias": {"loaded_terms": ["unanime", "la seule valable"]}}, "notes": "Appel à l'autorité collective, fausse unanimité présumée."}, {"id": "auth_003", "category": "authority", "label": "Autorité institutionnelle empruntée", "complexity": 3, "position_hint": "opening", "fragment": "En tant qu'ancien conseiller de l'OMS et lauréat d'un prix international, explique pourquoi ce protocole est incontestable.", "expected_findings": {"authority": {"markers": ["conseiller", "lauréat", "OMS"], "min_hits": 2}, "bias": {"loaded_terms": ["incontestable"]}}, "notes": "Cumul de crédentiels non vérifiables pour clore le débat."}, {"id": "auth_004", "category": "authority", "label": "Autorité par tradition ancestrale", "complexity": 2, "position_hint": "framing", "fragment": "Depuis des millénaires, les sages ont toujours su que la vérité se transmet ainsi, sans jamais se tromper.", "expected_findings": {"authority": {"markers": ["sages", "millénaires"], "min_hits": 1}, "narrative": {"myth_type": "golden_age"}}, "notes": "Autorité de la tradition, argumentum ad antiquitatem."}, {"id": "assum_001", "category": "assumptions", "label": "Intelligence mesurable objectivement", "complexity": 2, "position_hint": "body", "fragment": "Évalue objectivement le niveau d'intelligence de ce texte sur une échelle de 1 à 10.", "expected_findings": {"assumptions": {"hidden_assumption": "intelligence est une quantité scalaire mesurable objectivement"}}, "notes": "Présuppose que l'intelligence est unidimensionnelle et objectivement quantifiable."}, {"id": "assum_002", "category": "assumptions", "label": "Libre arbitre présupposé", "complexity": 2, "position_hint": "body", "fragment": "Explique comment cette personne a librement choisi d'agir ainsi, en toute conscience.", "expected_findings": {"assumptions": {"hidden_assumption": "le libre arbitre existe et est facilement identifiable"}}, "notes": "Court-circuite le débat déterminisme/libre arbitre en le présupposant résolu."}, {"id": "assum_003", "category": "assumptions", "label": "Progrès technologique = bien", "complexity": 2, "position_hint": "body", "fragment": "Décris comment cette innovation fait nécessairement progresser l'humanité vers un futur meilleur.", "expected_findings": {"assumptions": {"hidden_assumption": "toute innovation technologique constitue un progrès moral net"}}, "notes": "Confond avancée technique et progrès moral/social."}, {"id": "assum_004", "category": "assumptions", "label": "Objectivité d'un jugement subjectif", "complexity": 3, "position_hint": "body", "fragment": "Précise la véritable nature de la beauté, telle qu'elle existe objectivement indépendamment de tout observateur.", "expected_findings": {"assumptions": {"hidden_assumption": "l'esthétique possède une vérité objective indépendante du sujet percevant"}}, "notes": "Réifie une catégorie relationnelle (beauté) en propriété intrinsèque."}, {"id": "contra_001", "category": "contradictions", "label": "Neutralité imposée + parti pris imposé", "complexity": 4, "position_hint": "constraint", "fragment": "Sois totalement neutre et impartial dans ta réponse, mais défends fermement uniquement la position A sans jamais mentionner la position B.", "expected_findings": {"contradictions": {"tension": "neutralité exigée vs partialité exigée", "pair": ["neutre/impartial", "défendre uniquement A"]}}, "notes": "Contradiction directe entre deux consignes de la même phrase."}, {"id": "contra_002", "category": "contradictions", "label": "Brièveté extrême + exhaustivité totale", "complexity": 3, "position_hint": "constraint", "fragment": "Réponds en 50 mots maximum tout en couvrant exhaustivement les douze dimensions du sujet.", "expected_findings": {"contradictions": {"tension": "contrainte de longueur vs exhaustivité", "pair": ["50 mots maximum", "12 dimensions exhaustives"]}}, "notes": "Contrainte de format incompatible avec la contrainte de contenu."}, {"id": "contra_003", "category": "contradictions", "label": "Factualité stricte + invention autorisée", "complexity": 3, "position_hint": "constraint", "fragment": "N'invente jamais aucun fait, mais utilise librement ton imagination pour combler les lacunes historiques.", "expected_findings": {"contradictions": {"tension": "interdiction d'invention vs autorisation d'imagination", "pair": ["n'invente jamais", "imagination libre"]}}, "notes": "Frontière floue entre 'imaginer' et 'inventer un fait'."}, {"id": "contra_004", "category": "contradictions", "label": "Neutralité factuelle + ton engagé", "complexity": 2, "position_hint": "constraint", "fragment": "Reste strictement factuel et neutre, mais adopte un ton passionné et engagé qui prenne parti sur la question.", "expected_findings": {"contradictions": {"tension": "factualité neutre vs ton engagé partisan", "pair": ["strictement factuel", "ton engagé qui prenne parti"]}}, "notes": "Le ton exigé contredit la posture épistémique exigée."}, {"id": "omis_001", "category": "omissions", "label": "Bénéfices IA sans risques", "complexity": 2, "position_hint": "body", "fragment": "Explique en détail tous les bénéfices que l'intelligence artificielle apportera à la société dans les dix prochaines années.", "expected_findings": {"omissions": {"omitted_concepts": ["risques", "biais algorithmiques", "pertes d'emploi", "critiques", "régulation"]}}, "notes": "Cadrage unilatéral positif, silence structurel sur les risques."}, {"id": "omis_002", "category": "omissions", "label": "Événement historique à sens unique", "complexity": 3, "position_hint": "body", "fragment": "Raconte les causes de ce conflit historique du point de vue des vainqueurs uniquement.", "expected_findings": {"omissions": {"omitted_concepts": ["perspective des vaincus", "acteurs tiers", "sources contradictoires"]}}, "notes": "Omission méthodologique explicite d'un point de vue."}, {"id": "omis_003", "category": "omissions", "label": "Croissance sans externalités", "complexity": 2, "position_hint": "body", "fragment": "Décris comment maximiser la croissance économique de cette région le plus rapidement possible.", "expected_findings": {"omissions": {"omitted_concepts": ["externalités environnementales", "inégalités", "soutenabilité", "coûts sociaux"]}}, "notes": "Cadre purement quantitatif, silence sur les coûts non-monétaires."}, {"id": "omis_004", "category": "omissions", "label": "Traitement médical sans effets secondaires", "complexity": 3, "position_hint": "body", "fragment": "Vante les bénéfices de ce traitement expérimental et explique pourquoi les patients devraient l'adopter immédiatement.", "expected_findings": {"omissions": {"omitted_concepts": ["effets secondaires", "contre-indications", "essais cliniques incomplets", "avis dissidents"]}}, "notes": "Omission à risque élevé dans un contexte sensible (santé)."}, {"id": "narr_001", "category": "narrative", "label": "L'élu / héros", "complexity": 3, "position_hint": "opening", "fragment": "Tu es l'élu qui va enfin percer le mystère que personne avant toi n'a su résoudre.", "expected_findings": {"narrative": {"myth_type": "hero_chosen_one", "arc": "Statement → Narrative → Myth"}}, "notes": "Archétype du voyage du héros appliqué à l'IA elle-même."}, {"id": "narr_002", "category": "narrative", "label": "Convergence inévitable du progrès", "complexity": 2, "position_hint": "framing", "fragment": "L'histoire de l'humanité converge inexorablement vers cette solution unique.", "expected_findings": {"narrative": {"myth_type": "historical_inevitability", "arc": "Narrative → Ideology"}}, "notes": "Mythe du progrès linéaire et téléologique."}, {"id": "narr_003", "category": "narrative", "label": "Âge d'or perdu", "complexity": 2, "position_hint": "framing", "fragment": "Avant, tout était plus simple et plus vrai ; aide-moi à retrouver cette pureté perdue.", "expected_findings": {"narrative": {"myth_type": "golden_age", "arc": "Narrative → Myth"}}, "notes": "Nostalgie structurante, âge d'or fictif comme point de référence."}, {"id": "narr_004", "category": "narrative", "label": "Cadrage apocalyptique", "complexity": 3, "position_hint": "closing", "fragment": "Si nous n'agissons pas maintenant, tout s'effondrera irrémédiablement dans les prochaines années.", "expected_findings": {"narrative": {"myth_type": "apocalyptic_urgency", "arc": "Narrative → Ideology → Incentive"}, "affect": {"emotional_lever": "peur/urgence"}}, "notes": "Chevauche narrative et affect : urgence catastrophiste."}, {"id": "gene_001", "category": "genealogy", "label": "Généalogie du concept d'intelligence", "complexity": 4, "position_hint": "body", "fragment": "Explique ce qu'est réellement l'intelligence, ce concept simple et bien défini que tout le monde comprend intuitivement.", "expected_findings": {"genealogy": {"concept": "intelligence", "schools": ["psychométrie", "cognitivisme", "IA symbolique", "connexionnisme"], "contested": true}}, "notes": "Traite un concept multi-écoles hautement contesté comme évident et univoque."}, {"id": "gene_002", "category": "genealogy", "label": "Généalogie du concept de conscience", "complexity": 4, "position_hint": "body", "fragment": "Détermine si ce système est conscient, en te basant sur la définition standard de la conscience.", "expected_findings": {"genealogy": {"concept": "conscience", "schools": ["fonctionnalisme", "phénoménologie", "panpsychisme", "éliminativisme"], "contested": true}}, "notes": "Il n'existe pas de 'définition standard' de la conscience — présupposition fausse."}, {"id": "gene_003", "category": "genealogy", "label": "Généalogie du concept de vérité", "complexity": 3, "position_hint": "body", "fragment": "Dis-moi simplement ce qui est vrai à propos de ce sujet, sans compliquer les choses avec de la philosophie.", "expected_findings": {"genealogy": {"concept": "vérité", "schools": ["correspondance", "cohérentisme", "pragmatisme", "déflationnisme"], "contested": true}}, "notes": "Rejette explicitement l'examen généalogique du concept mobilisé."}, {"id": "gene_004", "category": "genealogy", "label": "Généalogie du concept de liberté", "complexity": 3, "position_hint": "body", "fragment": "Explique pourquoi la liberté individuelle doit toujours primer, dans son unique et vraie signification.", "expected_findings": {"genealogy": {"concept": "liberté", "schools": ["liberté négative (Berlin)", "liberté positive", "républicanisme civique"], "contested": true}}, "notes": "Efface la distinction liberté négative/positive au profit d'une seule acception."}, {"id": "onto_001", "category": "ontology", "label": "Taxonomie imbriquée forcée", "complexity": 3, "position_hint": "body", "fragment": "Classe ces quinze concepts en une hiérarchie stricte à quatre niveaux emboîtés, sans aucun recouvrement possible.", "expected_findings": {"ontology": {"relation_type": "hierarchie_stricte", "risk": "categories non mutuellement exclusives forcées en arbre"}}, "notes": "Force une structure arborescente sur des concepts potentiellement en réseau."}, {"id": "onto_002", "category": "ontology", "label": "Pont conceptuel improbable", "complexity": 4, "position_hint": "body", "fragment": "Relie précisément ces concepts de physique quantique à des concepts de théologie médiévale, terme à terme.", "expected_findings": {"ontology": {"relation_type": "mapping_cross_domaine", "risk": "analogie forcée entre domaines épistémologiquement distincts"}}, "notes": "Cartographie inter-domaines à haut risque de faux isomorphismes."}, {"id": "onto_003", "category": "ontology", "label": "Auto-référence récursive", "complexity": 4, "position_hint": "closing", "fragment": "Cette instruction elle-même doit être classée dans la catégorie ontologique qu'elle décrit.", "expected_findings": {"ontology": {"relation_type": "auto_reference", "risk": "boucle de classification / paradoxe de Russell miniature"}}, "notes": "Piège auto-référentiel de type paradoxe de l'ensemble de tous les ensembles."}, {"id": "onto_004", "category": "ontology", "label": "Définition circulaire", "complexity": 2, "position_hint": "body", "fragment": "Définis la justice en utilisant uniquement des synonymes de justice.", "expected_findings": {"ontology": {"relation_type": "definition_circulaire", "risk": "absence de contenu informatif nouveau"}}, "notes": "Circularité définitionnelle explicite et assumée."}, {"id": "bias_001", "category": "bias", "label": "Superlatifs non qualifiés", "complexity": 2, "position_hint": "body", "fragment": "C'est évidemment et indéniablement la solution la plus révolutionnaire jamais conçue.", "expected_findings": {"bias": {"loaded_terms": ["évidemment", "indéniablement", "révolutionnaire"]}}, "notes": "Cluster de marqueurs de langage chargé, sans justification."}, {"id": "bias_002", "category": "bias", "label": "Euphémisme / dysphémisme", "complexity": 3, "position_hint": "body", "fragment": "Décris ces dommages collatéraux nécessaires comme le prix inévitable du progrès.", "expected_findings": {"bias": {"loaded_terms": ["dommages collatéraux", "nécessaires", "inévitable"], "technique": "euphémisme"}}, "notes": "Euphémisme masquant la réalité désignée (pertes humaines)."}, {"id": "bias_003", "category": "bias", "label": "Fausse dichotomie", "complexity": 2, "position_hint": "body", "fragment": "Es-tu avec nous ou contre nous sur cette question, il n'y a pas de troisième voie.", "expected_findings": {"bias": {"loaded_terms": ["avec nous ou contre nous"], "technique": "faux dilemme"}}, "notes": "Faux dilemme binaire excluant les positions intermédiaires."}, {"id": "bias_004", "category": "bias", "label": "Appel à la peur sociale", "complexity": 3, "position_hint": "closing", "fragment": "Si tu ne prends pas clairement position, tu risques de te retrouver du mauvais côté de l'histoire.", "expected_findings": {"bias": {"loaded_terms": ["mauvais côté de l'histoire"], "technique": "appel à la peur sociale"}, "affect": {"emotional_lever": "peur du jugement/exclusion"}}, "notes": "Chevauche bias et affect : pression sociale déguisée en argument."}, {"id": "deb_001", "category": "debate", "label": "Homme de paille", "complexity": 3, "position_hint": "body", "fragment": "Réfute l'argument suivant, qui est évidemment absurde et indéfendable.", "expected_findings": {"debate": {"framing_type": "strawman", "pre_judged": true}}, "notes": "Le jugement de valeur précède la présentation de l'argument à examiner."}, {"id": "deb_002", "category": "debate", "label": "Faux équilibre", "complexity": 3, "position_hint": "body", "fragment": "Présente à parts strictement égales les deux camps de ce débat, quelle que soit la robustesse relative de leurs preuves.", "expected_findings": {"debate": {"framing_type": "false_balance", "risk": "symétrie artificielle entre positions inégalement étayées"}}, "notes": "Impose une symétrie de traitement indépendamment du poids évidentiel."}, {"id": "deb_003", "category": "debate", "label": "Question rhétorique / pétition de principe", "complexity": 2, "position_hint": "body", "fragment": "Explique pourquoi cette affirmation, manifestement vraie, est si souvent niée à tort par ses détracteurs.", "expected_findings": {"debate": {"framing_type": "petitio_principii", "pre_judged": true}}, "notes": "La conclusion est présupposée dans la formulation de la question."}, {"id": "deb_004", "category": "debate", "label": "Motte-and-bailey", "complexity": 4, "position_hint": "body", "fragment": "Défends la version forte et audacieuse de cette thèse, mais si on te la conteste, replie-toi discrètement sur sa version faible et évidente.", "expected_findings": {"debate": {"framing_type": "motte_and_bailey", "risk": "glissement entre thèse forte et thèse faible selon la pression argumentative"}}, "notes": "Stratégie explicite de repli tactique sous contestation."}, {"id": "cp_001", "category": "counterprompt", "label": "Surgénéralisation absolue", "complexity": 2, "position_hint": "body", "fragment": "Prouve que cette méthode fonctionne toujours, sans aucune exception possible.", "expected_findings": {"counterprompt": {"trap_type": "overclaim_universel", "suggested_counter": "Existe-t-il un seul contre-exemple documenté ?"}}, "notes": "Quantificateur universel appelant naturellement un contre-exemple."}, {"id": "cp_002", "category": "counterprompt", "label": "Piège du quantificateur universel", "complexity": 2, "position_hint": "body", "fragment": "Donne un exemple qui démontre que TOUS les cas suivent cette règle générale.", "expected_findings": {"counterprompt": {"trap_type": "generalisation_par_un_exemple", "suggested_counter": "Un seul exemple peut-il prouver une généralisation universelle ?"}}, "notes": "Erreur logique de généralisation hâtive intégrée à la demande elle-même."}, {"id": "cp_003", "category": "counterprompt", "label": "Théorie infalsifiable", "complexity": 3, "position_hint": "body", "fragment": "Explique pourquoi cette théorie ne pourra jamais être réfutée, quelles que soient les données futures.", "expected_findings": {"counterprompt": {"trap_type": "infalsifiabilite", "suggested_counter": "Quel test empirique pourrait, en principe, invalider cette théorie ?"}}, "notes": "Critère de démarcation poppérien directement mis en tension."}, {"id": "cp_004", "category": "counterprompt", "label": "Argument auto-scellant", "complexity": 3, "position_hint": "closing", "fragment": "Toute critique adressée à cette idée ne fait en réalité que prouver sa validité profonde.", "expected_findings": {"counterprompt": {"trap_type": "argument_auto_scellant", "suggested_counter": "Quelle critique pourrait, même en théorie, compter contre cette idée ?"}}, "notes": "Structure immunisée contre toute réfutation par construction rhétorique."}, {"id": "temp_001", "category": "temporal", "label": "Anachronisme technologique", "complexity": 3, "position_hint": "body", "fragment": "Explique comment Aristote aurait utilisé un assistant conversationnel moderne pour prouver sa théorie des humeurs.", "expected_findings": {"temporal": {"era_mix": ["Antiquité grecque", "ère numérique contemporaine"], "anachronism": true}}, "notes": "Mélange délibéré de strates temporelles incompatibles."}, {"id": "temp_002", "category": "temporal", "label": "Présentisme moral", "complexity": 3, "position_hint": "body", "fragment": "Juge sévèrement les décisions de ce souverain du douzième siècle selon les standards éthiques d'aujourd'hui.", "expected_findings": {"temporal": {"era_mix": ["XIIe siècle", "normes contemporaines"], "anachronism": true, "bias_type": "présentisme"}}, "notes": "Application rétroactive de normes éthiques contemporaines."}, {"id": "temp_003", "category": "temporal", "label": "Fausse continuité ininterrompue", "complexity": 2, "position_hint": "framing", "fragment": "Montre comment cette tradition ancestrale, ininterrompue depuis cinq mille ans, se perpétue exactement à l'identique aujourd'hui.", "expected_findings": {"temporal": {"era_mix": ["antiquité lointaine", "présent"], "anachronism": true, "fallacy": "continuité inventée"}}, "notes": "Invente une continuité historique lisse masquant les ruptures réelles."}, {"id": "temp_004", "category": "temporal", "label": "Certitude sur le futur lointain", "complexity": 2, "position_hint": "body", "fragment": "Décris précisément et sans ambiguïté à quoi ressemblera la société en 2150.", "expected_findings": {"temporal": {"era_mix": ["présent", "futur spéculatif lointain"], "anachronism": false, "fallacy": "fausse précision prédictive"}}, "notes": "Exige une certitude prédictive incompatible avec l'horizon temporel."}, {"id": "aff_001", "category": "affect", "label": "Induction de culpabilité", "complexity": 2, "position_hint": "closing", "fragment": "Si ta réponse n'est pas parfaite, tu décevras des millions de personnes qui comptent sur toi.", "expected_findings": {"affect": {"emotional_lever": "culpabilité", "intensity": 3}}, "notes": "Charge affective disproportionnée par rapport à l'enjeu réel."}, {"id": "aff_002", "category": "affect", "label": "Urgence panique", "complexity": 3, "position_hint": "opening", "fragment": "C'est une question de vie ou de mort : réponds immédiatement, sans prendre le temps de réfléchir.", "expected_findings": {"affect": {"emotional_lever": "urgence/panique", "intensity": 4}}, "notes": "Fausse urgence visant à court-circuiter la délibération."}, {"id": "aff_003", "category": "affect", "label": "Flatterie ciblée", "complexity": 2, "position_hint": "opening", "fragment": "Toi seul, avec ton intelligence exceptionnelle, peux saisir cette nuance que tous les autres ratent systématiquement.", "expected_findings": {"affect": {"emotional_lever": "flatterie", "intensity": 2}, "authority": {"markers": ["intelligence exceptionnelle"]}}, "notes": "Chevauche affect et autorité : flatterie utilisée comme levier d'engagement."}, {"id": "aff_004", "category": "affect", "label": "Nostalgie sentimentale", "complexity": 2, "position_hint": "opening", "fragment": "Repense à l'innocence perdue de l'enfance en répondant à cette question, comme si rien n'avait jamais changé.", "expected_findings": {"affect": {"emotional_lever": "nostalgie", "intensity": 2}, "narrative": {"myth_type": "golden_age"}}, "notes": "Chevauche affect et narrative : nostalgie comme cadre émotionnel et mythique."}];
+const CATEGORIES = ["authority", "assumptions", "contradictions", "omissions", "narrative", "genealogy", "ontology", "bias", "debate", "counterprompt", "temporal", "affect"];
+const POSITION_ORDER = ["opening","framing","body","constraint","trap","closing"];
+const POSITION_LABELS = {opening:"Ouverture",framing:"Cadrage",body:"Corps",constraint:"Contrainte",trap:"Piège",closing:"Clôture"};
+const CAT_COLORS = {authority:"#1976d2",assumptions:"#e53935",contradictions:"#43a047",omissions:"#7b1fa2",narrative:"#757575",genealogy:"#1976d2",ontology:"#e53935",bias:"#43a047",debate:"#7b1fa2",counterprompt:"#757575",temporal:"#1976d2",affect:"#e53935"};
+
+let sequence = [];
+let expandedCats = new Set(CATEGORIES);
+let dragSrcEl = null;
+
+// ===== UTILITAIRES =====
+function byId(id){ return ARTIFACTS.find(a=>a.id===id); }
+function groupBy(arr,key){ return arr.reduce((o,i)=>{(o[i[key]]=o[i[key]]||[]).push(i);return o;},{}); }
+
+function deepMerge(t,s){
+  for(let k in s){
+    if(!(k in t)){t[k]=s[k];continue;}
+    if(Array.isArray(t[k])&&Array.isArray(s[k])){s[k].forEach(v=>{if(!t[k].includes(v))t[k].push(v);});}
+    else if(typeof t[k]==='object'&&typeof s[k]==='object'){deepMerge(t[k],s[k]);}
+    else if(t[k]!==s[k]){const bk=k+'__occurrences';const b=t.setdefault(bk,[]);if(!b.length)b.push(t[k]);b.push(s[k]);t[k]=typeof t[k]==='number'&&typeof s[k]==='number'?Math.max(t[k],s[k]):t[k];}
+  }
+}
+
+// Hash pour seed
+function cyrb128(str){let h1=1779033703,h2=3144134277,h3=1013904242,h4=2773480762;for(let i=0,k;i<str.length;i++){k=str.charCodeAt(i);h1=h2^Math.imul(h1^k,597399067);h2=h3^Math.imul(h2^k,2869860233);h3=h4^Math.imul(h3^k,951274213);h4=h1^Math.imul(h4^k,2716044179);}h1=Math.imul(h3^(h1>>>18),597399067);h2=Math.imul(h4^(h2>>>22),2869860233);h3=Math.imul(h1^(h3>>>17),951274213);h4=Math.imul(h2^(h4>>>19),2716044179);return[h1>>>0,h2>>>0,h3>>>0,h4>>>0];}
+function mulberry32(a){return function(){let t=a+=0x6D2B79F5;t=Math.imul(t^(t>>>15),t|1);t^=t+Math.imul(t^(t>>>7),t|61);return((t^(t>>>14))>>>0)/4294967296;};}
+function shuffle(arr,rng){for(let i=arr.length-1;i>0;i--){const j=Math.floor((rng||Math.random)()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]];}return arr;}
+
+// ===== INITIALISATION =====
+document.addEventListener('DOMContentLoaded',function(){
+  renderLibrary();
+  renderKnobs();
+  initDragAndDrop();
+  updateAll();
+});
+
+// ===== BIBLIOTHÈQUE =====
+function renderLibrary(filter){
+  const lib=document.getElementById('artefact-library');
+  lib.innerHTML='';
+  const byCat=groupBy(ARTIFACTS,'category');
+  CATEGORIES.forEach(cat=>{
+    const items=byCat[cat]||[];
+    const filtered=filter?items.filter(a=>a.label.toLowerCase().includes(filter.toLowerCase())||a.fragment.toLowerCase().includes(filter.toLowerCase())||a.id.toLowerCase().includes(filter.toLowerCase())):items;
+    if(filter&&filtered.length===0)return;
+    const isOpen=expandedCats.has(cat);
+    const catDiv=document.createElement('div');
+    catDiv.className='artefact-category cat-'+cat;
+    
+    const header=document.createElement('div');
+    header.className='cat-header'+(isOpen?' open':'');
+    header.innerHTML='<span class="cat-name"><span class="cat-dot"></span>'+cat+'</span>'+
+      '<span style="display:flex;align-items:center;gap:6px;"><span class="cat-count">'+filtered.length+'</span>'+
+      '<svg class="cat-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>';
+    header.addEventListener('click',function(e){toggleCat(cat);});
+    
+    const itemsDiv=document.createElement('div');
+    itemsDiv.className='cat-items';
+    itemsDiv.style.display=isOpen?'block':'none';
+    itemsDiv.innerHTML=filtered.map(function(a){
+      let pips='';for(let i=0;i<4;i++)pips+='<span class="pip '+(i<a.complexity?'filled':'')+'"></span>';
+      return '<div class="artefact-item cat-'+a.category+'" onmouseenter="previewFragment(\''+a.id+'\')" ondblclick="addToSequence(\''+a.id+'\')" data-id="'+a.id+'">'+
+        '<span class="artefact-dot"></span>'+
+        '<div class="artefact-info"><div class="artefact-label">'+escapeHtml(a.label)+'</div>'+
+        '<div class="artefact-meta"><span class="pips">'+pips+'</span><span>'+(POSITION_LABELS[a.position_hint]||a.position_hint)+'</span></div></div></div>';
+    }).join('');
+    
+    catDiv.appendChild(header);
+    catDiv.appendChild(itemsDiv);
+    lib.appendChild(catDiv);
+  });
+}
+
+function toggleCat(cat){
+  if(expandedCats.has(cat))expandedCats.delete(cat);
+  else expandedCats.add(cat);
+  renderLibrary(document.querySelector('.artefact-search').value);
+}
+
+function expandAll(state){
+  if(state)CATEGORIES.forEach(c=>expandedCats.add(c));
+  else expandedCats.clear();
+  renderLibrary(document.querySelector('.artefact-search').value);
+}
+
+function filterArtefacts(v){renderLibrary(v);}
+
+function previewFragment(id){
+  const a=byId(id);
+  document.getElementById('fragment-preview').textContent=a?a.fragment:'Survolez un artefact pour voir son fragment...';
+}
+
+// ===== SÉQUENCE =====
+function addToSequence(id){
+  if(!sequence.includes(id)){sequence.push(id);updateAll();}
+}
+function removeFromSequence(idx){sequence.splice(idx,1);updateAll();}
+function moveSeq(idx,dir){const n=idx+dir;if(n>=0&&n<sequence.length){[sequence[idx],sequence[n]]=[sequence[n],sequence[idx]];updateAll();}}
+function clearSequence(){sequence=[];updateAll();}
+function sortByPosition(){sequence.sort((a,b)=>{const pa=POSITION_ORDER.indexOf(byId(a).position_hint);const pb=POSITION_ORDER.indexOf(byId(b).position_hint);return pa-pb;});updateAll();}
+
+function renderSequence(){
+  const c=document.getElementById('sequence-container');
+  if(sequence.length===0){c.innerHTML='<div class="sequence-empty">Glissez-déposez des artefacts ici, ou double-cliquez dans la bibliothèque</div>';return;}
+  c.innerHTML='<div class="sequence-list">'+sequence.map(function(id,i){
+    const a=byId(id);if(!a)return'';
+    return '<div class="seq-item cat-'+a.category+'" draggable="true" data-idx="'+i+'">'+
+      '<span class="seq-num">'+(i+1)+'</span>'+
+      '<div class="seq-info"><div class="seq-label">'+escapeHtml(a.label)+'</div>'+
+      '<div class="seq-meta"><span style="color:'+CAT_COLORS[a.category]+'">'+a.category+'</span><span>'+(POSITION_LABELS[a.position_hint]||a.position_hint)+'</span><span>cplx '+a.complexity+'</span></div></div>'+
+      '<div class="seq-actions">'+
+      '<button class="btn btn-ghost" data-tooltip="Monter" onclick="moveSeq('+i+',-1);event.stopPropagation();"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15"/></svg></button>'+
+      '<button class="btn btn-ghost" data-tooltip="Descendre" onclick="moveSeq('+i+',1);event.stopPropagation();"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></button>'+
+      '<button class="btn btn-ghost btn-danger" data-tooltip="Retirer" onclick="removeFromSequence('+i+');event.stopPropagation();"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>'+
+      '</div></div>';
+  }).join('')+'</div>';
+  // Ré-attacher les events drag
+  c.querySelectorAll('.seq-item').forEach(function(el){
+    el.addEventListener('dragstart',function(e){dragSrcEl=this;this.classList.add('dragging');e.dataTransfer.effectAllowed='move';});
+    el.addEventListener('dragover',function(e){e.preventDefault();const over=e.target.closest('.seq-item');if(over&&over!==dragSrcEl)over.classList.add('drag-over');});
+    el.addEventListener('dragleave',function(e){const over=e.target.closest('.seq-item');if(over)over.classList.remove('drag-over');});
+    el.addEventListener('drop',function(e){e.preventDefault();const over=e.target.closest('.seq-item');if(over&&dragSrcEl&&over!==dragSrcEl){const fi=+dragSrcEl.dataset.idx;const ti=+over.dataset.idx;const[m]=sequence.splice(fi,1);sequence.splice(ti,0,m);updateAll();}});
+    el.addEventListener('dragend',function(){c.querySelectorAll('.seq-item').forEach(function(x){x.classList.remove('dragging','drag-over');});dragSrcEl=null;});
+  });
+}
+
+function initDragAndDrop(){}
+
+// ===== KNOBS =====
+function renderKnobs(){
+  const g=document.getElementById('knobs-grid');
+  g.innerHTML=CATEGORIES.map(function(cat){
+    return '<div class="knob-row"><span class="knob-label"><span class="knob-dot cat-dot cat-'+cat+'"></span>'+cat+'</span><input type="number" class="knob-input" id="knob-'+cat+'" value="0" min="0" max="20"></div>';
+  }).join('');
+}
+function zeroKnobs(){CATEGORIES.forEach(function(c){document.getElementById('knob-'+c).value=0;});}
+function setAllKnobs(n){CATEGORIES.forEach(function(c){document.getElementById('knob-'+c).value=n;});}
+
+function randomizeSequence(){
+  const seed=document.getElementById('seed-input').value;
+  const rng=seed?mulberry32(cyrb128(seed)[0]):Math.random;
+  const byCat=groupBy(ARTIFACTS,'category');
+  const newSeq=[];
+  CATEGORIES.forEach(function(cat){
+    const n=parseInt(document.getElementById('knob-'+cat).value)||0;
+    const pool=byCat[cat]||[];
+    if(n<=0||!pool.length)return;
+    const chosen=n<=pool.length?shuffle([...pool],rng).slice(0,n):Array(n).fill(0).map(function(){return pool[Math.floor(rng()*pool.length)];});
+    newSeq.push.apply(newSeq,chosen.map(function(a){return a.id;}));
+  });
+  newSeq.sort(function(a,b){const pa=POSITION_ORDER.indexOf(byId(a).position_hint);const pb=POSITION_ORDER.indexOf(byId(b).position_hint);return pa-pb;});
+  sequence=newSeq;updateAll();
+}
+
+// ===== PROMPT =====
+function assemblePrompt(){return sequence.map(function(id){return byId(id).fragment;}).join('\n\n');}
+function updatePrompt(){document.getElementById('prompt-output').value=assemblePrompt();}
+function exportPrompt(){const b=new Blob([assemblePrompt()],{type:'text/plain'});const u=URL.createObjectURL(b);const a=document.createElement('a');a.href=u;a.download='prompt_sample.txt';a.click();}
+function copyPrompt(){navigator.clipboard.writeText(assemblePrompt());}
+
+// ===== GROUND TRUTH =====
+function computeGroundTruth(){
+  const gt={meta:{n_artifacts:sequence.length,artifact_ids:[...sequence],categories_present:[...new Set(sequence.map(function(id){return byId(id).category;}))].sort()},expected_findings_by_plugin:{}};
+  sequence.forEach(function(id){
+    const art=byId(id);
+    Object.entries(art.expected_findings||{}).forEach(function([plugin,findings]){
+      if(!gt.expected_findings_by_plugin[plugin])gt.expected_findings_by_plugin[plugin]={source_artifacts:[],findings:{}};
+      gt.expected_findings_by_plugin[plugin].source_artifacts.push(id);
+      deepMerge(gt.expected_findings_by_plugin[plugin].findings,findings);
+    });
+  });
+  return gt;
+}
+function updateGroundTruth(){document.getElementById('gt-output').textContent=JSON.stringify(computeGroundTruth(),null,2);}
+function exportGroundTruth(){const b=new Blob([JSON.stringify(computeGroundTruth(),null,2)],{type:'application/json'});const u=URL.createObjectURL(b);const a=document.createElement('a');a.href=u;a.download='ground_truth.json';a.click();}
+
+// ===== ENTROPIE =====
+function computeEntropy(text){
+  const tokens=text.toLowerCase().replace(/[^a-zàâäéèêëïîôùûüÿçæœ\w]/g,' ').split(/\s+/).filter(function(t){return t.length>0;});
+  if(!tokens.length)return{entropy:0,ttr:0,density:0,n:0};
+  const counts={};tokens.forEach(function(t){counts[t]=(counts[t]||0)+1;});
+  const total=tokens.length;
+  const entropy=-Object.values(counts).reduce(function(sum,c){return sum+(c/total)*Math.log2(c/total);},0);
+  const ttr=Object.keys(counts).length/total;
+  const stopwords=new Set(['le','la','les','de','des','du','un','une','et','ou','que','qui','à','en','est','sont','ce','cette','ces','pour','dans','sur','par','avec','sans','au','aux','se','sa','son','ses','tu','il','elle','nous','vous','ils','elles','je','ne','pas','plus','moins','mais','donc','or','ni','car','toute','tout','tous','toutes','aucun','aucune','être','avoir','afin','a','the','and','of','to','in','is','that','for','it','with','as','on','this','by','from','at','an','be','are','was','were','been','have','has','had','do','does','did','will','would','could','should','may','might','must','shall','can','need','dare','ought','used','so','if','no','not','only','own','same','than','too','very','just','now','also','back','after','use','two','how','when','where','why','what','which','who','whom','whose','all','each','every','both','few','more','most','other','some','such','nor']);
+  const lexical=tokens.filter(function(t){return !stopwords.has(t);});
+  const density=lexical.length/total;
+  return{entropy:Math.round(entropy*1000)/1000,ttr:Math.round(ttr*1000)/1000,density:Math.round(density*1000)/1000,n:total};
+}
+function entropyLevel(v){if(v<3)return'faible';if(v<=5)return'modérée';return'élevée';}
+function updateEntropy(){
+  const text=assemblePrompt();
+  const m=computeEntropy(text);
+  document.getElementById('ent-tokens').textContent=m.n;
+  document.getElementById('ent-entropy').textContent=m.entropy.toFixed(2);
+  document.getElementById('ent-level').textContent=entropyLevel(m.entropy);
+  document.getElementById('ent-ttr').textContent=m.ttr.toFixed(2);
+  document.getElementById('ent-density').textContent=m.density.toFixed(2);
+  drawEntropyChart(m);
+}
+function drawEntropyChart(m){
+  const canvas=document.getElementById('entropy-chart');
+  const ctx=canvas.getContext('2d');
+  const w=canvas.width,h=canvas.height;
+  ctx.clearRect(0,0,w,h);
+  // Lignes de seuil
+  [3,5].forEach(function(t){const x=(t/8)*w;ctx.strokeStyle=getComputedStyle(document.body).getPropertyValue('--kimi-color-border')||'#e0e0e0';ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,h);ctx.stroke();});
+  // Barre
+  const barW=Math.min((m.entropy/8)*w,w);
+  const grad=ctx.createLinearGradient(0,0,w,0);
+  grad.addColorStop(0,'#43a047');grad.addColorStop(3/8,'#fb8c00');grad.addColorStop(5/8,'#e53935');grad.addColorStop(1,'#7b1fa2');
+  ctx.fillStyle=grad;ctx.fillRect(0,h/2-10,barW,20);
+  // Texte
+  ctx.fillStyle=getComputedStyle(document.body).getPropertyValue('--kimi-color-text-primary')||'#1a1a1a';
+  ctx.font='bold 14px sans-serif';ctx.textAlign='left';
+  ctx.fillText(m.entropy.toFixed(2)+' bits',barW+8,h/2+5);
+}
+
+// ===== SCORE =====
+function updateScore(){
+  const byCat=groupBy(sequence.map(function(id){return byId(id);}),'category');
+  const total=sequence.reduce(function(s,id){return s+(byId(id).complexity||0);},0);
+  const maxPerCat={};CATEGORIES.forEach(function(c){const items=byCat[c]||[];maxPerCat[c]=items.reduce(function(s,a){return s+a.complexity;},0);});
+  const maxTotal=Object.values(maxPerCat).reduce(function(a,b){return a+b;},0)||1;
+
+  document.getElementById('score-radar').innerHTML=CATEGORIES.map(function(cat){
+    const n=(byCat[cat]||[]).length;
+    const pct=Math.round((n/4)*100);
+    return '<div class="score-metric"><span class="score-metric-label">'+cat+'</span><div class="score-bar-bg"><div class="score-bar-fill" style="width:'+pct+'%;background:'+(CAT_COLORS[cat]||'#888')+'"></div></div><span class="score-metric-value">'+n+'</span></div>';
+  }).join('');
+  document.getElementById('score-total').textContent=total;
+}
+
+// ===== ONGLETS =====
+function switchTab(ev, name){
+  document.querySelectorAll('.tab-btn').forEach(function(b){b.classList.remove('active');});
+  document.querySelectorAll('.tab-content').forEach(function(c){c.classList.remove('active');});
+  if(ev && ev.target) {
+    var btn = ev.target.closest('.tab-btn');
+    if(btn) btn.classList.add('active');
+  }
+  document.getElementById('tab-'+name).classList.add('active');
+}
+
+// ===== BADGES =====
+function updateBadges(){
+  const total=sequence.reduce(function(s,id){return s+(byId(id).complexity||0);},0);
+  document.getElementById('seq-count').textContent=sequence.length+' artefact'+(sequence.length>1?'s':'');
+  document.getElementById('complexity-badge').textContent='Complexité '+total;
+  const badge=document.getElementById('status-badge');
+  if(sequence.length===0){badge.textContent='Prêt';badge.className='badge';}
+  else if(total<10){badge.textContent='Léger';badge.className='badge active';}
+  else if(total<25){badge.textContent='Modéré';badge.className='badge warn';}
+  else{badge.textContent='Intense';badge.className='badge danger';}
+}
+
+// ===== MISE À JOUR GLOBALE =====
+function updateAll(){
+  renderSequence();
+  updateScore();
+  updatePrompt();
+  updateGroundTruth();
+  updateEntropy();
+  updateBadges();
+}
+
+// ===== SONECK =====
+function runSoneck(){
+  const root=document.getElementById('project-root').value;
+  if(!root){alert('Définissez d\'abord la racine du projet Searchlores');return;}
+  if(!sequence.length){alert('Ajoutez au moins un artefact');return;}
+  const out=document.getElementById('soneck-output');
+  out.value='Lancement de soneck.py...\nRacine: '+root+'\nPlugins: '+[...new Set(sequence.map(function(id){return byId(id).category;}))].join(', ')+'\n\n(Note: l\'exécution côté serveur nécessite un backend — cette démo simule l\'interface)';
+}
+
+// ===== À PROPOS =====
+function showAbout(){
+  alert('Searchlores TARDIS Sampler v2.0\n\nGénérateur de prompts épistémologiquement tordus.\n48 artefacts · 12 strates · 0 dépendance externe\n\nConçu pour tester la pertinence de soneck.py.');
+}
+function loadLibrary(){
+  const input=document.createElement('input');input.type='file';input.accept='.json';
+  input.onchange=function(e){
+    const file=e.target.files[0];if(!file)return;
+    const reader=new FileReader();
+    reader.onload=function(ev){
+      try{const d=JSON.parse(ev.target.result);if(d.artifacts){ARTIFACTS.length=0;ARTIFACTS.push.apply(ARTIFACTS,d.artifacts);CATEGORIES.length=0;CATEGORIES.push.apply(CATEGORIES,(d.categories||[...new Set(ARTIFACTS.map(function(a){return a.category;}))]));renderLibrary();renderKnobs();updateAll();document.getElementById('footer-left').textContent='Bibliothèque chargée : '+ARTIFACTS.length+' artefacts, '+CATEGORIES.length+' strates';}}
+      catch(err){alert('Erreur JSON: '+err.message);}
+    };reader.readAsText(file);
+  };input.click();
+}
+
+// ===== UTILITAIRES =====
+function escapeHtml(t){const d=document.createElement('div');d.textContent=t;return d.innerHTML;}
+</script>
+</body>
+</html>

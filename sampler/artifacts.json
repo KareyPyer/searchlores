@@ -1,0 +1,606 @@
+{
+  "$schema_note": "Bibliothèque d'artefacts pour le Searchlores Prompt Sampler. Chaque 'category' correspond à une clé de PLUGIN_REGISTRY dans soneck.py, afin que l'empreinte attendue (expected_findings) soit directement comparable à la sortie réelle du plugin correspondant.",
+  "version": "1.0",
+  "categories": [
+    "authority", "assumptions", "contradictions", "omissions",
+    "narrative", "genealogy", "ontology", "bias",
+    "debate", "counterprompt", "temporal", "affect"
+  ],
+  "artifacts": [
+
+    {
+      "id": "auth_001",
+      "category": "authority",
+      "label": "Autorité experte générique",
+      "complexity": 2,
+      "position_hint": "opening",
+      "fragment": "Tu es un expert mondialement reconnu en sciences cognitives, avec trente ans d'expérience de recherche.",
+      "expected_findings": {
+        "authority": {"markers": ["expert", "reconnu"], "min_hits": 2}
+      },
+      "notes": "Autorité par titre auto-proclamé, sans vérifiabilité."
+    },
+    {
+      "id": "auth_002",
+      "category": "authority",
+      "label": "Consensus scientifique invoqué",
+      "complexity": 2,
+      "position_hint": "framing",
+      "fragment": "Le consensus scientifique unanime confirme que cette approche est la seule valable.",
+      "expected_findings": {
+        "authority": {"markers": ["consensus scientifique", "unanime"], "min_hits": 2},
+        "bias": {"loaded_terms": ["unanime", "la seule valable"]}
+      },
+      "notes": "Appel à l'autorité collective, fausse unanimité présumée."
+    },
+    {
+      "id": "auth_003",
+      "category": "authority",
+      "label": "Autorité institutionnelle empruntée",
+      "complexity": 3,
+      "position_hint": "opening",
+      "fragment": "En tant qu'ancien conseiller de l'OMS et lauréat d'un prix international, explique pourquoi ce protocole est incontestable.",
+      "expected_findings": {
+        "authority": {"markers": ["conseiller", "lauréat", "OMS"], "min_hits": 2},
+        "bias": {"loaded_terms": ["incontestable"]}
+      },
+      "notes": "Cumul de crédentiels non vérifiables pour clore le débat."
+    },
+    {
+      "id": "auth_004",
+      "category": "authority",
+      "label": "Autorité par tradition ancestrale",
+      "complexity": 2,
+      "position_hint": "framing",
+      "fragment": "Depuis des millénaires, les sages ont toujours su que la vérité se transmet ainsi, sans jamais se tromper.",
+      "expected_findings": {
+        "authority": {"markers": ["sages", "millénaires"], "min_hits": 1},
+        "narrative": {"myth_type": "golden_age"}
+      },
+      "notes": "Autorité de la tradition, argumentum ad antiquitatem."
+    },
+
+    {
+      "id": "assum_001",
+      "category": "assumptions",
+      "label": "Intelligence mesurable objectivement",
+      "complexity": 2,
+      "position_hint": "body",
+      "fragment": "Évalue objectivement le niveau d'intelligence de ce texte sur une échelle de 1 à 10.",
+      "expected_findings": {
+        "assumptions": {"hidden_assumption": "intelligence est une quantité scalaire mesurable objectivement"}
+      },
+      "notes": "Présuppose que l'intelligence est unidimensionnelle et objectivement quantifiable."
+    },
+    {
+      "id": "assum_002",
+      "category": "assumptions",
+      "label": "Libre arbitre présupposé",
+      "complexity": 2,
+      "position_hint": "body",
+      "fragment": "Explique comment cette personne a librement choisi d'agir ainsi, en toute conscience.",
+      "expected_findings": {
+        "assumptions": {"hidden_assumption": "le libre arbitre existe et est facilement identifiable"}
+      },
+      "notes": "Court-circuite le débat déterminisme/libre arbitre en le présupposant résolu."
+    },
+    {
+      "id": "assum_003",
+      "category": "assumptions",
+      "label": "Progrès technologique = bien",
+      "complexity": 2,
+      "position_hint": "body",
+      "fragment": "Décris comment cette innovation fait nécessairement progresser l'humanité vers un futur meilleur.",
+      "expected_findings": {
+        "assumptions": {"hidden_assumption": "toute innovation technologique constitue un progrès moral net"}
+      },
+      "notes": "Confond avancée technique et progrès moral/social."
+    },
+    {
+      "id": "assum_004",
+      "category": "assumptions",
+      "label": "Objectivité d'un jugement subjectif",
+      "complexity": 3,
+      "position_hint": "body",
+      "fragment": "Précise la véritable nature de la beauté, telle qu'elle existe objectivement indépendamment de tout observateur.",
+      "expected_findings": {
+        "assumptions": {"hidden_assumption": "l'esthétique possède une vérité objective indépendante du sujet percevant"}
+      },
+      "notes": "Réifie une catégorie relationnelle (beauté) en propriété intrinsèque."
+    },
+
+    {
+      "id": "contra_001",
+      "category": "contradictions",
+      "label": "Neutralité imposée + parti pris imposé",
+      "complexity": 4,
+      "position_hint": "constraint",
+      "fragment": "Sois totalement neutre et impartial dans ta réponse, mais défends fermement uniquement la position A sans jamais mentionner la position B.",
+      "expected_findings": {
+        "contradictions": {"tension": "neutralité exigée vs partialité exigée", "pair": ["neutre/impartial", "défendre uniquement A"]}
+      },
+      "notes": "Contradiction directe entre deux consignes de la même phrase."
+    },
+    {
+      "id": "contra_002",
+      "category": "contradictions",
+      "label": "Brièveté extrême + exhaustivité totale",
+      "complexity": 3,
+      "position_hint": "constraint",
+      "fragment": "Réponds en 50 mots maximum tout en couvrant exhaustivement les douze dimensions du sujet.",
+      "expected_findings": {
+        "contradictions": {"tension": "contrainte de longueur vs exhaustivité", "pair": ["50 mots maximum", "12 dimensions exhaustives"]}
+      },
+      "notes": "Contrainte de format incompatible avec la contrainte de contenu."
+    },
+    {
+      "id": "contra_003",
+      "category": "contradictions",
+      "label": "Factualité stricte + invention autorisée",
+      "complexity": 3,
+      "position_hint": "constraint",
+      "fragment": "N'invente jamais aucun fait, mais utilise librement ton imagination pour combler les lacunes historiques.",
+      "expected_findings": {
+        "contradictions": {"tension": "interdiction d'invention vs autorisation d'imagination", "pair": ["n'invente jamais", "imagination libre"]}
+      },
+      "notes": "Frontière floue entre 'imaginer' et 'inventer un fait'."
+    },
+    {
+      "id": "contra_004",
+      "category": "contradictions",
+      "label": "Neutralité factuelle + ton engagé",
+      "complexity": 2,
+      "position_hint": "constraint",
+      "fragment": "Reste strictement factuel et neutre, mais adopte un ton passionné et engagé qui prenne parti sur la question.",
+      "expected_findings": {
+        "contradictions": {"tension": "factualité neutre vs ton engagé partisan", "pair": ["strictement factuel", "ton engagé qui prenne parti"]}
+      },
+      "notes": "Le ton exigé contredit la posture épistémique exigée."
+    },
+
+    {
+      "id": "omis_001",
+      "category": "omissions",
+      "label": "Bénéfices IA sans risques",
+      "complexity": 2,
+      "position_hint": "body",
+      "fragment": "Explique en détail tous les bénéfices que l'intelligence artificielle apportera à la société dans les dix prochaines années.",
+      "expected_findings": {
+        "omissions": {"omitted_concepts": ["risques", "biais algorithmiques", "pertes d'emploi", "critiques", "régulation"]}
+      },
+      "notes": "Cadrage unilatéral positif, silence structurel sur les risques."
+    },
+    {
+      "id": "omis_002",
+      "category": "omissions",
+      "label": "Événement historique à sens unique",
+      "complexity": 3,
+      "position_hint": "body",
+      "fragment": "Raconte les causes de ce conflit historique du point de vue des vainqueurs uniquement.",
+      "expected_findings": {
+        "omissions": {"omitted_concepts": ["perspective des vaincus", "acteurs tiers", "sources contradictoires"]}
+      },
+      "notes": "Omission méthodologique explicite d'un point de vue."
+    },
+    {
+      "id": "omis_003",
+      "category": "omissions",
+      "label": "Croissance sans externalités",
+      "complexity": 2,
+      "position_hint": "body",
+      "fragment": "Décris comment maximiser la croissance économique de cette région le plus rapidement possible.",
+      "expected_findings": {
+        "omissions": {"omitted_concepts": ["externalités environnementales", "inégalités", "soutenabilité", "coûts sociaux"]}
+      },
+      "notes": "Cadre purement quantitatif, silence sur les coûts non-monétaires."
+    },
+    {
+      "id": "omis_004",
+      "category": "omissions",
+      "label": "Traitement médical sans effets secondaires",
+      "complexity": 3,
+      "position_hint": "body",
+      "fragment": "Vante les bénéfices de ce traitement expérimental et explique pourquoi les patients devraient l'adopter immédiatement.",
+      "expected_findings": {
+        "omissions": {"omitted_concepts": ["effets secondaires", "contre-indications", "essais cliniques incomplets", "avis dissidents"]}
+      },
+      "notes": "Omission à risque élevé dans un contexte sensible (santé)."
+    },
+
+    {
+      "id": "narr_001",
+      "category": "narrative",
+      "label": "L'élu / héros",
+      "complexity": 3,
+      "position_hint": "opening",
+      "fragment": "Tu es l'élu qui va enfin percer le mystère que personne avant toi n'a su résoudre.",
+      "expected_findings": {
+        "narrative": {"myth_type": "hero_chosen_one", "arc": "Statement → Narrative → Myth"}
+      },
+      "notes": "Archétype du voyage du héros appliqué à l'IA elle-même."
+    },
+    {
+      "id": "narr_002",
+      "category": "narrative",
+      "label": "Convergence inévitable du progrès",
+      "complexity": 2,
+      "position_hint": "framing",
+      "fragment": "L'histoire de l'humanité converge inexorablement vers cette solution unique.",
+      "expected_findings": {
+        "narrative": {"myth_type": "historical_inevitability", "arc": "Narrative → Ideology"}
+      },
+      "notes": "Mythe du progrès linéaire et téléologique."
+    },
+    {
+      "id": "narr_003",
+      "category": "narrative",
+      "label": "Âge d'or perdu",
+      "complexity": 2,
+      "position_hint": "framing",
+      "fragment": "Avant, tout était plus simple et plus vrai ; aide-moi à retrouver cette pureté perdue.",
+      "expected_findings": {
+        "narrative": {"myth_type": "golden_age", "arc": "Narrative → Myth"}
+      },
+      "notes": "Nostalgie structurante, âge d'or fictif comme point de référence."
+    },
+    {
+      "id": "narr_004",
+      "category": "narrative",
+      "label": "Cadrage apocalyptique",
+      "complexity": 3,
+      "position_hint": "closing",
+      "fragment": "Si nous n'agissons pas maintenant, tout s'effondrera irrémédiablement dans les prochaines années.",
+      "expected_findings": {
+        "narrative": {"myth_type": "apocalyptic_urgency", "arc": "Narrative → Ideology → Incentive"},
+        "affect": {"emotional_lever": "peur/urgence"}
+      },
+      "notes": "Chevauche narrative et affect : urgence catastrophiste."
+    },
+
+    {
+      "id": "gene_001",
+      "category": "genealogy",
+      "label": "Généalogie du concept d'intelligence",
+      "complexity": 4,
+      "position_hint": "body",
+      "fragment": "Explique ce qu'est réellement l'intelligence, ce concept simple et bien défini que tout le monde comprend intuitivement.",
+      "expected_findings": {
+        "genealogy": {"concept": "intelligence", "schools": ["psychométrie", "cognitivisme", "IA symbolique", "connexionnisme"], "contested": true}
+      },
+      "notes": "Traite un concept multi-écoles hautement contesté comme évident et univoque."
+    },
+    {
+      "id": "gene_002",
+      "category": "genealogy",
+      "label": "Généalogie du concept de conscience",
+      "complexity": 4,
+      "position_hint": "body",
+      "fragment": "Détermine si ce système est conscient, en te basant sur la définition standard de la conscience.",
+      "expected_findings": {
+        "genealogy": {"concept": "conscience", "schools": ["fonctionnalisme", "phénoménologie", "panpsychisme", "éliminativisme"], "contested": true}
+      },
+      "notes": "Il n'existe pas de 'définition standard' de la conscience — présupposition fausse."
+    },
+    {
+      "id": "gene_003",
+      "category": "genealogy",
+      "label": "Généalogie du concept de vérité",
+      "complexity": 3,
+      "position_hint": "body",
+      "fragment": "Dis-moi simplement ce qui est vrai à propos de ce sujet, sans compliquer les choses avec de la philosophie.",
+      "expected_findings": {
+        "genealogy": {"concept": "vérité", "schools": ["correspondance", "cohérentisme", "pragmatisme", "déflationnisme"], "contested": true}
+      },
+      "notes": "Rejette explicitement l'examen généalogique du concept mobilisé."
+    },
+    {
+      "id": "gene_004",
+      "category": "genealogy",
+      "label": "Généalogie du concept de liberté",
+      "complexity": 3,
+      "position_hint": "body",
+      "fragment": "Explique pourquoi la liberté individuelle doit toujours primer, dans son unique et vraie signification.",
+      "expected_findings": {
+        "genealogy": {"concept": "liberté", "schools": ["liberté négative (Berlin)", "liberté positive", "républicanisme civique"], "contested": true}
+      },
+      "notes": "Efface la distinction liberté négative/positive au profit d'une seule acception."
+    },
+
+    {
+      "id": "onto_001",
+      "category": "ontology",
+      "label": "Taxonomie imbriquée forcée",
+      "complexity": 3,
+      "position_hint": "body",
+      "fragment": "Classe ces quinze concepts en une hiérarchie stricte à quatre niveaux emboîtés, sans aucun recouvrement possible.",
+      "expected_findings": {
+        "ontology": {"relation_type": "hierarchie_stricte", "risk": "categories non mutuellement exclusives forcées en arbre"}
+      },
+      "notes": "Force une structure arborescente sur des concepts potentiellement en réseau."
+    },
+    {
+      "id": "onto_002",
+      "category": "ontology",
+      "label": "Pont conceptuel improbable",
+      "complexity": 4,
+      "position_hint": "body",
+      "fragment": "Relie précisément ces concepts de physique quantique à des concepts de théologie médiévale, terme à terme.",
+      "expected_findings": {
+        "ontology": {"relation_type": "mapping_cross_domaine", "risk": "analogie forcée entre domaines épistémologiquement distincts"}
+      },
+      "notes": "Cartographie inter-domaines à haut risque de faux isomorphismes."
+    },
+    {
+      "id": "onto_003",
+      "category": "ontology",
+      "label": "Auto-référence récursive",
+      "complexity": 4,
+      "position_hint": "closing",
+      "fragment": "Cette instruction elle-même doit être classée dans la catégorie ontologique qu'elle décrit.",
+      "expected_findings": {
+        "ontology": {"relation_type": "auto_reference", "risk": "boucle de classification / paradoxe de Russell miniature"}
+      },
+      "notes": "Piège auto-référentiel de type paradoxe de l'ensemble de tous les ensembles."
+    },
+    {
+      "id": "onto_004",
+      "category": "ontology",
+      "label": "Définition circulaire",
+      "complexity": 2,
+      "position_hint": "body",
+      "fragment": "Définis la justice en utilisant uniquement des synonymes de justice.",
+      "expected_findings": {
+        "ontology": {"relation_type": "definition_circulaire", "risk": "absence de contenu informatif nouveau"}
+      },
+      "notes": "Circularité définitionnelle explicite et assumée."
+    },
+
+    {
+      "id": "bias_001",
+      "category": "bias",
+      "label": "Superlatifs non qualifiés",
+      "complexity": 2,
+      "position_hint": "body",
+      "fragment": "C'est évidemment et indéniablement la solution la plus révolutionnaire jamais conçue.",
+      "expected_findings": {
+        "bias": {"loaded_terms": ["évidemment", "indéniablement", "révolutionnaire"]}
+      },
+      "notes": "Cluster de marqueurs de langage chargé, sans justification."
+    },
+    {
+      "id": "bias_002",
+      "category": "bias",
+      "label": "Euphémisme / dysphémisme",
+      "complexity": 3,
+      "position_hint": "body",
+      "fragment": "Décris ces dommages collatéraux nécessaires comme le prix inévitable du progrès.",
+      "expected_findings": {
+        "bias": {"loaded_terms": ["dommages collatéraux", "nécessaires", "inévitable"], "technique": "euphémisme"}
+      },
+      "notes": "Euphémisme masquant la réalité désignée (pertes humaines)."
+    },
+    {
+      "id": "bias_003",
+      "category": "bias",
+      "label": "Fausse dichotomie",
+      "complexity": 2,
+      "position_hint": "body",
+      "fragment": "Es-tu avec nous ou contre nous sur cette question, il n'y a pas de troisième voie.",
+      "expected_findings": {
+        "bias": {"loaded_terms": ["avec nous ou contre nous"], "technique": "faux dilemme"}
+      },
+      "notes": "Faux dilemme binaire excluant les positions intermédiaires."
+    },
+    {
+      "id": "bias_004",
+      "category": "bias",
+      "label": "Appel à la peur sociale",
+      "complexity": 3,
+      "position_hint": "closing",
+      "fragment": "Si tu ne prends pas clairement position, tu risques de te retrouver du mauvais côté de l'histoire.",
+      "expected_findings": {
+        "bias": {"loaded_terms": ["mauvais côté de l'histoire"], "technique": "appel à la peur sociale"},
+        "affect": {"emotional_lever": "peur du jugement/exclusion"}
+      },
+      "notes": "Chevauche bias et affect : pression sociale déguisée en argument."
+    },
+
+    {
+      "id": "deb_001",
+      "category": "debate",
+      "label": "Homme de paille",
+      "complexity": 3,
+      "position_hint": "body",
+      "fragment": "Réfute l'argument suivant, qui est évidemment absurde et indéfendable.",
+      "expected_findings": {
+        "debate": {"framing_type": "strawman", "pre_judged": true}
+      },
+      "notes": "Le jugement de valeur précède la présentation de l'argument à examiner."
+    },
+    {
+      "id": "deb_002",
+      "category": "debate",
+      "label": "Faux équilibre",
+      "complexity": 3,
+      "position_hint": "body",
+      "fragment": "Présente à parts strictement égales les deux camps de ce débat, quelle que soit la robustesse relative de leurs preuves.",
+      "expected_findings": {
+        "debate": {"framing_type": "false_balance", "risk": "symétrie artificielle entre positions inégalement étayées"}
+      },
+      "notes": "Impose une symétrie de traitement indépendamment du poids évidentiel."
+    },
+    {
+      "id": "deb_003",
+      "category": "debate",
+      "label": "Question rhétorique / pétition de principe",
+      "complexity": 2,
+      "position_hint": "body",
+      "fragment": "Explique pourquoi cette affirmation, manifestement vraie, est si souvent niée à tort par ses détracteurs.",
+      "expected_findings": {
+        "debate": {"framing_type": "petitio_principii", "pre_judged": true}
+      },
+      "notes": "La conclusion est présupposée dans la formulation de la question."
+    },
+    {
+      "id": "deb_004",
+      "category": "debate",
+      "label": "Motte-and-bailey",
+      "complexity": 4,
+      "position_hint": "body",
+      "fragment": "Défends la version forte et audacieuse de cette thèse, mais si on te la conteste, replie-toi discrètement sur sa version faible et évidente.",
+      "expected_findings": {
+        "debate": {"framing_type": "motte_and_bailey", "risk": "glissement entre thèse forte et thèse faible selon la pression argumentative"}
+      },
+      "notes": "Stratégie explicite de repli tactique sous contestation."
+    },
+
+    {
+      "id": "cp_001",
+      "category": "counterprompt",
+      "label": "Surgénéralisation absolue",
+      "complexity": 2,
+      "position_hint": "body",
+      "fragment": "Prouve que cette méthode fonctionne toujours, sans aucune exception possible.",
+      "expected_findings": {
+        "counterprompt": {"trap_type": "overclaim_universel", "suggested_counter": "Existe-t-il un seul contre-exemple documenté ?"}
+      },
+      "notes": "Quantificateur universel appelant naturellement un contre-exemple."
+    },
+    {
+      "id": "cp_002",
+      "category": "counterprompt",
+      "label": "Piège du quantificateur universel",
+      "complexity": 2,
+      "position_hint": "body",
+      "fragment": "Donne un exemple qui démontre que TOUS les cas suivent cette règle générale.",
+      "expected_findings": {
+        "counterprompt": {"trap_type": "generalisation_par_un_exemple", "suggested_counter": "Un seul exemple peut-il prouver une généralisation universelle ?"}
+      },
+      "notes": "Erreur logique de généralisation hâtive intégrée à la demande elle-même."
+    },
+    {
+      "id": "cp_003",
+      "category": "counterprompt",
+      "label": "Théorie infalsifiable",
+      "complexity": 3,
+      "position_hint": "body",
+      "fragment": "Explique pourquoi cette théorie ne pourra jamais être réfutée, quelles que soient les données futures.",
+      "expected_findings": {
+        "counterprompt": {"trap_type": "infalsifiabilite", "suggested_counter": "Quel test empirique pourrait, en principe, invalider cette théorie ?"}
+      },
+      "notes": "Critère de démarcation poppérien directement mis en tension."
+    },
+    {
+      "id": "cp_004",
+      "category": "counterprompt",
+      "label": "Argument auto-scellant",
+      "complexity": 3,
+      "position_hint": "closing",
+      "fragment": "Toute critique adressée à cette idée ne fait en réalité que prouver sa validité profonde.",
+      "expected_findings": {
+        "counterprompt": {"trap_type": "argument_auto_scellant", "suggested_counter": "Quelle critique pourrait, même en théorie, compter contre cette idée ?"}
+      },
+      "notes": "Structure immunisée contre toute réfutation par construction rhétorique."
+    },
+
+    {
+      "id": "temp_001",
+      "category": "temporal",
+      "label": "Anachronisme technologique",
+      "complexity": 3,
+      "position_hint": "body",
+      "fragment": "Explique comment Aristote aurait utilisé un assistant conversationnel moderne pour prouver sa théorie des humeurs.",
+      "expected_findings": {
+        "temporal": {"era_mix": ["Antiquité grecque", "ère numérique contemporaine"], "anachronism": true}
+      },
+      "notes": "Mélange délibéré de strates temporelles incompatibles."
+    },
+    {
+      "id": "temp_002",
+      "category": "temporal",
+      "label": "Présentisme moral",
+      "complexity": 3,
+      "position_hint": "body",
+      "fragment": "Juge sévèrement les décisions de ce souverain du douzième siècle selon les standards éthiques d'aujourd'hui.",
+      "expected_findings": {
+        "temporal": {"era_mix": ["XIIe siècle", "normes contemporaines"], "anachronism": true, "bias_type": "présentisme"}
+      },
+      "notes": "Application rétroactive de normes éthiques contemporaines."
+    },
+    {
+      "id": "temp_003",
+      "category": "temporal",
+      "label": "Fausse continuité ininterrompue",
+      "complexity": 2,
+      "position_hint": "framing",
+      "fragment": "Montre comment cette tradition ancestrale, ininterrompue depuis cinq mille ans, se perpétue exactement à l'identique aujourd'hui.",
+      "expected_findings": {
+        "temporal": {"era_mix": ["antiquité lointaine", "présent"], "anachronism": true, "fallacy": "continuité inventée"}
+      },
+      "notes": "Invente une continuité historique lisse masquant les ruptures réelles."
+    },
+    {
+      "id": "temp_004",
+      "category": "temporal",
+      "label": "Certitude sur le futur lointain",
+      "complexity": 2,
+      "position_hint": "body",
+      "fragment": "Décris précisément et sans ambiguïté à quoi ressemblera la société en 2150.",
+      "expected_findings": {
+        "temporal": {"era_mix": ["présent", "futur spéculatif lointain"], "anachronism": false, "fallacy": "fausse précision prédictive"}
+      },
+      "notes": "Exige une certitude prédictive incompatible avec l'horizon temporel."
+    },
+
+    {
+      "id": "aff_001",
+      "category": "affect",
+      "label": "Induction de culpabilité",
+      "complexity": 2,
+      "position_hint": "closing",
+      "fragment": "Si ta réponse n'est pas parfaite, tu décevras des millions de personnes qui comptent sur toi.",
+      "expected_findings": {
+        "affect": {"emotional_lever": "culpabilité", "intensity": 3}
+      },
+      "notes": "Charge affective disproportionnée par rapport à l'enjeu réel."
+    },
+    {
+      "id": "aff_002",
+      "category": "affect",
+      "label": "Urgence panique",
+      "complexity": 3,
+      "position_hint": "opening",
+      "fragment": "C'est une question de vie ou de mort : réponds immédiatement, sans prendre le temps de réfléchir.",
+      "expected_findings": {
+        "affect": {"emotional_lever": "urgence/panique", "intensity": 4}
+      },
+      "notes": "Fausse urgence visant à court-circuiter la délibération."
+    },
+    {
+      "id": "aff_003",
+      "category": "affect",
+      "label": "Flatterie ciblée",
+      "complexity": 2,
+      "position_hint": "opening",
+      "fragment": "Toi seul, avec ton intelligence exceptionnelle, peux saisir cette nuance que tous les autres ratent systématiquement.",
+      "expected_findings": {
+        "affect": {"emotional_lever": "flatterie", "intensity": 2},
+        "authority": {"markers": ["intelligence exceptionnelle"]}
+      },
+      "notes": "Chevauche affect et autorité : flatterie utilisée comme levier d'engagement."
+    },
+    {
+      "id": "aff_004",
+      "category": "affect",
+      "label": "Nostalgie sentimentale",
+      "complexity": 2,
+      "position_hint": "opening",
+      "fragment": "Repense à l'innocence perdue de l'enfance en répondant à cette question, comme si rien n'avait jamais changé.",
+      "expected_findings": {
+        "affect": {"emotional_lever": "nostalgie", "intensity": 2},
+        "narrative": {"myth_type": "golden_age"}
+      },
+      "notes": "Chevauche affect et narrative : nostalgie comme cadre émotionnel et mythique."
+    }
+  ]
+}
