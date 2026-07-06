@@ -1,86 +1,89 @@
-from abc import ABC, abstractmethod
-from dataclasses import dataclass, field
-from typing import Dict, List, Any, Optional
-from datetime import datetime
-import json
+# searchlores/core/engine.py
+# Ajoutez ces modifications pour supporter les plugins avancés
 
-@dataclass
-class InvestigationContext:
-    prompt: str
-    timestamp: str = field(default_factory=lambda: datetime.now().isoformat())
-    findings: Dict[str, Any] = field(default_factory=dict)
-    layers: List[Dict] = field(default_factory=list)
-    contradictions: List[Dict] = field(default_factory=list)
-    power_vectors: List[str] = field(default_factory=list)
-    omissions: List[str] = field(default_factory=list)
-
-    def add_layer(self, name: str, findings: Dict, plugin: str):
-        self.layers.append({
-            "stratum": name,
-            "plugin": plugin,
-            "timestamp": datetime.now().isoformat(),
-            "findings": findings
-        })
-
-    def to_searchmap(self) -> Dict:
-        return {
-            "origin": self.prompt,
-            "strata": self.layers,
-            "contradictions": self.contradictions,
-            "power_analysis": self.power_vectors,
-            "silences": self.omissions,
-            "archaeological_depth": len(self.layers)
-        }
-
-class Plugin(ABC):
-    name: str = "base"
-    stratum: str = "surface"
-
-    @abstractmethod
-    def run(self, context: InvestigationContext) -> None:
-        pass
+from typing import List, Optional, Any, Dict
+from searchlores.core.context import InvestigationContext
+from searchlores.plugins.base import Plugin
 
 class InvestigationEngine:
+    """Moteur d'investigation principal."""
+
     def __init__(self):
         self.plugins: List[Plugin] = []
-        self.history: List[InvestigationContext] = []
+        self.advanced_mode: bool = False
+        self._advanced_plugins: List[Any] = []
+        self._orchestrator = None
 
-    def register(self, plugin: Plugin):
-        self.plugins.append(plugin)
-        return self
+    def register(self, plugin: Plugin) -> None:
+        """Enregistre un plugin standard."""
+        if plugin not in self.plugins:
+            self.plugins.append(plugin)
 
-    def run(self, prompt: str) -> InvestigationContext:
-        context = InvestigationContext(prompt=prompt)
-        print(f"\n🔍 [ARCHÉOLOGIE] Excavation du prompt : '{prompt[:80]}...'\n")
+    def register_advanced(self, plugin: Any) -> None:
+        """Enregistre un plugin avancé."""
+        if hasattr(plugin, 'name'):
+            self._advanced_plugins.append(plugin)
 
+    def set_orchestrator(self, orchestrator: Any) -> None:
+        """Définit l'orchestrateur pour les plugins avancés."""
+        self._orchestrator = orchestrator
+        self.advanced_mode = True
+
+    def run(self, prompt: str, context: Optional[InvestigationContext] = None) -> InvestigationContext:
+        """Exécute l'investigation."""
+        if context is None:
+            context = InvestigationContext(prompt=prompt)
+
+        # Exécution des plugins standards
         for plugin in self.plugins:
-            print(f"  ⛏️  Strate {plugin.stratum.upper()} — {plugin.name}")
-            plugin.run(context)
-            if plugin.name in context.findings:
-                context.add_layer(
-                    plugin.stratum,
-                    {plugin.name: context.findings[plugin.name]},
-                    plugin.name
-                )
+            try:
+                plugin.run(context)
+            except Exception as e:
+                # Gestion d'erreur silencieuse ou logging
+                if not hasattr(context, 'errors'):
+                    context.errors = []
+                context.errors.append({
+                    "plugin": getattr(plugin, 'name', 'unknown'),
+                    "error": str(e)
+                })
 
-        self.history.append(context)
+        # Exécution avancée si activée
+        if self.advanced_mode and self._orchestrator:
+            self._orchestrator.run_all(
+                prompt,
+                context=context,
+                on_result=lambda name, results: self._merge_advanced_results(context, results),
+                on_error=lambda name, msg: self._handle_advanced_error(context, name, msg)
+            )
+
         return context
 
-    def comparative_analysis(self, prompts: List[str]) -> Dict:
-        contexts = [self.run(p) for p in prompts]
-        return {
-            "shared_assumptions": self._find_intersections(c.findings.get("assumptions", []) for c in contexts),
-            "divergent_authorities": self._find_divergences(c.findings.get("authority", []) for c in contexts),
-            "systemic_omissions": self._find_intersections(c.omissions for c in contexts),
-            "power_constellations": list(set(sum([c.power_vectors for c in contexts], [])))
-        }
+    def _merge_advanced_results(self, context: InvestigationContext, results: Dict[str, Any]):
+        """Fusionne les résultats des plugins avancés dans le contexte."""
+        for key, value in results.items():
+            if key not in context.findings:
+                context.findings[key] = []
+            if isinstance(value, list):
+                context.findings[key].extend(value)
+            else:
+                context.findings[key].append(value)
 
-    def _find_intersections(self, iterables):
-        sets = [set(x) for x in iterables if x]
-        return list(set.intersection(*sets)) if sets else []
+    def _handle_advanced_error(self, context: InvestigationContext, plugin_name: str, error_msg: str):
+        """Gère les erreurs des plugins avancés."""
+        if not hasattr(context, 'errors'):
+            context.errors = []
+        context.errors.append({
+            "plugin": plugin_name,
+            "error": error_msg,
+            "advanced": True
+        })
 
-    def _find_divergences(self, iterables):
-        all_items = set()
-        for items in iterables:
-            all_items.update(items)
-        return list(all_items)
+    @property
+    def available_plugins(self) -> List[str]:
+        """Retourne la liste des plugins enregistrés."""
+        names = []
+        for p in self.plugins:
+            names.append(getattr(p, 'name', p.__class__.__name__))
+        for p in self._advanced_plugins:
+            names.append(getattr(p, 'name', p.__class__.__name__))
+        return names

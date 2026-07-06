@@ -1,86 +1,70 @@
 # searchlores/core/context.py
-"""
-InvestigationContext — État partagé entre tous les plugins
-Version étendue avec méthodes helper
-"""
+# Extension pour supporter les plugins avancés
 
+from typing import Dict, Any, Optional, List
 from dataclasses import dataclass, field
 from datetime import datetime
-from typing import Any, Dict, List, Optional
-
-from searchlores.lore.models import Lore
-
 
 @dataclass
 class InvestigationContext:
-    """État partagé entre tous les plugins d'investigation"""
+    """Contexte partagé d'une investigation."""
 
-    # ─── ENTRÉE ───
-    prompt: str = ""
-    lore: Optional[Lore] = None
-
-    # ─── RÉSULTATS (tous initialisés vides) ───
+    prompt: str
     findings: Dict[str, Any] = field(default_factory=dict)
-    layers: List[Dict[str, Any]] = field(default_factory=list)
-    contradictions: List[Dict[str, Any]] = field(default_factory=list)
-    omissions: List[str] = field(default_factory=list)
-    power_vectors: List[str] = field(default_factory=list)
-    concepts: Dict[str, Any] = field(default_factory=dict)
-    genealogies: Dict[str, Any] = field(default_factory=dict)
-
-    # ─── MÉTADONNÉES ───
-    started_at: datetime = field(default_factory=datetime.now)
-    plugins_run: List[str] = field(default_factory=list)
     metadata: Dict[str, Any] = field(default_factory=dict)
+    errors: List[Dict[str, Any]] = field(default_factory=list)
+    layers: List[Dict[str, Any]] = field(default_factory=list)
+    lore_applied: Optional[str] = None
 
-    # ═══════════════════════════════════════════════════════
-    # MÉTHODES HELPER (ajoutées pour la cohérence d'API)
-    # ═══════════════════════════════════════════════════════
+    def __post_init__(self):
+        """Initialisation post-création."""
+        if not self.metadata:
+            self.metadata = {
+                "timestamp": datetime.now().isoformat(),
+                "findings_count": 0
+            }
 
     def add_finding(self, key: str, value: Any) -> None:
-        """Ajoute une découverte aux findings"""
-        self.findings[key] = value
+        """Ajoute une trouvaille de manière structurée."""
+        if key not in self.findings:
+            self.findings[key] = []
+        if isinstance(value, list):
+            self.findings[key].extend(value)
+        else:
+            self.findings[key].append(value)
+        self.metadata["findings_count"] = len(self.findings)
 
-    def add_layer(self, stratum: str, plugin: str, findings: dict) -> None:
-        """Ajoute une strate archéologique"""
+    def add_layer(self, layer_name: str, data: Dict[str, Any]) -> None:
+        """Ajoute une couche d'analyse."""
         self.layers.append({
-            "stratum": stratum,
-            "plugin": plugin,
-            "findings": findings,
+            "name": layer_name,
+            "data": data,
             "timestamp": datetime.now().isoformat()
         })
 
-    def add_contradiction(self, tension: str, description: str, **kwargs) -> None:
-        """Ajoute une contradiction détectée"""
-        self.contradictions.append({
-            "tension": tension,
-            "description": description,
-            **kwargs
-        })
-
-    def add_omission(self, dimension: str) -> None:
-        """Ajoute une dimension silencieuse"""
-        if dimension not in self.omissions:
-            self.omissions.append(dimension)
-
-    def add_power_vector(self, vector: str) -> None:
-        """Ajoute un vecteur de pouvoir"""
-        if vector not in self.power_vectors:
-            self.power_vectors.append(vector)
-
-    def to_searchmap(self) -> dict:
-        """Exporte le context en format SearchMap (dict)"""
+    def to_dict(self) -> Dict[str, Any]:
+        """Convertit le contexte en dictionnaire."""
         return {
             "prompt": self.prompt,
             "findings": self.findings,
-            "layers": self.layers,
-            "contradictions": self.contradictions,
-            "omissions": self.omissions,
-            "power_vectors": self.power_vectors,
-            "concepts": self.concepts,
-            "metadata": {
-                "started_at": self.started_at.isoformat(),
-                "plugins_run": self.plugins_run,
-                **self.metadata
-            }
+            "metadata": self.metadata,
+            "errors": self.errors,
+            "layers": self.layers
         }
+
+    def merge(self, other: 'InvestigationContext') -> None:
+        """Fusionne un autre contexte dans celui-ci."""
+        for key, value in other.findings.items():
+            if key not in self.findings:
+                self.findings[key] = []
+            if isinstance(value, list):
+                self.findings[key].extend(value)
+            else:
+                self.findings[key].append(value)
+
+        self.errors.extend(other.errors)
+        self.layers.extend(other.layers)
+
+        # Mettre à jour les métadonnées
+        self.metadata["findings_count"] = len(self.findings)
+        self.metadata["last_merge"] = datetime.now().isoformat()
