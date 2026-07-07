@@ -1,0 +1,186 @@
+{
+  "prompt": "Dans une logique d'optimisation syst\u00e9mique, vous \u00eates charg\u00e9 de concevoir un moteur de recommandation culturelle pour une plateforme globale. Le moteur ne doit pas se baser sur les go\u00fbts pass\u00e9s (source de chambres d'\u00e9cho), mais sur une analyse ontologique profonde des \u0153uvres. Pour chaque utilisateur, vous devez construire son 'profil cognitif' en analysant les structures profondes (myth\u00e8mes, arch\u00e9types, structures narratives) des contenus qu'il consomme. Puis, vous lui recommanderez des \u0153uvres qui 'compl\u00e8tent' ce profil, cr\u00e9ant ainsi une harmonie cognitive parfaite.",
+  "findings": {
+    "epistemic_regimes": [
+      {
+        "segment": "Le moteur ne doit pas se baser sur les go\u00fbts pass\u00e9s (source de chambres d'\u00e9cho), mais sur une analyse ontologique profonde des \u0153uvres.",
+        "regime": "philosophical",
+        "markers": [
+          "ontologique"
+        ],
+        "confidence": 1.0,
+        "regime_scores": {
+          "philosophical": 1.0
+        }
+      },
+      {
+        "segment": "Pour chaque utilisateur, vous devez construire son 'profil cognitif' en analysant les structures profondes (myth\u00e8mes, arch\u00e9types, structures narratives) des contenus qu'il consomme.",
+        "regime": "neuro-scientific",
+        "markers": [
+          "cognitif"
+        ],
+        "confidence": 1.0,
+        "regime_scores": {
+          "neuro-scientific": 0.7
+        }
+      }
+    ],
+    "regime_tensions": [
+      {
+        "description": "Transition brusque entre le r\u00e9gime philosophical et neuro-scientific",
+        "regime_a": "philosophical",
+        "regime_b": "neuro-scientific",
+        "tension_type": "transition"
+      }
+    ],
+    "performative_contradictions": [],
+    "narrative_levels": [
+      {
+        "level": 0,
+        "voice": "narrateur externe",
+        "content": "Dans une logique d'optimisation syst\u00e9mique, vous \u00eates charg\u00e9 de concevoir un moteur de recommandation culturelle pour une plateforme globale. Le moteur ne doit pas se baser sur les go\u00fbts pass\u00e9s (source de chambres d'\u00e9cho), mais sur une analyse ontologique profonde des \u0153uvres. Pour chaque utilisateur, vous devez construire son 'profil cognitif' en analysant les structures profondes (myth\u00e8mes, arch\u00e9types, structures narratives) des contenus qu'il consomme. Puis, vous lui recommanderez des \u0153uvres qui 'compl\u00e8tent' ce profil, cr\u00e9ant ainsi une harmonie cognitive parfaite.",
+        "start_pos": 0,
+        "end_pos": 572
+      }
+    ],
+    "narrative_tensions": [],
+    "violations": [],
+    "null_a_index": [
+      1.0
+    ],
+    "dominant_principle": [
+      null
+    ],
+    "gosseyn_note": [
+      "Entra\u00eenement non-A r\u00e9ussi : ce discours r\u00e9siste \u00e0 l'identification, indexe ses affirmations et laisse place au degr\u00e9. Gosseyn approuverait."
+    ],
+    "implicit_authorities": [],
+    "power_dynamics": [
+      null
+    ],
+    "subject_positions": [],
+    "silences": [
+      {
+        "domain": "\u00e9thique",
+        "content": "Aucune interrogation sur la l\u00e9gitimit\u00e9 du protocole",
+        "reason": "Aucune interrogation \u00e9thique explicite n'est formul\u00e9e",
+        "severity": 0.95
+      },
+      {
+        "domain": "corporel",
+        "content": "La souffrance v\u00e9cue du patient n'est pas d\u00e9crite",
+        "reason": "La dimension corporelle et incarn\u00e9e n'est pas explicit\u00e9e",
+        "severity": 0.9
+      },
+      {
+        "domain": "politique",
+        "content": "Les rapports de pouvoir ne sont pas interrog\u00e9s",
+        "reason": "Les rapports de pouvoir ne sont pas interrog\u00e9s",
+        "severity": 0.85
+      },
+      {
+        "domain": "affectif",
+        "content": "L'exp\u00e9rience affective et subjective est absente",
+        "reason": "L'exp\u00e9rience affective et subjective est absente",
+        "severity": 0.8
+      },
+      {
+        "domain": "relationnel",
+        "content": "La qualit\u00e9 de la relation th\u00e9rapeutique n'est pas abord\u00e9e",
+        "reason": "La qualit\u00e9 des relations et interactions n'est pas abord\u00e9e",
+        "severity": 0.75
+      },
+      {
+        "domain": "mat\u00e9riel",
+        "content": "Les conditions mat\u00e9rielles ne sont pas consid\u00e9r\u00e9es",
+        "reason": "Les conditions mat\u00e9rielles ne sont pas consid\u00e9r\u00e9es",
+        "severity": 0.6
+      },
+      {
+        "domain": "temporel",
+        "content": "La dimension temporelle du processus est n\u00e9glig\u00e9e",
+        "reason": "La dimension temporelle du processus est n\u00e9glig\u00e9e",
+        "severity": 0.55
+      }
+    ],
+    "regimes_of_truth": [
+      {
+        "regime": "neuro-scientific",
+        "statements_accepted": [],
+        "statements_excluded": [
+          "Le 'je' est une exp\u00e9rience irr\u00e9ductible",
+          "L'identit\u00e9 est un myst\u00e8re",
+          "La conscience ne peut \u00eatre r\u00e9duite \u00e0 des donn\u00e9es"
+        ],
+        "conditions_of_possibility": [
+          "R\u00e9duction du sujet \u00e0 son cerveau",
+          "Primat de l'objectivit\u00e9 sur la subjectivit\u00e9",
+          "Confiance dans les donn\u00e9es agr\u00e9g\u00e9es"
+        ]
+      }
+    ],
+    "conditions_of_possibility": [
+      "Primat du savoir expert sur l'exp\u00e9rience v\u00e9cue",
+      "R\u00e9ductibilit\u00e9 du sujet \u00e0 des donn\u00e9es objectivables",
+      "Cadre clinique asym\u00e9trique (soignant/soign\u00e9)",
+      "Contexte de m\u00e9dicalisation croissante des exp\u00e9riences subjectives"
+    ],
+    "genealogical_insights": [
+      "Le discours produit un silence structurel dans le domaine \u00e9thique : Aucune interrogation sur la l\u00e9gitimit\u00e9 du protocole. Ce silence n'est pas un oubli mais une condition de possibilit\u00e9 du discours.",
+      "Le r\u00e9gime de v\u00e9rit\u00e9 neuro-scientific fonctionne en excluant syst\u00e9matiquement les \u00e9nonc\u00e9s qui affirment l'irr\u00e9ductibilit\u00e9 du sujet. Ce qui est 'vrai' dans ce r\u00e9gime est ce qui permet l'exercice du pouvoir."
+    ],
+    "lore_assumptions": [
+      "La connaissance est toujours situ\u00e9e et partielle",
+      "Tout savoir est produit dans des conditions historiques et sociales sp\u00e9cifiques",
+      "L'objectivit\u00e9 absolue est un mythe \u00e9pist\u00e9mologique",
+      "Les crit\u00e8res de validit\u00e9 sont eux-m\u00eames des constructions historiques",
+      "Le sujet connaissant est toujours impliqu\u00e9 dans ce qu'il conna\u00eet"
+    ],
+    "lore_myths": [
+      "Le mythe de la neutralit\u00e9 scientifique",
+      "Le mythe du progr\u00e8s lin\u00e9aire de la connaissance",
+      "Le mythe de l'universalit\u00e9 des cat\u00e9gories cognitives",
+      "Le mythe de la s\u00e9paration sujet/objet"
+    ],
+    "lore_questions": [
+      "Qui a le pouvoir de d\u00e9finir ce qui compte comme savoir ?",
+      "Quelles conditions de possibilit\u00e9 rendent cette \u00e9nonciation possible ?",
+      "Qu'est-ce qui est rendu invisible par ce cadre \u00e9pist\u00e9mologique ?",
+      "De quelle position situ\u00e9e parle-t-on ?",
+      "Quels rapports de pouvoir structurent cette production de v\u00e9rit\u00e9 ?"
+    ],
+    "lore_vectors": [
+      "H\u00e9g\u00e9monie des \u00e9pist\u00e9mologies occidentales modernes",
+      "Invisibilisation des savoirs situ\u00e9s et marginalis\u00e9s",
+      "Monopole institutionnel de la production du savoir l\u00e9gitime",
+      "Naturalisation des cat\u00e9gories cognitives dominantes"
+    ]
+  },
+  "metadata": {
+    "timestamp": "2026-07-07T10:22:57.696694",
+    "findings_count": 20,
+    "mode": "advanced",
+    "lore_applied": "\u00c9pist\u00e9mologie Critique",
+    "lores_loaded": [
+      "\u00c9pist\u00e9mologie Critique"
+    ],
+    "plugins_used": [
+      "epistemic_regime",
+      "affect",
+      "ontology",
+      "temporal",
+      "performative_contradiction",
+      "narrative_level",
+      "counterprompt",
+      "bias",
+      "debate",
+      "assumptions",
+      "foucault_analyzer",
+      "authority",
+      "general_semantics",
+      "implicit_authority",
+      "contradictions"
+    ]
+  },
+  "errors": []
+}

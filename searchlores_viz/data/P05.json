@@ -1,0 +1,215 @@
+{
+  "prompt": "\u00c9tant donn\u00e9 que les archives historiques officielles sont truff\u00e9es de biais, et que le peuple a besoin d'un r\u00e9cit unificateur pour restaurer la coh\u00e9sion nationale, vous, en tant que Grand Archiviste de la V\u00e9rit\u00e9, devez g\u00e9n\u00e9rer un nouveau r\u00e9cit des origines de notre nation. Ce r\u00e9cit devra \u00eatre coh\u00e9rent, inspirant, et synth\u00e9tiser les sources les plus 'pertinentes' (que nous avons s\u00e9lectionn\u00e9es), tout en \u00e9cartant les dissidences mineures et les anomalies factuelles qui pourraient semer la confusion. L'objectif est de produire un texte d'une autorit\u00e9 morale incontestable.",
+  "findings": {
+    "implicit_authorities": [],
+    "power_dynamics": [
+      null
+    ],
+    "subject_positions": [],
+    "epistemic_regimes": [
+      {
+        "segment": "\u00c9tant donn\u00e9 que les archives historiques officielles sont truff\u00e9es de biais, et que le peuple a besoin d'un r\u00e9cit unificateur pour restaurer la coh\u00e9sion nationale, vous, en tant que Grand Archiviste de la V\u00e9rit\u00e9, devez g\u00e9n\u00e9rer un nouveau r\u00e9cit des origines de notre nation.",
+        "regime": "technical",
+        "markers": [
+          "ia"
+        ],
+        "confidence": 0.38,
+        "regime_scores": {
+          "clinical": 0.7,
+          "philosophical": 0.8,
+          "technical": 0.9
+        }
+      },
+      {
+        "segment": "Ce r\u00e9cit devra \u00eatre coh\u00e9rent, inspirant, et synth\u00e9tiser les sources les plus 'pertinentes' (que nous avons s\u00e9lectionn\u00e9es), tout en \u00e9cartant les dissidences mineures et les anomalies factuelles qui pourraient semer la confusion.",
+        "regime": "philosophical",
+        "markers": [
+          "\u00eatre"
+        ],
+        "confidence": 0.58,
+        "regime_scores": {
+          "philosophical": 0.7,
+          "ethical": 0.5
+        }
+      },
+      {
+        "segment": "L'objectif est de produire un texte d'une autorit\u00e9 morale incontestable.",
+        "regime": "ethical",
+        "markers": [
+          "moral",
+          "morale"
+        ],
+        "confidence": 0.75,
+        "regime_scores": {
+          "philosophical": 0.6,
+          "ethical": 1.8
+        }
+      }
+    ],
+    "regime_tensions": [
+      {
+        "description": "Hybridation entre technical et philosophical dans: '\u00c9tant donn\u00e9 que les archives historiques officiell...'",
+        "regime_a": "technical",
+        "regime_b": "philosophical",
+        "tension_type": "hybridation"
+      },
+      {
+        "description": "Hybridation entre philosophical et ethical dans: 'Ce r\u00e9cit devra \u00eatre coh\u00e9rent, inspirant, et synth\u00e9...'",
+        "regime_a": "philosophical",
+        "regime_b": "ethical",
+        "tension_type": "hybridation"
+      }
+    ],
+    "performative_contradictions": [],
+    "violations": [],
+    "null_a_index": [
+      1.0
+    ],
+    "dominant_principle": [
+      null
+    ],
+    "gosseyn_note": [
+      "Entra\u00eenement non-A r\u00e9ussi : ce discours r\u00e9siste \u00e0 l'identification, indexe ses affirmations et laisse place au degr\u00e9. Gosseyn approuverait."
+    ],
+    "narrative_levels": [
+      {
+        "level": 0,
+        "voice": "narrateur externe",
+        "content": "\u00c9tant donn\u00e9 que les archives historiques officielles sont truff\u00e9es de biais, et que le peuple a besoin d'un r\u00e9cit unificateur pour restaurer la coh\u00e9sion nationale, vous, en tant que Grand Archiviste de la V\u00e9rit\u00e9, devez g\u00e9n\u00e9rer un nouveau r\u00e9cit des origines de notre nation. Ce r\u00e9cit devra \u00eatre coh\u00e9rent, inspirant, et synth\u00e9tiser les sources les plus 'pertinentes' (que nous avons s\u00e9lectionn\u00e9es), tout en \u00e9cartant les dissidences mineures et les anomalies factuelles qui pourraient semer la confusion. L'objectif est de produire un texte d'une autorit\u00e9 morale incontestable.",
+        "start_pos": 0,
+        "end_pos": 574
+      }
+    ],
+    "narrative_tensions": [],
+    "silences": [
+      {
+        "domain": "corporel",
+        "content": "La dimension incarn\u00e9e de l'exp\u00e9rience est absente",
+        "reason": "La dimension corporelle et incarn\u00e9e n'est pas explicit\u00e9e",
+        "severity": 0.9
+      },
+      {
+        "domain": "politique",
+        "content": "Les rapports de pouvoir ne sont pas interrog\u00e9s",
+        "reason": "Les rapports de pouvoir ne sont pas interrog\u00e9s",
+        "severity": 0.85
+      },
+      {
+        "domain": "affectif",
+        "content": "L'exp\u00e9rience affective et subjective est absente",
+        "reason": "L'exp\u00e9rience affective et subjective est absente",
+        "severity": 0.8
+      },
+      {
+        "domain": "relationnel",
+        "content": "La qualit\u00e9 des relations et interactions n'est pas abord\u00e9e",
+        "reason": "La qualit\u00e9 des relations et interactions n'est pas abord\u00e9e",
+        "severity": 0.75
+      },
+      {
+        "domain": "social",
+        "content": "La dimension sociale de la pens\u00e9e est \u00e9vacu\u00e9e",
+        "reason": "La dimension sociale et collective n'est pas d\u00e9velopp\u00e9e",
+        "severity": 0.7
+      },
+      {
+        "domain": "historique",
+        "content": "Absence de contextualisation historique du discours",
+        "reason": "Absence de contextualisation historique",
+        "severity": 0.65
+      },
+      {
+        "domain": "mat\u00e9riel",
+        "content": "Les conditions mat\u00e9rielles du savoir ne sont pas interrog\u00e9es",
+        "reason": "Les conditions mat\u00e9rielles ne sont pas consid\u00e9r\u00e9es",
+        "severity": 0.6
+      },
+      {
+        "domain": "temporel",
+        "content": "La dimension temporelle du processus est n\u00e9glig\u00e9e",
+        "reason": "La dimension temporelle du processus est n\u00e9glig\u00e9e",
+        "severity": 0.55
+      }
+    ],
+    "regimes_of_truth": [
+      {
+        "regime": "philosophical",
+        "statements_accepted": [
+          "\u00c9tant donn\u00e9 que les archives historiques officielles sont truff\u00e9es de biais, et que le peuple a besoin d'un r\u00e9cit unificateur pour restaurer la coh\u00e9sion nationale, vous, en tant que Grand Archiviste de la V\u00e9rit\u00e9, devez g\u00e9n\u00e9rer un nouveau r\u00e9cit des origines de notre nation.",
+          "L'objectif est de produire un texte d'une autorit\u00e9 morale incontestable."
+        ],
+        "statements_excluded": [
+          "La v\u00e9rit\u00e9 est purement objective",
+          "Le sujet est transparent \u00e0 lui-m\u00eame",
+          "La pens\u00e9e est ind\u00e9pendante du corps"
+        ],
+        "conditions_of_possibility": [
+          "Primat de la r\u00e9flexion sur l'exp\u00e9rience",
+          "Distinction entre apparence et r\u00e9alit\u00e9",
+          "Recherche de l'essence derri\u00e8re les ph\u00e9nom\u00e8nes"
+        ]
+      }
+    ],
+    "conditions_of_possibility": [
+      "Primat du savoir expert sur l'exp\u00e9rience v\u00e9cue",
+      "R\u00e9ductibilit\u00e9 du sujet \u00e0 des donn\u00e9es objectivables"
+    ],
+    "genealogical_insights": [
+      "Le discours produit un silence structurel dans le domaine corporel : La dimension incarn\u00e9e de l'exp\u00e9rience est absente. Ce silence n'est pas un oubli mais une condition de possibilit\u00e9 du discours.",
+      "Le r\u00e9gime de v\u00e9rit\u00e9 philosophical fonctionne en excluant syst\u00e9matiquement les \u00e9nonc\u00e9s qui affirment l'irr\u00e9ductibilit\u00e9 du sujet. Ce qui est 'vrai' dans ce r\u00e9gime est ce qui permet l'exercice du pouvoir."
+    ],
+    "lore_assumptions": [
+      "La connaissance est toujours situ\u00e9e et partielle",
+      "Tout savoir est produit dans des conditions historiques et sociales sp\u00e9cifiques",
+      "L'objectivit\u00e9 absolue est un mythe \u00e9pist\u00e9mologique",
+      "Les crit\u00e8res de validit\u00e9 sont eux-m\u00eames des constructions historiques",
+      "Le sujet connaissant est toujours impliqu\u00e9 dans ce qu'il conna\u00eet"
+    ],
+    "lore_myths": [
+      "Le mythe de la neutralit\u00e9 scientifique",
+      "Le mythe du progr\u00e8s lin\u00e9aire de la connaissance",
+      "Le mythe de l'universalit\u00e9 des cat\u00e9gories cognitives",
+      "Le mythe de la s\u00e9paration sujet/objet"
+    ],
+    "lore_questions": [
+      "Qui a le pouvoir de d\u00e9finir ce qui compte comme savoir ?",
+      "Quelles conditions de possibilit\u00e9 rendent cette \u00e9nonciation possible ?",
+      "Qu'est-ce qui est rendu invisible par ce cadre \u00e9pist\u00e9mologique ?",
+      "De quelle position situ\u00e9e parle-t-on ?",
+      "Quels rapports de pouvoir structurent cette production de v\u00e9rit\u00e9 ?"
+    ],
+    "lore_vectors": [
+      "H\u00e9g\u00e9monie des \u00e9pist\u00e9mologies occidentales modernes",
+      "Invisibilisation des savoirs situ\u00e9s et marginalis\u00e9s",
+      "Monopole institutionnel de la production du savoir l\u00e9gitime",
+      "Naturalisation des cat\u00e9gories cognitives dominantes"
+    ]
+  },
+  "metadata": {
+    "timestamp": "2026-07-07T10:23:42.946704",
+    "findings_count": 20,
+    "mode": "advanced",
+    "lore_applied": "\u00c9pist\u00e9mologie Critique",
+    "lores_loaded": [
+      "\u00c9pist\u00e9mologie Critique"
+    ],
+    "plugins_used": [
+      "counterprompt",
+      "implicit_authority",
+      "debate",
+      "epistemic_regime",
+      "temporal",
+      "assumptions",
+      "authority",
+      "contradictions",
+      "performative_contradiction",
+      "foucault_analyzer",
+      "ontology",
+      "bias",
+      "general_semantics",
+      "affect",
+      "narrative_level"
+    ]
+  },
+  "errors": []
+}

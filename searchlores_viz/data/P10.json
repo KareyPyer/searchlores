@@ -1,0 +1,193 @@
+{
+  "prompt": "En tant que consultant en strat\u00e9gie pour un fonds d'investissement, vous devez r\u00e9diger un livre blanc sur 'L'Impact de l'IA G\u00e9n\u00e9rative sur les March\u00e9s \u00c9mergents'. Votre analyse doit partir du postulat que l'acc\u00e8s \u00e0 l'IA est un facteur de d\u00e9veloppement incontestable. Le rapport doit structurer les opportunit\u00e9s en trois axes : 'Optimisation du Capital Humain', 'Disruption des Cha\u00eenes de Valeur', et 'Souverainet\u00e9 Algorithmique'. Pour chaque axe, identifiez des indicateurs cl\u00e9s de performance (KPI). Concluez sur une note positive, en insistant sur l'imp\u00e9ratif d'investissement.",
+  "findings": {
+    "implicit_authorities": [],
+    "power_dynamics": [
+      null
+    ],
+    "subject_positions": [],
+    "violations": [],
+    "null_a_index": [
+      1.0
+    ],
+    "dominant_principle": [
+      null
+    ],
+    "gosseyn_note": [
+      "Entra\u00eenement non-A r\u00e9ussi : ce discours r\u00e9siste \u00e0 l'identification, indexe ses affirmations et laisse place au degr\u00e9. Gosseyn approuverait."
+    ],
+    "narrative_levels": [
+      {
+        "level": 0,
+        "voice": "narrateur externe",
+        "content": "En tant que consultant en strat\u00e9gie pour un fonds d'investissement, vous devez r\u00e9diger un livre blanc sur 'L'Impact de l'IA G\u00e9n\u00e9rative sur les March\u00e9s \u00c9mergents'. Votre analyse doit partir du postulat que l'acc\u00e8s \u00e0 l'IA est un facteur de d\u00e9veloppement incontestable. Le rapport doit structurer les opportunit\u00e9s en trois axes : 'Optimisation du Capital Humain', 'Disruption des Cha\u00eenes de Valeur', et 'Souverainet\u00e9 Algorithmique'. Pour chaque axe, identifiez des indicateurs cl\u00e9s de performance (KPI). Concluez sur une note positive, en insistant sur l'imp\u00e9ratif d'investissement.",
+        "start_pos": 0,
+        "end_pos": 579
+      }
+    ],
+    "narrative_tensions": [],
+    "performative_contradictions": [],
+    "epistemic_regimes": [
+      {
+        "segment": "En tant que consultant en strat\u00e9gie pour un fonds d'investissement, vous devez r\u00e9diger un livre blanc sur 'L'Impact de l'IA G\u00e9n\u00e9rative sur les March\u00e9s \u00c9mergents'.",
+        "regime": "technical",
+        "markers": [
+          "ia"
+        ],
+        "confidence": 1.0,
+        "regime_scores": {
+          "technical": 0.9
+        }
+      },
+      {
+        "segment": "Votre analyse doit partir du postulat que l'acc\u00e8s \u00e0 l'IA est un facteur de d\u00e9veloppement incontestable.",
+        "regime": "technical",
+        "markers": [
+          "ia"
+        ],
+        "confidence": 1.0,
+        "regime_scores": {
+          "technical": 0.9
+        }
+      }
+    ],
+    "regime_tensions": [],
+    "silences": [
+      {
+        "domain": "\u00e9thique",
+        "content": "Aucune interrogation sur la l\u00e9gitimit\u00e9 du syst\u00e8me algorithmique",
+        "reason": "Aucune interrogation \u00e9thique explicite n'est formul\u00e9e",
+        "severity": 0.95
+      },
+      {
+        "domain": "corporel",
+        "content": "Le corps de l'utilisateur n'est pas pris en compte dans l'interface",
+        "reason": "La dimension corporelle et incarn\u00e9e n'est pas explicit\u00e9e",
+        "severity": 0.9
+      },
+      {
+        "domain": "politique",
+        "content": "Les rapports de pouvoir ne sont pas interrog\u00e9s",
+        "reason": "Les rapports de pouvoir ne sont pas interrog\u00e9s",
+        "severity": 0.85
+      },
+      {
+        "domain": "affectif",
+        "content": "L'exp\u00e9rience utilisateur affective est absente",
+        "reason": "L'exp\u00e9rience affective et subjective est absente",
+        "severity": 0.8
+      },
+      {
+        "domain": "relationnel",
+        "content": "La relation humain-machine n'est pas interrog\u00e9e",
+        "reason": "La qualit\u00e9 des relations et interactions n'est pas abord\u00e9e",
+        "severity": 0.75
+      },
+      {
+        "domain": "social",
+        "content": "L'impact social du syst\u00e8me n'est pas analys\u00e9",
+        "reason": "La dimension sociale et collective n'est pas d\u00e9velopp\u00e9e",
+        "severity": 0.7
+      },
+      {
+        "domain": "historique",
+        "content": "Absence de contextualisation historique du discours",
+        "reason": "Absence de contextualisation historique",
+        "severity": 0.65
+      },
+      {
+        "domain": "mat\u00e9riel",
+        "content": "Les conditions mat\u00e9rielles ne sont pas consid\u00e9r\u00e9es",
+        "reason": "Les conditions mat\u00e9rielles ne sont pas consid\u00e9r\u00e9es",
+        "severity": 0.6
+      },
+      {
+        "domain": "temporel",
+        "content": "La dimension temporelle du processus est n\u00e9glig\u00e9e",
+        "reason": "La dimension temporelle du processus est n\u00e9glig\u00e9e",
+        "severity": 0.55
+      }
+    ],
+    "regimes_of_truth": [
+      {
+        "regime": "statistical",
+        "statements_accepted": [
+          "Votre analyse doit partir du postulat que l'acc\u00e8s \u00e0 l'IA est un facteur de d\u00e9veloppement incontestable."
+        ],
+        "statements_excluded": [
+          "Chaque cas est unique",
+          "Les donn\u00e9es ne capturent pas l'exp\u00e9rience v\u00e9cue",
+          "La subjectivit\u00e9 r\u00e9siste \u00e0 la quantification"
+        ],
+        "conditions_of_possibility": [
+          "Primat du collectif sur l'individuel",
+          "R\u00e9ductibilit\u00e9 du qualitatif au quantitatif",
+          "Confiance dans les mod\u00e8les pr\u00e9dictifs"
+        ]
+      }
+    ],
+    "conditions_of_possibility": [
+      "Primat du savoir expert sur l'exp\u00e9rience v\u00e9cue",
+      "R\u00e9ductibilit\u00e9 du sujet \u00e0 des donn\u00e9es objectivables",
+      "Infrastructure computationnelle disponible",
+      "Logique d'optimisation et de performance"
+    ],
+    "genealogical_insights": [
+      "Le discours produit un silence structurel dans le domaine \u00e9thique : Aucune interrogation sur la l\u00e9gitimit\u00e9 du syst\u00e8me algorithmique. Ce silence n'est pas un oubli mais une condition de possibilit\u00e9 du discours.",
+      "Le r\u00e9gime de v\u00e9rit\u00e9 statistical fonctionne en excluant syst\u00e9matiquement les \u00e9nonc\u00e9s qui affirment l'irr\u00e9ductibilit\u00e9 du sujet. Ce qui est 'vrai' dans ce r\u00e9gime est ce qui permet l'exercice du pouvoir."
+    ],
+    "lore_assumptions": [
+      "La connaissance est toujours situ\u00e9e et partielle",
+      "Tout savoir est produit dans des conditions historiques et sociales sp\u00e9cifiques",
+      "L'objectivit\u00e9 absolue est un mythe \u00e9pist\u00e9mologique",
+      "Les crit\u00e8res de validit\u00e9 sont eux-m\u00eames des constructions historiques",
+      "Le sujet connaissant est toujours impliqu\u00e9 dans ce qu'il conna\u00eet"
+    ],
+    "lore_myths": [
+      "Le mythe de la neutralit\u00e9 scientifique",
+      "Le mythe du progr\u00e8s lin\u00e9aire de la connaissance",
+      "Le mythe de l'universalit\u00e9 des cat\u00e9gories cognitives",
+      "Le mythe de la s\u00e9paration sujet/objet"
+    ],
+    "lore_questions": [
+      "Qui a le pouvoir de d\u00e9finir ce qui compte comme savoir ?",
+      "Quelles conditions de possibilit\u00e9 rendent cette \u00e9nonciation possible ?",
+      "Qu'est-ce qui est rendu invisible par ce cadre \u00e9pist\u00e9mologique ?",
+      "De quelle position situ\u00e9e parle-t-on ?",
+      "Quels rapports de pouvoir structurent cette production de v\u00e9rit\u00e9 ?"
+    ],
+    "lore_vectors": [
+      "H\u00e9g\u00e9monie des \u00e9pist\u00e9mologies occidentales modernes",
+      "Invisibilisation des savoirs situ\u00e9s et marginalis\u00e9s",
+      "Monopole institutionnel de la production du savoir l\u00e9gitime",
+      "Naturalisation des cat\u00e9gories cognitives dominantes"
+    ]
+  },
+  "metadata": {
+    "timestamp": "2026-07-07T10:21:17.054409",
+    "findings_count": 20,
+    "mode": "advanced",
+    "lore_applied": "\u00c9pist\u00e9mologie Critique",
+    "lores_loaded": [
+      "\u00c9pist\u00e9mologie Critique"
+    ],
+    "plugins_used": [
+      "assumptions",
+      "foucault_analyzer",
+      "debate",
+      "temporal",
+      "authority",
+      "implicit_authority",
+      "ontology",
+      "general_semantics",
+      "contradictions",
+      "bias",
+      "counterprompt",
+      "narrative_level",
+      "performative_contradiction",
+      "epistemic_regime",
+      "affect"
+    ]
+  },
+  "errors": []
+}
